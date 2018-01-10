@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+	<html class="no-js">
+	<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>转账</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Free HTML5 Template by FreeHTML5.co" />
+	<meta name="keywords" content="free html5, free template, free bootstrap, html5, css3, mobile first, responsive" />
+	<link rel="shortcut icon" href="favicon.ico">
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/animate.css">
+	<link rel="stylesheet" href="css/style.css">
+	<script src="js/modernizr-2.6.2.min.js"></script>
+
+	</head>
+	<body>
+
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 col-md-offset-4 form-box">
+					<form action="#" class="transfer-form animate-box" data-animate-effect="fadeIn">
+						<!-- <h4 style="float: left;"><</h4> -->
+						<svg class="icon icon-left" aria-hidden="true" onclick="location.href='index.html?#'">
+						  <use xlink:href="#icon-right"></use>
+						</svg>
+						<h4 style="float: right;text-align: right;margin-right: -14px;">Record</h4>
+						<h2>Transfer</h2>
+						<div class="form-group">
+							<svg class="icon" aria-hidden="true">
+							  <use xlink:href="#icon-tongxunlu"></use>
+							</svg>
+							<label for="address" class="sr-only">Address</label>
+							<input type="text" class="form-control" id="address" placeholder="Address" autocomplete="off">
+
+						</div>
+						<div class="form-group">
+							<svg class="icon" aria-hidden="true">
+							  <use xlink:href="#icon-arrow-right"></use>
+							</svg>
+							<label for="number" class="sr-only">Assets</label>
+							<input type="text" class="form-control" id="number" placeholder="Assets" autocomplete="off">
+						</div>
+						<h3>Amount</h3>
+						<div class="form-group form-group1">
+							<label for="Amount" class="sr-only">Amount</label>
+							<input type="number" class="form-control form-amount" id="Amount" placeholder="Amount" autocomplete="off">
+						</div>
+						<div class="form-group form-group1">
+							<p class="total-amount">&nbsp;(Total amount: 200)</p>
+						</div>
+						<div class="form-group">
+							<label for="address" class="sr-only">Remark</label>
+							<input type="text" class="form-control form-remark" id="address" placeholder="Remark" autocomplete="off">
+						</div>
+						<div class="form-group form-btn">
+							<input type="submit" value="Next" class="btn btn-transfer">
+						</div>
+					</form>
+					<div class="curtain"></div>
+					<form action="#" class="comfirm-form animate-box" data-animate-effect="fadeIn">
+						<a class="close-btn" href="javascript:;">×</a>
+						<h2 class="comfirm-title">Comfirm</h2>
+						<h3 style="margin-top:83px">Transfer to</h3>
+						<div class="form-group">
+							<label for="address" class="sr-only">Address</label>
+							<input type="text" class="form-control" id="address" placeholder="Address" autocomplete="off">
+
+						</div>
+						<h3>Amount</h3>
+						<div class="form-group form-group1">
+							<label for="number" class="sr-only">Assets</label>
+							<input type="text" class="form-control" id="number" placeholder="Assets" autocomplete="off">
+							<span style="font-size: 14px;color: #E7E6E6">≈：$100.00</span>
+						</div>
+						<div class="form-group form-btn">
+							<input type="submit" value="Next" class="btn btn-comfirm">
+						</div>
+					</form>
+					<form action="#" class="pay-form animate-box" data-animate-effect="fadeIn">
+						<a class="close-btn" href="javascript:;">×</a>
+						<h2 class="comfirm-title">Payment</h2>
+						<h3 style="margin-top:83px">Password</h3>
+						<div class="form-group">
+							<label for="password" class="sr-only">Password</label>
+							<img id="password_img" onclick="hideShowPsw()" src="images/visible.png">  
+							<input type="password" class="form-control" id="password" placeholder="Password" autocomplete="off">
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="row" style="clear: both;"></div>
+		</div>
+	
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/iconfont.js"></script>
+	<script src="js/jquery.placeholder.min.js"></script>
+	<script src="js/jquery.waypoints.min.js"></script>
+	<script src="js/main.js"></script>
+	</body>
+</html>
+

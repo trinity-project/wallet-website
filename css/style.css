@@ -1,0 +1,925 @@
+body {
+  font-family: "Open Sans", Arial, sans-serif;
+  line-height: 1.5;
+  font-size: 16px;
+  color: #848484;
+  background-color: #f0f0f0;
+}
+body.style-2 {
+  background-color: #ffffff;
+  background-size: cover;
+  background-position: -30% center;
+  background-repeat: no-repeat;
+  background-image: url(../images/bg_2.jpg);
+  height: 100%;
+}
+body.style-3 {
+  background: #ffffff url(../images/bg_3.png) repeat;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button{
+    -webkit-appearance: none !important;
+    margin: 0;
+  }
+input[type="number"]{-moz-appearance:textfield;}
+
+a {
+  color: #33cccc;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+a:hover {
+  color: #29a3a3;
+}
+.icon {
+   width: 30px; 
+   height: 30px;
+   color: #FF95AE;
+   vertical-align: -0.15em;
+   fill: currentColor;
+   overflow: hidden;
+}
+.logo a img{
+  width: 200px;
+  padding-top: 35px;
+}
+
+.menu {
+  padding: 0;
+  margin: 30px 0 0 0;
+}
+.menu li {
+  list-style: none;
+  margin-bottom: 10px;
+  display: -moz-inline-stack;
+  display: inline-block;
+  zoom: 1;
+  *display: inline;
+}
+.menu li a {
+  padding: 5px;
+}
+.menu li.active a {
+  color: #b3b3b3;
+}
+.form-box{
+  position: relative;
+  padding: 0;
+}
+.login-form {
+  padding: 30px;
+  margin-top: 8em;
+  -webkit-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
+  background: rgba(255,255,255,.8);
+}
+.style-2 .login-form {
+  -webkit-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
+}
+@media screen and (max-width: 768px) {
+  .login-form {
+    padding: 15px;
+  }
+}
+.login-form h2 {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 20px;
+  margin: 0 0 30px 0;
+  color: #000000;
+}
+.login-form .form-group {
+  margin-bottom: 30px;
+}
+.login-form .form-group p {
+  font-size: 14px;
+  color: #9f9f9f;
+  font-weight: 300;
+}
+.login-form .form-group p a {
+  color: #000000;
+}
+.login-form label {
+  font-weight: 300;
+  font-size: 14px;
+}
+.login-form .form-control {
+  font-size: 16px;
+  font-weight: 300;
+  height: 50px;
+  padding-left: 0;
+  padding-right: 0;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -o-box-shadow: none;
+  box-shadow: none;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  -ms-border-radius: 0px;
+  border-radius: 0px;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.login-form .form-control::-webkit-input-placeholder {
+  color: rgba(0, 0, 0, 0.3);
+  text-transform: uppercase;
+}
+.login-form .form-control::-moz-placeholder {
+  color: rgba(0, 0, 0, 0.3);
+  text-transform: uppercase;
+}
+.login-form .form-control:-ms-input-placeholder {
+  color: rgba(0, 0, 0, 0.3);
+  text-transform: uppercase;
+}
+.copyrights{
+	text-indent:-9999px;
+	height:0;
+	line-height:0;
+	font-size:0;
+	overflow:hidden;
+}
+.login-form .form-control:-moz-placeholder {
+  color: rgba(0, 0, 0, 0.3);
+  text-transform: uppercase;
+}
+.login-form .form-control:focus, .login-form .form-control:active {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.btn-primary {
+  height: 50px;
+  width: 300px;
+  padding-right: 20px;
+  padding-left: 20px;
+  border: none;
+  background: #FC6686;
+  color: #ffffff;
+  -webkit-box-shadow: -2px 10px 20px -1px rgba(252, 102, 134, 0.4);
+  -moz-box-shadow: -2px 10px 20px -1px rgba(252, 102, 134, 0.4);
+  -o-box-shadow: -2px 10px 20px -1px rgba(252, 102, 134, 0.4);
+  box-shadow: -2px 10px 20px -1px rgba(252, 102, 134, 0.4);
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+  color: #ffffff;
+  background: #FD6E7E !important;
+  outline: none;
+}
+
+input, textarea {
+  color: #000;
+}
+
+.placeholder {
+  color: #aaa;
+}
+
+.js .animate-box {
+  opacity: 0;
+}
+
+/*  index页面开始  */
+.index-form {
+  padding: 30px;
+  -webkit-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
+  background: url(../images/wallet_bg.png) no-repeat;
+  -webkit-background-size: 100% 100%;
+  background-size: 100% 100%;
+}
+.index-form h1 {
+  text-align: center;
+  font-size: 42px;
+  letter-spacing: -2px;
+  margin: 20px 0 0px 0;
+  color: #FFFFFF;
+}
+.index-form h2 {
+  font-family: "yu gothic ui semibold";
+  text-align: center;
+  font-size: 26px;
+  margin: 0 0 97px 0;
+  color: #FFFFFF;
+}
+.index-form p {
+  font-size: 15px;
+  text-align: center;
+  color: #FFFFFF;
+}
+.index-form h3 {
+  font-size: 10px;
+  text-align: center;
+  margin: 7px 0 110px 0;
+  color: #FFFFFF;
+}
+.index-form h4 {
+  width: 50%;
+  font-family: "yu gothic ui semibold";
+  letter-spacing: 0px;
+  font-size: 17px;
+  color: #000000;
+  margin: 0 0 30px 0;
+}
+.index-form .icon-mes{
+  width: 20px;
+  height: 30px;
+  color: #FFFFFF;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  float: right;
+  overflow: hidden;
+  cursor: pointer;
+}
+.index-form .icon-copy{
+  width: 17px;
+  height: 17px;
+  margin-left: 6px;
+  color: #FFFFFF;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+  cursor: pointer;
+}
+.index-form .wallet-address{
+  width: 95%;
+  height: 32px;
+  margin: 0 auto;
+}
+.index-form .wallet-address p{
+  float: left;
+}
+.index-form .wallet-address hr{
+  width: calc(100% - 130px);
+  float: left;
+  margin: 12px 0 1px 24px;
+}
+.index-form .form-group {
+  margin-bottom: 30px;
+  position: relative;
+}
+.index-form .form-group1{
+  margin-bottom: 4px;
+}
+
+.index-form .form-group p {
+  text-align: left;
+  font-size: 17px;
+  color: #FFFFFF;
+  font-weight: 400;
+  float: left;
+  margin: 0;
+  cursor: pointer;
+}
+.index-form .form-group a {
+  color: #000000;
+}
+.index-form .form-group img{
+  width: 80px;
+  float: right;
+  margin-right: 2%;
+  cursor: pointer;
+}
+.index-form label {
+  font-size: 14px;
+  font-weight: 300;
+}
+.index-form .btn-index {
+  height: 58px;
+  width: 100%;
+  padding-right: 20px;
+  padding-left: 20px;
+  border: none;
+  font-size: 18px;
+  background: #FC6686;
+  color: #ffffff;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  -o-border-radius: 30px;
+  border-radius: 30px;
+  -webkit-box-shadow: -2px 10px 20px -1px rgba(252, 102, 134, 0.4);
+  -moz-box-shadow: -2px 10px 20px -1px rgba(252, 102, 134, 0.4);
+  -o-box-shadow: -2px 10px 20px -1px rgba(252, 102, 134, 0.4);
+  box-shadow: -2px 10px 20px -1px rgba(252, 102, 134, 0.4);
+}
+@media screen and (max-width: 993px) {
+  .index-form .btn-index {
+    width: 300px;
+  }
+}
+.btn-index:hover, .btn-index:focus, .btn-index:active {
+  color: #ffffff;
+  background: #FD6E7E !important;
+  outline: none;
+}
+.index-form .form-btn{
+  margin-top: 115px;
+  width: 100%;
+  text-align: center;
+}
+@media screen and (max-width: 768px) {
+  .index-form {
+    padding: 46px 30px 30px 30px;
+  }
+  .index-form h2 {
+    font-size: 24px;
+    margin: 0 0 79px 0;
+  }
+  .index-form .icon-mes {
+    width: 16px;
+  }
+  .index-form p {
+    font-size: 13px;
+  }
+  .index-form h1 {
+    margin: 13px 0 0px 0;
+  }
+  .index-form h3 {
+    margin: 7px 0 79px 0;
+  }
+  .index-form .wallet-address hr {
+    margin: 10px 0 1px 24px;
+  }
+  .index-form .form-group p {
+    font-size: 15px;
+  }
+  .index-form .form-group img {
+    width: 64px;
+    margin-right: 4%;
+    margin-top: -13px;
+  }
+  .index-form .form-btn {
+    margin-top: 178px;
+  }
+}
+/*  wallet页面开始  */
+.wallet-form {
+  width: 100%;
+  padding: 30px;
+  position: absolute;
+  bottom: 0px;
+  display: none;
+  z-index: 3;
+  /*margin-top: 8em;*/
+  -webkit-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
+  background: rgba(255,255,255,1);
+}
+@media screen and (max-width: 768px) {
+  .wallet-form {
+    /*padding: 15px;*/
+    padding: 30px;
+  }
+}
+.wallet-form h2 {
+  font-family: "yu gothic ui semibold";
+  text-align: center;
+  font-size: 26px;
+  margin: 0px 0 63px 0;
+  color: #000000;
+}
+.wallet-form span {
+  position: absolute;
+  top: 10px;
+  left: 54px;
+  text-align: center;
+  font-size: 15px;
+  display: inline;
+  font-weight: bold;
+  letter-spacing: -1px;
+}
+.wallet-form .form-group {
+  margin-bottom: 30px;
+  text-align: center;
+  position: relative;
+}
+.wallet-form .form-group p {
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+  color: #FD6E7E;
+  display: inline;
+  cursor: pointer;
+}
+.wallet-form .form-group a {
+  color: #000000;
+}
+.wallet-form .form-group img{
+  width: 266px;
+  cursor: pointer;
+}
+.wallet-form .icon-share{
+  width: 29px;
+  height: 29px;
+  color: #7D7D7D;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+  position: absolute;
+  top: 7px;
+  left: 18px;
+  cursor: pointer;
+}
+.wallet-form .btn-share {
+  height: 43px;
+  width: 188px;
+  padding-right: 20px;
+  padding-left: 20px;
+  border: 1px solid #ECECEC;
+  font-size: 18px;
+  background: #FAFAFA;
+  position: relative;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  -o-border-radius: 30px;
+  border-radius: 30px;
+}
+.wallet-form .form-btn{
+  margin-top: 54px;
+  margin-bottom: 0px;
+  width: 100%;
+  text-align: center;
+}
+.wallet-form .close-btn{
+  content: '×';
+  font-size: 34px;
+  color: #000000;
+  display: block;
+  position: absolute;
+  right: 8px;
+  top: 0px;
+}
+.wallet-form .close-btn:hover{
+  color: #aaaaaa;
+}
+/*  wallet页面结束  */
+/*  index页面结束  */
+/*  transfer页面开始  */
+.transfer-form {
+  padding: 30px;
+  /*margin-top: 8em;*/
+  -webkit-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
+  background: rgba(255,255,255,.8);
+}
+@media screen and (max-width: 768px) {
+  .transfer-form {
+    padding: 58px 30px 30px 30px;
+  }
+}
+.transfer-form h2 {
+  font-family: "yu gothic ui semibold";
+/*  letter-spacing: 2px;*/
+  font-size: 37px;
+  margin: 0 0 30px 0;
+  color: #FF95AE;
+}
+.transfer-form h3 {
+  font-family: "yu gothic ui semibold";
+  letter-spacing: -2px;
+  font-size: 29px;
+  margin: 0 0 30px 0;
+  color: #000000;
+}
+.transfer-form h4 {
+  width: 50%;
+  font-family: "yu gothic ui semibold";
+  letter-spacing: 0px;
+  font-size: 17px;
+  color: #000000;
+  margin: 0 0 30px 0;
+}
+.transfer-form .icon-left{
+   width: 20px; 
+   height: 20px;
+   margin-left: -18px;
+   margin-bottom: 22px;
+   color: #000000;
+   vertical-align: -0.15em;
+   fill: currentColor;
+   overflow: hidden;
+   cursor: pointer;
+}
+.transfer-form .form-group {
+  margin-bottom: 30px;
+  position: relative;
+}
+.transfer-form .form-group1{
+  margin-bottom: 4px;
+}
+
+.transfer-form .form-group p {
+  font-size: 14px;
+  color: #9f9f9f;
+  font-weight: 300;
+}
+.transfer-form .form-group a {
+  color: #000000;
+}
+.transfer-form .form-group svg{
+  position: absolute;
+  right: 4px;
+  font-size: 15px;
+  top: calc(50% - 15px);
+  padding: 4px;
+  border:1px solid #E7E6E6;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.transfer-form label {
+  font-size: 14px;
+  font-weight: 300;
+}
+.transfer-form .form-control {
+  font-size: 18px;
+  font-weight: 300;
+  height: 66px;
+  line-height: 66px;
+  padding-left: 0;
+  padding-right: 0;
+  border: none;
+  border-bottom: 2px solid #E7E6E6;
+  background: none;
+  font-family: "yu gothic ui semibold";
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -o-box-shadow: none;
+  box-shadow: none;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  -ms-border-radius: 0px;
+  border-radius: 0px;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.transfer-form .form-control::-webkit-input-placeholder {
+  color: #E7E6E6;
+  font-weight: 400;
+}
+.transfer-form .form-control::-moz-placeholder {
+  color: #E7E6E6;
+  font-weight: 400;
+}
+.transfer-form .form-control:-ms-input-placeholder {
+  color: #E7E6E6;
+  font-weight: 400;
+}
+.transfer-form .form-amount{
+  font-size: 60px;
+    line-height: 60px !important; 
+}
+.transfer-form .form-amount::-webkit-input-placeholder {
+  color: #E7E6E6;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 60px !important; 
+}
+.transfer-form .form-amount::-moz-placeholder {
+  color: #E7E6E6;
+  font-weight: 400;
+  font-size: 18px;
+}
+.transfer-form .form-amount:-ms-input-placeholder {
+  color: #E7E6E6;
+  font-weight: 400;
+  font-size: 18px;
+}
+.copyrights{
+  text-indent:-9999px;
+  height:0;
+  line-height:0;
+  font-size:0;
+  overflow:hidden;
+}
+.transfer-form .form-control:-moz-placeholder {
+  color: rgba(0, 0, 0, 0.3);
+  text-transform: uppercase;
+}
+.transfer-form .form-control:focus, .login-form .form-control:active {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+}
+.transfer-form .btn-transfer {
+  height: 58px;
+  width: 100%;
+  padding-right: 20px;
+  padding-left: 20px;
+  border: none;
+  font-size: 18px;
+  background: #FC6686;
+  color: #ffffff;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  -o-border-radius: 30px;
+  border-radius: 30px;
+  -webkit-box-shadow: -2px 10px 20px -1px rgba(252, 102, 134, 0.4);
+  -moz-box-shadow: -2px 10px 20px -1px rgba(252, 102, 134, 0.4);
+  -o-box-shadow: -2px 10px 20px -1px rgba(252, 102, 134, 0.4);
+  box-shadow: -2px 10px 20px -1px rgba(252, 102, 134, 0.4);
+}
+@media screen and (max-width: 993px) {
+  .btn-transfer {
+    width: 300px;
+  }
+}
+.btn-transfer:hover, .btn-transfer:focus, .btn-transfer:active {
+  color: #ffffff;
+  background: #FD6E7E !important;
+  outline: none;
+}
+input, textarea {
+  color: #000;
+}
+
+.placeholder {
+  color: #aaa;
+}
+
+.js .animate-box {
+  opacity: 0;
+}
+.total-amount{
+  color: #FF95AE !important; 
+  margin-bottom: 0px;
+  font-weight: 500;
+}
+.form-remark{
+    border-bottom: none !important;
+}
+.transfer-form .form-btn{
+  width: 100%;
+  text-align: center;
+}
+/*  transfer页面结束  */
+.curtain {
+    width:100%;
+    height:100%;
+    background-color:#000;
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:2;
+    opacity:0.3;
+    /*兼容IE8及以下版本浏览器*/
+    filter: alpha(opacity=30);
+    display:none;
+}
+/*  comfirm页面开始  */
+.comfirm-form {
+  padding: 30px;
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  bottom: 0px;
+  z-index: 3;
+  display: none;
+  -webkit-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
+  background: rgba(255,255,255,1);
+}
+.comfirm-form h2 {
+  font-family: "yu gothic ui semibold";
+  font-size: 27px;
+  margin: 0 0 30px 0;
+  color: #000000;
+}
+.close-btn{
+  content: '×';
+  font-size: 34px;
+  color: #000000;
+  display: block;
+  position: absolute;
+  right: 8px;
+  top: 0px;
+}
+.close-btn:hover{
+  color: #aaaaaa;
+}
+.comfirm-form h3 {
+  font-family: "yu gothic ui semibold";
+  font-size: 16px;
+  margin: 0;
+  color: #000000;
+}
+.comfirm-form .form-group {
+  margin-bottom: 52px;
+  position: relative;
+}
+.comfirm-form .form-group1{
+  margin-bottom: 4px;
+}
+
+.comfirm-form .form-group p {
+  font-size: 14px;
+  color: #9f9f9f;
+  font-weight: 300;
+}
+.comfirm-form .form-group a {
+  color: #000000;
+}
+.comfirm-form .form-group svg{
+  position: absolute;
+  right: 4px;
+  font-size: 15px;
+  top: calc(50% - 15px);
+  padding: 4px;
+  border:1px solid #E7E6E6;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.comfirm-form label {
+  font-size: 14px;
+  font-weight: 300;
+}
+.comfirm-form .form-control {
+  font-size: 18px;
+  font-weight: 300;
+  height: 60px;
+  line-height: 60px;
+  padding-left: 0;
+  padding-right: 0;
+  border: none;
+  border-bottom: 2px solid #E7E6E6;
+  background: none;
+  color: #FF95AE;
+  text-align: center;
+  font-family: "yu gothic ui semibold";
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -o-box-shadow: none;
+  box-shadow: none;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  -ms-border-radius: 0px;
+  border-radius: 0px;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.comfirm-form .form-control::-webkit-input-placeholder {
+  color: #E7E6E6;
+  font-weight: 400;
+}
+.comfirm-form .form-control::-moz-placeholder {
+  color: #E7E6E6;
+  font-weight: 400;
+}
+.comfirm-form .form-control:-ms-input-placeholder {
+  color: #E7E6E6;
+  font-weight: 400;
+}
+.comfirm-form .form-group1{
+  margin-bottom: 70px;
+}
+.comfirm-form .btn-comfirm {
+  height: 58px;
+  width: 100%;
+  padding-right: 20px;
+  padding-left: 20px;
+  border: none;
+  font-size: 18px;
+  background: #FC6686;
+  color: #ffffff;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  -o-border-radius: 30px;
+  border-radius: 30px;
+  -webkit-box-shadow: -2px 10px 20px -1px rgba(252, 102, 134, 0.4);
+  -moz-box-shadow: -2px 10px 20px -1px rgba(252, 102, 134, 0.4);
+  -o-box-shadow: -2px 10px 20px -1px rgba(252, 102, 134, 0.4);
+  box-shadow: -2px 10px 20px -1px rgba(252, 102, 134, 0.4);
+}
+/*  comfirm页面结束  */
+/*  pay页面开始  */
+.pay-form {
+  padding: 30px;
+  width: 100%;
+  position: absolute;
+  bottom: 0px;
+  z-index: 3;
+  display: none;
+  -webkit-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
+  background: rgba(255,255,255,1);
+}
+.pay-form h2 {
+  font-family: "yu gothic ui semibold";
+  font-size: 27px;
+  text-align: center;
+  margin: 0 0 30px 0;
+  color: #000000;
+}
+.pay-form .close-btn{
+  content: '×';
+  font-size: 34px;
+  color: #000000;
+  display: block;
+  position: absolute;
+  right: 8px;
+  top: 0px;
+}
+.pay-form .close-btn:hover{
+  color: #aaaaaa;
+}
+.pay-form h3 {
+  font-family: "yu gothic ui semibold";
+  font-size: 16px;
+  margin: 0;
+  color: #000000;
+}
+.pay-form .form-group {
+  margin-bottom: 333px;
+  position: relative;
+}
+.pay-form .form-group1{
+  margin-bottom: 4px;
+}
+
+.pay-form .form-group p {
+  font-size: 14px;
+  color: #9f9f9f;
+  font-weight: 300;
+}
+.pay-form .form-group a {
+  color: #000000;
+}
+.pay-form .form-group img{
+  position: absolute;
+  width: 34px;
+  right: 4px;
+  top: calc(50% - 14px);
+  padding: 4px;
+  cursor: pointer;
+}
+.pay-form label {
+  font-size: 14px;
+  font-weight: 300;
+}
+.pay-form .form-control {
+  font-size: 20px;
+  font-weight: 300;
+  height: 60px;
+  line-height: 60px;
+  padding-left: 0;
+  padding-right: 0;
+  border: none;
+  border-bottom: 2px solid #E7E6E6;
+  background: none;
+  color: #FF95AE;
+  font-family: "yu gothic ui semibold";
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -o-box-shadow: none;
+  box-shadow: none;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  -ms-border-radius: 0px;
+  border-radius: 0px;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.pay-form .form-control::-webkit-input-placeholder {
+  color: #E7E6E6;
+  font-weight: 400;
+}
+.pay-form .form-control::-moz-placeholder {
+  color: #E7E6E6;
+  font-weight: 400;
+}
+.pay-form .form-control:-ms-input-placeholder {
+  color: #E7E6E6;
+  font-weight: 400;
+}
+.pay-form .form-group1{
+  margin-bottom: 70px;
+}
+/*  comfirm页面结束  */

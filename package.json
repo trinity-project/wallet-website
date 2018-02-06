@@ -1,0 +1,14 @@
+{
+  "name": "wallet-website",
+  "version": "1.0.0",
+  "description": "just flying",
+  "main": "index.js",
+  "repository": "https://github.com/trinity-project/wallet-website",
+  "author": "Trinity",
+  "license": "MIT",
+  "dependencies": {
+    "browser-sync": "^2.23.6",
+    "gulp": "^3.9.1",
+    "gulp-sass": "^3.1.0"
+  }
+}

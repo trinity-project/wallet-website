@@ -1,289 +1,428 @@
 <!DOCTYPE html>
-	<html class="no-js">
-	<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Trinity</title>
-	<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" />
-	<meta name="description" content="" />
-	<meta name="keywords" content="Trinity,TNC" />
-	<link rel="shortcut icon" href="favicon.ico">
-	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" href="css/bootstrap.min.css">
-	<link rel="stylesheet" href="css/animate.css">
-	<link rel="stylesheet" href="css/style.css">
-	<script src="js/modernizr-2.6.2.min.js"></script>
+<html>
 
-	</head>
-	<body>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Trinity</title>
+  <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" />
+  <meta name="description" content="" />
+  <meta name="keywords" content="Trinity,TNC" />
+  <link rel="shortcut icon" href="favicon.ico">
+  <!-- <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'> -->
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/animate.css">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- <script src="js/modernizr-2.6.2.min.js"></script> -->
+</head>
 
-		<div class="container">
-			<div class="row">
-				<div class="col-md-4 col-md-offset-4 form-box">
-					<!-- index form start-->
-					<form action="#" class="index-form animate-box" data-animate-effect="fadeIn">
-						<svg class="icon-mes" aria-hidden="true" id="setting-btn">
-						  <use xlink:href="#icon-shezhi"></use>
-						</svg>
-						<h2>Trinity Wallet</h2>
-						<p>Current Balance</p>
-						<h1>1000.00TNC</h1>
-						<h3>(+400.00TNC)<span style="color: #29E438;margin-left: 4px;">▲</span></h3>
-						<div class="wallet-address">
-							<p>Wallet Address</p>
-							<hr style="height:1px;border:none;border-top:1px solid #E7E6E6;" />
-						</div>
-						<div class="form-group">
-							<div style="width: 95%;height: 80px;margin: 0 auto;">
-								<p id="wallet_add">AZXy3tWPN86UZRYpSRH<br>4EzanMy6vgQaLG3
-								<svg class="icon-copy" aria-hidden="true">
-								  <use xlink:href="#icon-fuzhi"></use>
-								</svg></p>
-								<img src="images/wallet_qrcode.png" id="wallet_qr">
-							</div>
-						</div>
-						<div class="form-group form-btn">
-<!-- 							<svg class="icon-qianbao" aria-hidden="true" id="channel-btn">
-								  <use xlink:href="#icon-qianbao"></use>
-							</svg> -->
-							<img src="images/channel_logo.png" id="channel-btn" style="width: 67px;display:inline-block;">
-<!-- 							<input type="button" value="Transfer" class="btn btn-index" id="transfer-btn"> -->
-						</div>
-					</form>
-					<!-- index form end-->
-					<div id="curtain" class="curtain"></div>
-					<!-- setting form start-->
-					<form action="#" class="setting-form animate-box" data-animate-effect="fadeInBottom">
-						<a class="close-btn" id="setting-close-btn" href="javascript:;">×</a>
-						<h2>Setting</h2>
-						<span>Gateway : </span>
-						<input type="text" class="setting-input" value="http://106.15.91.150:20552">
-						<div style="text-align: center;margin-top: 10%;">
-							<h5 style="font-size: 16px;" id="setting-reset">Reset</h5>
-							<input type="button" value="Save" class="setting-save-btn">
-						</div>
-					</form>
-					<!-- setting form end-->					
-					<!-- wallet form start-->
-					<form action="#" class="wallet-form animate-box" data-animate-effect="fadeInBottom">
-						<a class="close-btn" id="wallet-close-btn" href="javascript:;">×</a>
-						<h2>Recive</h2>
-						<div class="form-group">
-							<img src="images/wallet_qrcode1.png" alt="">
-						</div>
-						<div class="form-group">
-							<p>AZXy3tWPN86UZRYpSRH4EzanMy6vgQaLG3</p>
-						</div>
-						<div class="form-group form-btn">
-							<div class="btn btn-share">
-								<svg class="icon-share" aria-hidden="true">
-								  <use xlink:href="#icon-fenxiang"></use>
-								</svg><span>&nbsp;&nbsp;Share address</span>
-							</div>
-						</div>
-					</form>
-					<!-- wallet form end-->
-					<!-- channel-edit form start-->
-					<form action="#" class="channel-edit-form animate-box" data-animate-effect="fadeInRight">
-						<div style="text-align: center;">						
-							<svg class="icon icon-left" aria-hidden="true" id="channel-edit-close-btn">
-							  <use xlink:href="#icon-right"></use>
-							</svg>
-							<span style=" width: 100%;text-align: center;letter-spacing: 0px;font-size: 23px;color: #FF95AE;margin: 0;">Channel</span>
-							<span style="float: right;text-align: right;font-size: 26px;letter-spacing: 0px;color: #FF95AE;margin: 0;" id="channel-regist">＋</span>
-							<hr style="margin: 10px 0;">
-						</div>
-						<div class="Channel-body">						
-					 	</div>
-					</form>
-					<!-- channel-edit form end-->
-					<!-- channel-info form start-->
-					<form action="#" class="channel-info-form animate-box" data-animate-effect="fadeInBottom">
-						<a class="close-btn" id="info-close-btn" href="javascript:;">×</a>
-						<h4 id="info-remark">Channel Info</h4>
-						<label style="display: none;">Channel Name:<br><span id="info-channel-name">AZXy3tWPN86UZRYpSRH4EzanMy6vgQaLG3</span></label><br>
-						<label>Sender Address:<br><span id="info-sender-addr">AZXy3tWPN86UZRYpSRH4EzanMy6vgQaLG3</span></label><br>
-						<label>Receiver Address:<br><span id="info-receiver-addr"></span></label><br>
-						<label>Deposit:<span id="info-sender-deposit"></span></label><a style="margin-left: 20px;color: red;" id="add-deposit">Add</a><br>
-						<label>Balance:<span id="info-sender-balance"></span></label><br>
-						<label>Channel Life:<span id="info-time"></span></label><br>
-						<label>Channel State:<span id="info-state"></span></label><br>
-						<div style="text-align: center;margin-top: 10%">
-							<input type="button" value="Transfer" class="btn btn-totransfer">
-							<br><a style="color: red;font-size: 14px;">Close Channel</a>
-						</div>
-					</form>
-					<!-- channel-info form end-->
-					<!-- add form start-->
-					<form action="#" class="add-form animate-box" data-animate-effect="fadeInBottom">
-						<a class="close-btn" id="add-close-btn" href="javascript:;">×</a>
-						<h2>Add Deposit</h2>
-						<span>Amount : </span>
-						<input type="text" class="add-input" value="">
-						<div style="text-align: center;margin-top: 10%;">
-							<input type="button" value="Next" class="add-deposit-btn">
-						</div>
-					</form>
-					<!-- setting form end-->
-					<!-- channel form start-->
-					<form action="#" class="channel-form animate-box" data-animate-effect="fadeInRight">
-						<svg class="icon icon-left" aria-hidden="true" id="channel-close-btn">
-						  <use xlink:href="#icon-right"></use>
-						</svg>
-						<h2>Regist Channel</h2>
-						<div class="form-group">
-							<svg class="icon" aria-hidden="true">
-							  <use xlink:href="#icon-tongxunlu"></use>
-							</svg>
-							<label for="regist-channel-address" class="sr-only">Address</label>
-							<input type="text" class="form-control" id="regist-channel-address" placeholder="Address">
-						</div>
-						<div class="form-group">
-							<svg class="icon icon-assets" aria-hidden="true">
-							  <use xlink:href="#icon-arrow-right"></use>
-							</svg>
-							<label for="regist-channel-assets" class="sr-only">Assets</label>
-							<input type="text" class="form-control" id="regist-channel-assets" placeholder="Assets" readonly="true">
-						</div>
-						<div class="form-group">
-							<label for="regist-channel-deposit" class="sr-only">Deposit</label>
-							<input type="text" class="form-control" id="regist-channel-deposit" placeholder="Deposit">
-						</div>
-						<div class="form-group">
-							<label for="regist-channel-time" class="sr-only">Channel Life</label>
-							<input type="text" class="form-control" id="regist-channel-time" placeholder="Channel Life(day)">
-						</div>
-						<div class="form-group">
-							<label for="regist-channel-remark" class="sr-only">Remark</label>
-							<input type="text" class="form-control form-remark" id="regist-channel-remark" placeholder="Remark" autocomplete="off">
-						</div>
-						<div class="form-group form-btn" style="margin:65px 0;">
-							<input type="button" value="Regist" class="btn btn-channel">
-						</div>
-					</form>
-					<!-- channel form end-->
-					<!-- transfer form start-->
-					<form action="#" class="transfer-form animate-box" data-animate-effect="fadeInRight">
-						<svg class="icon icon-left" aria-hidden="true" id="transfer-close-btn">
-						  <use xlink:href="#icon-right"></use>
-						</svg>
-						<!-- <h4 style="float: right;text-align: right;margin-right: -14px;">Record</h4> -->
-						<h2>Transfer</h2>
-						<div class="form-group">
-							<svg class="icon icon-channel-name" aria-hidden="true">
-							  <use xlink:href="#icon-arrow-right"></use>
-							</svg>
-							<label for="transfer-channel-name" class="sr-only">Channel Name</label>
-							<input type="text" class="form-control" id="transfer-channel-name" placeholder="Channel Name"  readonly="true">
-						</div>
-						<div class="form-group">
-							<svg class="icon" aria-hidden="true">
-							  <use xlink:href="#icon-tongxunlu"></use>
-							</svg>
-							<label for="transfer-address" class="sr-only">Address</label>
-							<input type="text" class="form-control" id="transfer-address" placeholder="Address" autocomplete="off">
-						</div>
-						<div class="form-group">
-							<svg class="icon icon-assets" aria-hidden="true">
-							  <use xlink:href="#icon-arrow-right"></use>
-							</svg>
-							<label for="transfer-assets" class="sr-only">Assets</label>
-							<input type="text" class="form-control" id="transfer-assets" placeholder="Assets" readonly="true">
-						</div>
-						<div class="form-group form-group1">
-							<span id="amount-svg"></span>
-							<label for="transfer-amount" class="sr-only">Amount</label>
-							<input type="number" class="form-control form-amount" id="transfer-amount" placeholder="Amount" autocomplete="off">
-						</div>
-						<div class="form-group form-group1">
-							<p class="total-amount">&nbsp;(Total amount: <span id="total-amount">1000</span>)</p>
-						</div>
-						<div class="form-group">
-							<label for="transfer-remark" class="sr-only">Remark</label>
-							<input type="text" class="form-control form-remark" id="transfer-remark" placeholder="Remark" autocomplete="off">
-						</div>
-						<div class="form-group form-btn">
-							<input type="button" value="Next" class="btn btn-transfer">
-						</div>
-					</form>
-					<!-- transfer form end-->
-					<!-- assets form start-->
-					<form action="#" class="assets-form animate-box" data-animate-effect="fadeInRight">
-						<svg class="icon icon-left" aria-hidden="true" id="close-assets">
-						  <use xlink:href="#icon-right"></use>
-						</svg>
-						<h4>Assets</h4>
-						<hr style="margin-top: 14px;margin-bottom: 14px;">
-						<div id="NEO">
-							<img src="images/NEO.png">
-							<p>NEO</p>
-						</div>
-						<hr style="margin-top: 14px;margin-bottom: 14px;">
-						<div id="GAS">
-							<img src="images/GAS.png">
-							<p>GAS</p>
-						</div>
-						<hr style="margin-top: 14px;margin-bottom: 14px;">
-						<div id="trinity">
-							<img src="images/trinity.png">
-							<p>TNC</p>
-						</div>
-						<hr style="margin-top: 14px;margin-bottom: 14px;">
-					</form>
-					<!-- assets form end-->
-					<!-- comfirm form start-->
-					<form action="#" class="comfirm-form animate-box" data-animate-effect="fadeInBottom">
-						<a class="close-btn" id="comfirm-close-btn">×</a>
-						<h2 class="comfirm-title">Comfirm</h2>
-						<h3 style="margin-top:83px">Transfer to</h3>
-						<div class="form-group">
-							<label for="comfirm-address" class="sr-only">Address</label>
-							<input type="text" class="form-control" id="comfirm-address" placeholder="Address" autocomplete="off">
-						</div>
-						<h3>Amount</h3>
-						<div class="form-group form-group1">
-							<label for="comfirm-amount" class="sr-only">Amount</label>
-							<input type="text" class="form-control" id="comfirm-amount" placeholder="Assets" autocomplete="off">
-						</div>
-						<div class="form-group form-btn">
-							<input type="button" value="Next" class="btn btn-comfirm">
-						</div>
-					</form>
-					<!-- comfirm form end-->
-					<!-- pay form start-->
-					<form action="#" class="pay-form animate-box" data-animate-effect="fadeInBottom">
-						<a class="close-btn" id="pay-close-btn">×</a>
-						<h2 class="comfirm-title">Payment</h2>
-						<div id="password-div">
-							<h3 style="margin-top:83px">Password</h3>
-							<div class="form-group">
-								<label for="comfirm-password" class="sr-only">Password</label>
-								<img id="password_img" onclick="hideShowPsw()" src="images/visible.png">  
-								<input type="password" class="form-control" id="comfirm-password" placeholder="Password" autocomplete="off">
-							</div>
-						</div>
-						<div id="success-div">
-							<img src="images/success.png">
-							<h2 style="margin-bottom: 45%;">Success!</h2>
-						</div>
-					</form>
-					<!-- pay form start-->
-				</div>
-			</div>
-			<div class="row" style="clear: both;"></div>
-		</div>
-	
-	<script src="js/jquery.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/iconfont.js"></script>
-	<script src="js/jquery.placeholder.min.js"></script>
-	<script src="js/jquery.waypoints.min.js"></script>
-	<script src="js/main.js"></script>
-	<script>
-		document.ontouchmove=function(){
-		return false;
-	}
-	</script>
-	</body>
+<body>
+  <div class="form-box scroll-content">
+    <!-- index form start-->
+    <form action="#" class="index-form animate-box" data-animate-effect="fadeIn">
+      <svg class="icon-mes" aria-hidden="true" face-button data-go=".setting-form">
+        <use xlink:href="#icon-shezhi"></use>
+      </svg>
+      <h2>Trinity Wallet</h2>
+      <p>Balance On Chain</p>
+      <h1 style="margin-bottom: 20%;"><span id="index-balance"></span>TNC</h1>
+<!--       <div style="text-align: center;margin-bottom: 17%;">
+        <a style="color: #FFFFFF" >Transfer</a>
+      </div> -->
+      <div class="wallet-address">
+        <p>Wallet Address</p>
+        <hr style="height:1px;border:none;border-top:1px solid #E7E6E6;" />
+      </div>
+      <div class="form-group">
+        <div style="width: 95%;height: 80px;margin: 0 auto;">
+          <div>
+            <p id="wallet_add" face-button data-go=".wallet-form"></p>
+          </div>
+          <img src="images/wallet_qrcode_3V.png" face-button data-go=".wallet-form" id="wallet_qr">
+        </div>
+      </div>
+      <div class="form-group form-btn">
+        <div class="trans-box" id="txonchain">
+          <img src="images/NEO_white.png">
+          <span style="position: absolute;top: 60px;left: 48%;color: #FFFFFF;font-size: 18px;">Chain</span>
+        </div>
+        <div class="trans-box" id="channel-btn">
+          <img src="images/channel_logo.png" face-button data-go=".channel-edit-form">
+          <span style="position: absolute;top: 60px;right: 44%;color: #FFFFFF;font-size: 18px;">Channel</span>
+        </div>
+        <!-- <input type="button" value="Transfer" class="btn btn-index" id="transfer-btn"> -->
+      </div>
+    </form>
+    <!-- index form end-->
+    <div id="curtain" class="curtain"></div>
+    <!-- setting form start-->
+    <form action="#" class="setting-form animate-box" data-animate-effect="fadeInBottom">
+      <a class="close-btn" face-button data-action="close" id="setting-close-btn">×</a>
+      <h2>Setting</h2>
+      <span>Gateway : </span>
+      <input type="text" class="setting-input" value="https://test.trinity.tech">
+      <div style="text-align: center;margin-top: 10%;">
+        <h5 style="font-size: 16px;" id="setting-reset">Reset</h5>
+        <input type="button" value="Save" class="setting-save-btn" face-button data-action="close">
+      </div>
+    </form>
+    <!-- setting form end-->
+    <!-- wallet form start-->
+    <form action="#" class="wallet-form animate-box" data-animate-effect="fadeInBottom">
+      <a class="close-btn" face-button data-action="close">×</a>
+      <h2>Recive</h2>
+      <div class="form-group">
+        <img src="images/wallet_qrcode_3V.png">
+      </div>
+      <div class="form-group">
+        <p id="wallet-address"></p>
+      </div>
+      <div class="form-group form-btn">
+        <div class="btn btn-share">
+          <svg class="icon-share" aria-hidden="true">
+            <use xlink:href="#icon-fenxiang"></use>
+          </svg><span>&nbsp;&nbsp;Share address</span>
+        </div>
+      </div>
+    </form>
+    <!-- wallet form end-->
+    <!-- channel-edit form start-->
+    <form action="#" class="channel-edit-form scroll animate-box" data-animate-effect="fadeInRight">
+      <div style="text-align: center;">
+        <svg class="icon icon-left" face-button data-action="close" aria-hidden="true">
+          <use xlink:href="#icon-right"></use>
+        </svg>
+        <span style=" width: 100%;text-align: center;letter-spacing: 0px;font-size: 23px;color: #FD6E7E;margin: 0;">Channel</span>
+        <span style="float: right;text-align: right;font-size: 26px;letter-spacing: 0px;color: #000000;margin: 0;" id="channel-regist">＋</span>
+        <hr style="margin: 10px 0;color:#FD6E7E;">
+      </div>
+      <div id="channels" class="channel-body">
+      </div>
+    </form>
+    <!-- channel-edit form end-->
+    <!-- channel-info form start-->
+    <form action="#" class="channel-info-form animate-box" data-animate-effect="fadeInBottom">
+      <a class="close-btn" id="info-close-btn" face-button data-action="close">×</a>
+      <h4 id="info-remark">Channel Info</h4>
+      <label style="display: none;">Channel Name:
+        <br><span id="info-channel-name">AZXy3tWPN86UZRYpSRH4EzanMy6vgQaLG3</span></label>
+      <br>
+      <label>Local Address:
+        <br><span id="info-sender-addr">AZXy3tWPN86UZRYpSRH4EzanMy6vgQaLG3</span></label>
+      <br>
+      <label>Remote Address:
+        <br><span id="info-receiver-addr"></span></label>
+      <br>
+      <label>Deposit:<span id="info-sender-deposit"></span>TNC</label><a id="add-deposit">Add</a>
+      <br>
+      <label>Balance:<span id="info-sender-balance"></span>TNC</label>
+      <br>
+      <label>Channel Life(day):<span id="info-time"></span></label>
+      <br>
+      <label>Channel State:<span id="info-state"></span></label>
+      <br>
+      <div style="text-align: center;margin-top: 10%">
+        <input type="button" value="Transfer" class="btn btn-totransfer">
+        <br><a id="btn_closechannel" face-button data-action="close" style="color: red;font-size: 14px;">Close Channel</a>
+      </div>
+    </form>
+    <!-- channel-info form end-->
+    <!-- add form start-->
+    <form action="#" class="add-form animate-box" data-animate-effect="fadeInBottom">
+      <a class="close-btn" id="add-close-btn" face-button data-action="close" face-button data-action="close">×</a>
+      <h2>Add Deposit</h2>
+      <span>Amount : </span>
+      <input type="text" class="add-input">
+      <p class="total-amount">(Balance on chain: <span id="total-amount2" style="font-size: 16px;">1000</span>)</p>
+      <div style="text-align: center;margin-top: 10%;">
+        <input type="button" value="Next" class="add-deposit-btn">
+      </div>
+    </form>
+    <!-- add form end-->
+    <!-- deposit-pay form start-->
+    <form id="frm_deposit_password" action="#" class="deposit-pay-form animate-box" data-animate-effect="fadeInBottom">
+      <a class="close-btn" id="deposit-pay-close-btn" face-button data-action="close">×</a>
+      <h2 class="comfirm-title">Payment</h2>
+      <div>
+        <h3>Comfirm info:   <span id="deposit-comfirm-info"></span></h3>
+      </div>
+      <div id="password-div">
+        <h3 style="margin-top: 21px;">Password</h3>
+        <div class="form-group">
+          <label for="comfirm-password1" class="sr-only">Password</label>
+          <img id="password_img1" onclick="hideShowPsw(comfirm-password1, password_img1)" src="images/visible.png">
+          <input type="password" class="form-control" id="comfirm-password1" placeholder="Password" autocomplete="off">
+        </div>
+      </div>
+      <div id="success-div">
+        <img src="images/success.png">
+        <h2 style="margin-bottom: 45%;">Success!</h2>
+      </div>
+    </form>
+    <!-- deposit-pay form end-->
+    <!-- channel form start-->
+    <form action="#" class="channel-form animate-box" data-animate-effect="fadeInRight">
+      <svg class="icon icon-left" aria-hidden="true" id="channel-close-btn" face-button data-action="back">
+        <use xlink:href="#icon-right"></use>
+      </svg>
+      <h2>Add Channel</h2>
+      <div class="form-group">
+        <svg class="icon icon-contacts" aria-hidden="true">
+          <use xlink:href="#icon-tongxunlu"></use>
+        </svg>
+        <label for="regist-channel-address" class="sr-only">Address</label>
+        <input type="text" class="form-control" maxlength="34" id="regist-channel-address" placeholder="Address">
+      </div>
+      <div class="form-group">
+        <svg class="icon icon-assets" face-button data-go=".assets-form" aria-hidden="true">
+          <use xlink:href="#icon-arrow-right"></use>
+        </svg>
+        <label for="regist-channel-assets" class="sr-only">Assets</label>
+        <input type="text" class="form-control" id="regist-channel-assets" placeholder="Assets" readonly="true" value="TNC">
+      </div>
+      <div class="form-group">
+        <label for="regist-channel-deposit" class="sr-only">Deposit</label>
+        <input type="text" class="form-control" id="regist-channel-deposit" placeholder="Deposit">
+      </div>
+      <div class="form-group">
+        <label for="regist-channel-time" class="sr-only">Channel Life</label>
+        <input type="text" class="form-control" id="regist-channel-time" placeholder="Channel Life(day)">
+      </div>
+<!--       <div class="form-group">
+        <label for="regist-channel-remark" class="sr-only">Remark</label>
+        <input type="text" class="form-control form-remark" id="regist-channel-remark" placeholder="Remark" autocomplete="off">
+      </div> -->
+      <div class="form-group form-btn" style="margin:65px 0;">
+        <input type="button" value="Add" class="btn btn-channel">
+      </div>
+    </form>
+    <!-- channel form end-->
+    <!-- channel-contacts form start-->
+    <form action="#" class="channel-contacts-form animate-box" data-animate-effect="fadeInRight">
+      <svg class="icon icon-left" aria-hidden="true" face-button data-action="back" id="close-channel-contacts">
+        <use xlink:href="#icon-right"></use>
+      </svg>
+      <h4>Contacts</h4>
+      <hr style="margin-top: 14px;margin-bottom: 14px;">
+      <div class="contact-box">
+        <p>AZLtmATYKJLJgdTEap1osSFTpfmnexBCLZ</p>
+      </div>
+      <hr style="margin-top: 14px;margin-bottom: 14px;">
+      <div class="contact-box">
+        <p>AavoNbubwPBRAPdQBnepDZyd57GidsUDkb</p>
+      </div>
+      <hr style="margin-top: 14px;margin-bottom: 14px;">
+      <div class="contact-box">
+        <p>AHSuAAA4vL6uCdA8uwDM9NLsvQ2YrTmWcU</p>
+      </div>
+      <hr style="margin-top: 14px;margin-bottom: 14px;">
+      <div class="contact-box">
+        <p>AGgZna4kbTXPm16yYZyG6RyrQz2Sqotno6</p>
+      </div>
+      <hr style="margin-top: 14px;margin-bottom: 14px;">
+      <div class="contact-box">
+        <p>AKauFqeT7ZGanD2p5LuSMUn3HpqsWdEdp9</p>
+      </div>
+      <hr style="margin-top: 14px;margin-bottom: 14px;">
+    </form>
+    <!-- channel-contacts form end-->
+    <!-- channel-pay form start-->
+    <form id="frm_confirm_password" action="#" class="channel-pay-form animate-box" data-animate-effect="fadeInBottom">
+      <a class="close-btn" id="channel-pay-close-btn" face-button data-action="close">×</a>
+      <h2 class="comfirm-title">Payment</h2>
+      <div>
+        <p>Comfirm info:
+          <br><span id="channel-comfirm-info"></span></p>
+      </div>
+      <div id="password-div">
+        <h3 style="margin-top: 21px;">Password</h3>
+        <div class="form-group">
+          <label for="channel-comfirm-password" class="sr-only">Password</label>
+          <img id="password_img2" onclick="hideShowPsw('channel-comfirm-password', 'password_img2')" src="images/visible.png">
+          <input type="password" class="form-control" id="channel-comfirm-password" placeholder="Password" autocomplete="off">
+          <!-- <input type="submit"> -->
+        </div>
+      </div>
+    </form>
+    <!-- channel-pay form end-->
+    <!-- comfirm form start-->
+    <form action="#" class="comfirm-form animate-box" data-animate-effect="fadeInBottom">
+      <a class="close-btn" face-button data-action="close">×</a>
+      <h2 class="comfirm-title">Comfirm</h2>
+      <h3 style="margin-top:83px">Transfer to</h3>
+      <div class="form-group">
+        <label for="comfirm-address" class="sr-only">Address</label>
+        <input type="text" class="form-control" id="comfirm-address" placeholder="Address" autocomplete="off">
+      </div>
+      <h3>Amount</h3>
+      <div class="form-group form-group1">
+        <label for="comfirm-amount" class="sr-only">Amount</label>
+        <input type="text" class="form-control" id="comfirm-amount" placeholder="Assets" autocomplete="off" value="TNC">
+      </div>
+      <div class="form-group form-btn">
+        <input type="button" face-button data-go=".pay-form" value="Next" class="btn btn-comfirm">
+      </div>
+    </form>
+    <!-- comfirm form end-->
+    <!-- transfer form start-->
+    <form action="#" class="transfer-form animate-box" data-animate-effect="fadeInRight">
+      <svg class="icon icon-left" aria-hidden="true" face-button data-action="close" id="transfer-close-btn">
+        <use xlink:href="#icon-right"></use>
+      </svg>
+      <h2>Transfer</h2>
+      <div class="form-group" style="display: none;">
+        <svg class="icon icon-channel-name" aria-hidden="true">
+          <use xlink:href="#icon-arrow-right"></use>
+        </svg>
+        <label for="transfer-channel-name" class="sr-only">Channel Name</label>
+        <input type="text" class="form-control" id="transfer-channel-name" placeholder="Channel Name" readonly="true">
+      </div>
+      <div class="form-group">
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-tongxunlu"></use>
+        </svg>
+        <label for="transfer-address" class="sr-only">Address</label>
+        <input type="text" class="form-control" id="transfer-address" placeholder="Address" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <svg class="icon icon-assets" face-button data-go=".assets-form" aria-hidden="true">
+          <use xlink:href="#icon-arrow-right"></use>
+        </svg>
+        <label for="transfer-assets" class="sr-only">Assets</label>
+        <input type="text" class="form-control" id="transfer-assets" placeholder="Assets" readonly="true" value="TNC">
+      </div>
+      <div class="form-group form-group1">
+        <span id="amount-svg">TNC</span>
+        <label for="transfer-amount" class="sr-only">Amount</label>
+        <input type="number" class="form-control form-amount" id="transfer-amount" placeholder="Amount" autocomplete="off">
+      </div>
+      <div class="form-group form-group1">
+        <p class="total-amount">&nbsp;(Balance amount: <span id="total-amount">1000</span>)</p>
+      </div>
+<!--       <div class="form-group">
+        <label for="transfer-remark" class="sr-only">Remark</label>
+        <input type="text" class="form-control form-remark" id="transfer-remark" placeholder="Remark" autocomplete="off">
+      </div> -->
+      <div class="form-group form-btn">
+        <input type="button" value="Next" class="btn btn-transfer">
+      </div>
+    </form>
+    <!-- transfer form end-->
+    <!-- transfer on chain form start-->
+    <form action="#" class="txonchain-form animate-box" data-animate-effect="fadeInRight">
+      <svg class="icon icon-left" aria-hidden="true" face-button data-action="back" id="txonchain-close-btn">
+        <use xlink:href="#icon-right"></use>
+      </svg>
+      <h2>Transfer on chain</h2>
+      <div class="form-group">
+        <svg class="icon icon-contacts" aria-hidden="true">
+          <use xlink:href="#icon-tongxunlu"></use>
+        </svg>
+        <label for="txonchain-address" class="sr-only">Address</label>
+        <input type="text" class="form-control" id="txonchain-address" placeholder="Address" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <svg class="icon icon-assets" face-button data-go=".assets-form" aria-hidden="true">
+          <use xlink:href="#icon-arrow-right"></use>
+        </svg>
+        <label for="txonchain-assets" class="sr-only">Assets</label>
+        <input type="text" class="form-control" id="txonchain-assets" placeholder="Assets" readonly="true" value="TNC">
+      </div>
+      <div class="form-group form-group1">
+        <span id="amount-svg1">TNC</span>
+        <label for="txonchain-amount" class="sr-only">Amount</label>
+        <input type="number" class="form-control form-amount" id="txonchain-amount" placeholder="Amount" autocomplete="off">
+      </div>
+      <div class="form-group form-group1">
+        <p class="total-amount">&nbsp;(Balance on chain: <span id="total-amount1">1000</span>)</p>
+      </div>
+<!--       <div class="form-group">
+        <label for="txonchain-remark" class="sr-only">Remark</label>
+        <input type="text" class="form-control form-remark" id="txonchain-remark" placeholder="Remark" autocomplete="off">
+      </div> -->
+      <div class="form-group form-btn">
+        <input type="button" value="Next" class="btn btn-txonchain">
+      </div>
+    </form>
+    <!-- transfer on chain form end-->
+    <!-- assets form start-->
+    <form action="#" class="assets-form animate-box" data-animate-effect="fadeInRight">
+      <svg class="icon icon-left" aria-hidden="true" face-button data-action="back" id="close-assets">
+        <use xlink:href="#icon-right"></use>
+      </svg>
+      <h4>Assets</h4>
+      <hr style="margin-top: 14px;margin-bottom: 14px;">
+      <div id="NEO">
+        <img src="images/NEO.png">
+        <p>NEO</p>
+      </div>
+      <hr style="margin-top: 14px;margin-bottom: 14px;">
+      <div id="GAS">
+        <img src="images/GAS.png">
+        <p>GAS</p>
+      </div>
+      <hr style="margin-top: 14px;margin-bottom: 14px;">
+      <div id="TNC">
+        <img src="images/trinity.png">
+        <p>TNC</p>
+      </div>
+      <hr style="margin-top: 14px;margin-bottom: 14px;">
+    </form>
+    <!-- assets form end-->
+    <!-- pay form start-->
+    <form id="frm_pay_password" action="#" class="pay-form animate-box" data-animate-effect="fadeInBottom">
+      <a class="close-btn" face-button data-action="close" id="pay-close-btn">×</a>
+      <h2 class="comfirm-title">Payment</h2>
+      <div>
+        <p>Comfirm info:<br/><span id="comfirm-info"></span></p>
+      </div>
+      <div id="password-div">
+        <h3 style="margin-top: 21px;">Password</h3>
+        <div class="form-group">
+          <label for="comfirm-password" class="sr-only">Password</label>
+          <img id="password_img" onclick="hideShowPsw('comfirm-password', 'password_img')" src="images/visible.png">
+          <input type="password" class="form-control" id="comfirm-password" placeholder="Password" autocomplete="off">
+        </div>
+      </div>
+      <div id="success-div">
+        <img src="images/success.png">
+        <h2 style="margin-bottom: 45%;">Success!</h2>
+      </div>
+    </form>
+    <!-- pay form end-->
+    <!-- pay1 form start-->
+    <form id="frm_txonchain_password" action="#" class="pay1-form animate-box" data-animate-effect="fadeInBottom">
+      <a class="close-btn" face-button data-action="close" id="pay1-close-btn">×</a>
+      <h2 class="comfirm-title">Payment</h2>
+      <div>
+        <p>Comfirm info:<br/><span id="comfirm-info1"></span></p>
+      </div>
+      <div id="password-div">
+        <h3 style="margin-top: 21px;">Password</h3>
+        <div class="form-group">
+          <label for="comfirm-password2" class="sr-only">Password</label>
+          <img id="password_img" onclick="hideShowPsw('comfirm-password2', 'password_img3')" src="images/visible.png">
+          <input type="password" class="form-control" id="comfirm-password2" placeholder="Password" autocomplete="off">
+        </div>
+      </div>
+      <div id="success-div">
+        <img src="images/success.png">
+        <h2 style="margin-bottom: 45%;">Success!</h2>
+      </div>
+    </form>
+    <!-- pay form end-->
+  </div>
+  <script src="js/jquery.min.js"></script>
+  <!-- <script src="js/bootstrap.min.js"></script> -->
+  <script src="js/iconfont.js"></script>
+  <script src="js/jquery.placeholder.min.js"></script>
+  <script src="js/jquery.waypoints.min.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+  // document.ontouchmove = function() {
+  //   return false;
+  // }
+  </script>
+</body>
+
 </html>
-

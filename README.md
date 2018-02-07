@@ -1,1 +1,1 @@
-# wallet-website
+# Trinity Website Wallet

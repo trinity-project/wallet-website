@@ -332,23 +332,7 @@ app.controller("GenerateWalletCtrl", function($scope,$translate,$sce) {
     };
 
 	$scope.generateWalletFileFromRandomPrivateKey = function () {
-		if ( $scope.createPassword1.length < 8 ) return;
-		if ( !$scope.isDisplayPassword ) {
-			if ( $scope.createPassword2.length < 8 ) return;
-			if ( $scope.createPassword1 != $scope.createPassword2 ) return;
-		}
-
-		$scope.showCreateWallet = false;
-		$scope.showCreateWalletDownload = true;
-
-		$scope.privateKey = ab2hexstring( Wallet.generatePrivateKey() );
-
-		var walletBlob = Wallet.generateWalletFileBlob( $scope.privateKey, $scope.createPassword1 );
-		$scope.objectURL =  window.URL.createObjectURL( new Blob([walletBlob], {type: 'application/octet-stream'}) );
-		$scope.objectName = $scope.objectURL.substring( $scope.objectURL.lastIndexOf( '/' ) + 1 );
-		//$scope.objectName = $scope.objectName.replace( /-/g, "" );
-
-		$scope.notifier.success($translate.instant('NOTIFIER_SUCCESS_GENERATE_THE_WALLET') + " <b>wallet--" + $scope.objectName + ".db3</b>" );
+		console.log("1");
 	};
 
 	$scope.generateWalletFileFromPrivateKey = function () {

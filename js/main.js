@@ -136,6 +136,9 @@ $(".record-chain-a").click(function(){
 $("#setting-btn3").click(function(){
   $("#setting-gateway").fadeToggle();
 })
+$("#setting-btn4").click(function(){
+  window.location.reload();
+})
 //setting end
 //channel-edit开始
 $("#channel-regist").click(function() {
@@ -224,6 +227,10 @@ $(".btn-channel-pay").click(function(){
 // });
 //channel结束
 //channel-info开始
+$("#deposit-pay-close-btn").click(function() {
+    $(".channel-info-form").hide();
+    $(".curtain").hide();
+})
 $("#btn_closechannel").click(function() {
   if ($("#info-state").text() == "OPEN") {
     var se=confirm("Comfirm close channle?");
@@ -271,6 +278,7 @@ $(".btn-totransfer").click(function() {
 $("#add-deposit").click(function(){
   if ($("#info-state").text() == "OPEN") {
     transFace('.add-form');
+    $(".channel-info-form").hide();
     $(".add-input").val("");
   }else{
     alert('Channel not in OPEN state.');
@@ -289,6 +297,10 @@ $(".add-deposit-btn").click(function() {
     alert("Deposit can't be empty.");
   }
 });
+$(".add-close-btn").click(function() {
+    $(".add-form").hide();
+    $(".curtain").hide();
+})
 //add结束
 //add-comfirm开始
 $('#frm_deposit_password').submit(() => {  
@@ -400,7 +412,13 @@ $(".btn-txonchain").click(function() {
   // $(".pay-form").show();
   $("#comfirm-info1").html("transfer " + $("#txonchain-amount").val() + $("#amount-svg1").text() + " to<br/>" + $("#txonchain-address").val());
 });
-$('#frm_txonchain_password').submit(() => {  
+$(".btn-pay1-cancel").click(function(){
+  $("#curtain").hide();
+  $(".pay1-form").hide();
+  $("#pay1-danger").hide();
+  $("#pay1-success").hide();
+});
+$('.btn-pay1').click(function() { 
   if ($("#comfirm-password2").val() == "123456") {
     $.ajax({
       url: "http://47.254.39.10:20552",
@@ -449,7 +467,7 @@ $(".contact-box").click(function() {
 });
 //contacts结束
 //Payment开始
-$('#frm_pay_password').submit(() => {  
+$('.btn-pay').click(function() {  
   if ($("#comfirm-password").val() == "123456") {
     $.ajax({
       url: "http://47.254.39.10:20552",

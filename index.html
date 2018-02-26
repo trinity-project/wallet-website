@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="css/animate.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/sweetalert.css">
-  <!-- <script src="js/modernizr-2.6.2.min.js"></script> -->
+
 </head>
 
 <body>
@@ -51,7 +51,7 @@
     <!-- index form start-->
     <form action="#" class="index-form animate-box">
       <div class="row">
-      <img src="images/trinity_HD.png" style="display: flex;width: 600px;position: absolute;z-index: -1;right: -216px;bottom: 20px;opacity: 0.3;">
+      <img src="images/trinity_HD.png" style="width: 600px;position: fixed;z-index: -1;right: -216px;bottom: 20px;opacity: 0.3;">
       <div class="index-box" style="position: relative;">
         <a href="" style="position: absolute;right: 20px;color: #FF95AE;">Details ></a>
         <h1>My Wallet</h1>
@@ -190,8 +190,26 @@
     </form>
     <!-- index form end-->
     <!-- sign up form start-->
-    <div class="tab-pane fade active in" id="generateWallet" ng-controller="GenerateWalletCtrl">
-      <div action="#" class="sign-up-box">
+    <div class="sign-up-box tab-pane fade active in" id="generateWallet" ng-controller="GenerateWalletCtrl">
+      <div class="form-group">
+        <label class="control-label">Enter a strong password (at least 8 characters):</label><br />
+        <div class="input-group">
+          <input class="form-control" ng-change="changeCreatePassword1()" ng-model="$parent.createPassword1" placeholder="密码" aria-label="password" type="text" onfocus="this.type='password'" autocomplete="off" />
+        </div>
+      </div>
+      <div class="form-group" ng-if="!isDisplayPassword">
+        <label class="control-label" translate="RE_ENTER_PASSWORD">Re-Enter password:</label>
+        <input class="form-control" ng-change="changeCreatePassword2()" ng-model="$parent.createPassword2" placeholder="重新输入密码" type="text" onfocus="this.type='password'" autocomplete="off"/>
+      </div>
+    
+      <!-- fromRandomPrivateKey -->
+      <div id="fromRandomPrivateKey">
+        <div class="form-group">
+          <button class="btn btn-primary btn-block" ng-click="generateWalletFileFromRandomPrivateKey()">Generate Wallet</button>
+        </div>
+      </div>
+      <input class="form-control" type="text" ng-model="privateKey" id="privateKey" name="privateKey" readonly="readonly" aria-label="privateKey">
+<!--       <div action="#" class="sign-up-box">
         <h2>Create Wallet</h2>
         <div class="form-group">
           <label for="sign-up-password" class="sr-only">Password</label>
@@ -206,9 +224,6 @@
         <div class="form-group" style="text-align: center;margin-bottom: 10px;">
           <input type="button" value="Cancel" class="btn btn-sign-up-cancel">
           <input type="button" value="Sign Up" ng-click="generateWalletFileFromRandomPrivateKey()" class="btn btn-sign-up">
-        </div>
-  <!--       <div class="form-group">
-          <p>Already have a wallet? <a id="sign-in-btn">Sign In</a></p>
         </div> -->
     </div>
     </div>
@@ -248,12 +263,12 @@
         <img src="images/trinity_HD.png" style="display: flex;width: 600px;height: 600px;position: absolute;z-index: -1;left: -241px;
       bottom: 180px;opacity: 0.3;">
         <div class="setting-box" style="position: relative;height: 100%;color: #000000;">
-            <h1 style="margin-bottom: 20px;float: left;">Setting</h1>
+            <h1 style="margin: 20px;float: left;font-size: 33px;">Setting</h1>
         </div>
-        <div class="setting-box" style="position: relative;">
+        <div class="setting-box" style="position: relative;cursor: not-allowed;">
           <h3>Change Name</h3>
         </div>
-        <div class="setting-box" style="position: relative;">
+        <div class="setting-box" style="position: relative;cursor: not-allowed;">
           <h3>Change Password</h3>
         </div>
         <div class="setting-box" style="position: relative;">
@@ -266,7 +281,7 @@
           </div>
         </div>
         <div class="setting-box" style="position: relative;">
-          <h3>Close Wallet</h3>
+          <h3 id="setting-btn4" style="cursor: pointer;">Close Wallet</h3>
         </div>
       </div>
 <!--       <ul class="pager">
@@ -289,34 +304,19 @@
       <h3 id="setting-btn4">Close Wallet</h3> -->
     </form>
     <!-- setting form end-->
-    <!-- wallet form start-->
-<!--     <form action="#" class="wallet-form animate-box" data-animate-effect="fadeInBottom">
-      <a class="close-btn" face-button data-action="close">×</a>
-      <h2>Recive</h2>
-      <div class="form-group">
-        <img src="images/wallet_qrcode_3V.png">
-      </div>
-      <div class="form-group">
-        <p id="wallet-address"></p>
-      </div>
-      <div class="form-group form-btn">
-        <div class="btn btn-share">
-          <svg class="icon-share" aria-hidden="true">
-            <use xlink:href="#icon-fenxiang"></use>
-          </svg><span>&nbsp;&nbsp;Share address</span>
-        </div>
-      </div>
-    </form> -->
-    <!-- wallet form end-->
     <!-- record form start-->
     <form action="#" class="record-form scroll animate-box">
-      <div style="text-align: center;">
-        <svg class="icon icon-left" face-button data-action="close" aria-hidden="true">
-          <use xlink:href="#icon-right"></use>
-        </svg>
-        <span style=" width: 100%;text-align: center;letter-spacing: 0px;font-size: 23px;color: #FD6E7E;margin: 0;">Record</span>
-<!--         <span style="float: right;text-align: right;font-size: 26px;letter-spacing: 0px;color: #000000;margin: 0;" id="channel-regist">＋</span> -->
-        <hr style="margin: 10px 0;color:#FD6E7E;">
+      <div class="row">
+        <img src="images/trinity_HD.png" style="width: 600px;height: 600px;position: fixed;left: -241px;bottom: 180px;opacity: 0.3;">
+        <div class="record-box" style="position: relative;height: 100%;color: #000000;">
+            <h1 style="margin: 20px;float: left;font-size: 33px;">Record</h1>
+        </div>
+        <div class="record-box">
+          <h3>Record1</h3>
+        </div>
+        <div class="record-box">
+          <h3>Record2</h3>
+        </div>
       </div>
       <div class="record-body">
       </div>
@@ -338,7 +338,7 @@
         <img src="images/trinity_HD.png" style="display: flex;width: 600px;height: 600px;position: absolute;z-index: -1;left: -241px;
       bottom: 180px;opacity: 0.3;">
         <div class="channel-edit-box" style="position: relative;height: 100%;color: #000000;">
-            <h1 style="margin-bottom: 20px;float: left;">Channel List</h1>
+            <h1 style="margin: 20px;float: left;font-size: 33px;">Channel List</h1>
             <a id="channel-regist">Add Channel</a>
         </div>
         <div id="channels" class="channel-body">
@@ -372,25 +372,25 @@
       <br>
       <div style="text-align: center;margin-top: 10%">
         <input type="button" value="Transfer" class="btn btn-totransfer">
-        <br><a id="btn_closechannel" face-button data-action="close" style="color: red;font-size: 14px;">Close Channel</a>
+        <br><a id="btn_closechannel" face-button data-action="close" style="color: red;font-size: 14px;cursor: pointer;">Close Channel</a>
       </div>
     </form>
     <!-- channel-info form end-->
     <!-- add form start-->
     <form action="#" class="add-form animate-box" data-animate-effect="fadeInBottom">
-      <a class="close-btn" id="add-close-btn" face-button data-action="close" face-button data-action="close">×</a>
+      <a class="close-btn" id="add-close-btn">×</a>
       <h2>Add Deposit</h2>
       <span>Amount : </span>
       <input type="text" class="add-input">
       <p class="total-amount">(Balance on chain: <span id="total-amount2" style="font-size: 16px;">1000</span>)</p>
-      <div style="text-align: center;margin-top: 10%;">
+      <div style="text-align: center;margin: 10%">
         <input type="button" value="Next" class="add-deposit-btn">
       </div>
     </form>
     <!-- add form end-->
     <!-- deposit-pay form start-->
     <form id="frm_deposit_password" action="#" class="deposit-pay-form animate-box" data-animate-effect="fadeInBottom">
-      <a class="close-btn" id="deposit-pay-close-btn" face-button data-action="close">×</a>
+      <a class="close-btn" id="deposit-pay-close-btn">×</a>
       <h2 class="comfirm-title">Payment</h2>
       <div>
         <h3>Comfirm info:   <span id="deposit-comfirm-info"></span></h3>
@@ -412,8 +412,7 @@
     <!-- channel form start-->
     <form action="#" class="channel-form animate-box">
       <div class="row">
-        <img src="images/trinity_HD.png" style="display: flex;width: 600px;height: 600px;position: absolute;z-index: -1;left: -241px;
-      bottom: 180px;opacity: 0.3;">
+        <img src="images/trinity_HD.png" style="width: 550px;height: 550px;position: fixed;left: 200px;bottom: -147px;opacity: 0.3;">
         <div class="channel-box" style="position: relative;">
           <h1>Add Channel</h1>
         <div class="form-group">
@@ -522,8 +521,7 @@
     <!-- transfer form start-->
     <form action="#" class="transfer-form animate-box">
       <div class="row">
-        <img src="images/trinity_HD.png" style="display: flex;width: 600px;height: 600px;position: absolute;z-index: -1;left: -241px;
-      bottom: 180px;opacity: 0.3;">
+        <img src="images/trinity_HD.png" style="width: 600px;height: 600px;position: fixed;left: -106px;bottom: 2px;opacity: 0.3;">
         <div class="transfer-box" style="position: relative;">
           <h1>Transfer</h1>
           <div class="form-group" style="display: none;">
@@ -609,8 +607,7 @@
     <!-- transfer on chain form start-->
     <form action="#" class="txonchain-form animate-box">
         <div class="row">
-        <img src="images/trinity_HD.png" style="display: flex;width: 600px;height: 600px;position: absolute;z-index: -1;left: -241px;
-      bottom: 180px;opacity: 0.3;">
+        <img src="images/trinity_HD.png" style="width: 500px;height: 500px;position: fixed;left: -52px;bottom: 2px;opacity: 0.3;">
         <div class="txonchain-box" style="position: relative;">
           <h1>Transfer on chain</h1>
           <div class="form-group">
@@ -673,11 +670,14 @@
     <!-- assets form start-->
     <form action="#" class="assets-form animate-box">
       <div class="row">
-        <img src="images/trinity_HD.png" style="display: flex;width: 600px;height: 600px;position: absolute;z-index: -1;left: -241px;
+        <img src="images/trinity_HD.png" style="display: flex;width: 450px;height: 450px;position: absolute;z-index: -1;left: -181px;
       bottom: 180px;opacity: 0.3;">
+        <div class="assets-box" style="position: relative;height: 100%;color: #000000;">
+            <h1 style="margin: 20px;float: left;font-size: 33px;">Assets List</h1>
+        </div>
         <div class="assets-box" style="position: relative;">
           <h1>NEO</h1>
-          <h2>Balance On Chain:<span>400</span>TNC</h2>
+          <h2>Balance On Chain:<span>400</span>NEO</h2>
           <h2>Last Transactions:</h2>
           <img src="images/NEO.png" id="neo" href="javascript:;">
         </div>
@@ -689,7 +689,7 @@
         </div>
         <div class="assets-box" style="position: relative;">
           <h1>GAS</h1>
-          <h2>Balance On Chain:<span>0</span>TNC</h2>
+          <h2>Balance On Chain:<span>0</span>GAS</h2>
           <h2>Last Transactions:<span id="index-balance"></span></h2>
           <img src="images/GAS.png" id="gas" href="javascript:;">
         </div>
@@ -731,9 +731,11 @@
           <input type="password" class="form-control" id="comfirm-password" placeholder="Password" autocomplete="off">
         </div>
       </div>
-      <div id="success-div">
-        <img src="images/success.png">
-        <h2 style="margin-bottom: 45%;">Success!</h2>
+      <div class="alert alert-success" id="pay-success" style="display: none;" role="alert"></div>
+      <div class="alert alert-danger" id="pay-danger" style="display: none;" role="alert"></div>
+      <div class="form-group" style="text-align: center;margin-bottom: 10px;">
+          <input type="button" value="Cancel" class="btn btn-pay-cancel">
+          <input type="button" value="Next" class="btn btn-pay">
       </div>
     </form>
     <!-- pay form end-->
@@ -742,7 +744,7 @@
       <a class="close-btn" face-button data-action="close" id="pay1-close-btn">×</a>
       <h2 class="comfirm-title">Payment</h2>
       <div>
-        <p>Comfirm info:<br/><span id="comfirm-info1"></span></p>
+        <p style="text-align: left;">Comfirm info:<br/><span id="comfirm-info1"></span></p>
       </div>
       <div id="password-div">
         <h3 style="margin-top: 21px;">Password</h3>
@@ -752,32 +754,42 @@
           <input type="password" class="form-control" id="comfirm-password2" placeholder="Password" autocomplete="off">
         </div>
       </div>
-      <div id="success-div">
-        <img src="images/success.png">
-        <h2 style="margin-bottom: 45%;">Success!</h2>
+      <div class="alert alert-success" id="pay1-success" style="display: none;" role="alert"></div>
+      <div class="alert alert-danger" id="pay1-danger" style="display: none;" role="alert"></div>
+      <div class="form-group" style="text-align: center;margin-bottom: 10px;">
+          <input type="button" value="Cancel" class="btn btn-pay1-cancel">
+          <input type="button" value="Sign Up" class="btn btn-pay1">
       </div>
     </form>
-    <!-- pay form end-->
+    <!-- pay1 form end-->
   </div>
   <script src="js/jquery.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
-  <script src="js/iconfont.js"></script>
-  <script src="js/jquery.placeholder.min.js"></script>
-  <script src="js/jquery.waypoints.min.js"></script>
-  <script src="js/sweetalert.min.js"></script>
-  <script src="js/main.js"></script>
-
+  <script src="https://cdn.bootcss.com/modernizr/2.8.3/modernizr.min.js"></script>
+  <script>if (typeof module === 'object') {window.jQuery = window.$ = module.exports;};</script>
+  <script src="js/neo/vendor/plugins.js"></script>
+  
   <script src="https://cdn.bootcss.com/angular.js/1.6.4/angular.min.js"></script>
   <script src="https://cdn.bootcss.com/angular-translate/2.15.1/angular-translate.min.js"></script>
   <script src="https://cdn.bootcss.com/angular-translate/2.15.1/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
   <script src="http://cdn.bootcss.com/angular-ui-bootstrap/0.11.2/ui-bootstrap-tpls.js"></script>
   <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="https://cdn.bootcss.com/sql.js/0.4.0/js/sql.js"></script>
-
+  
   <script src="js/neo/vendor/CryptoJS/sha256.js"></script>
   <script src="js/neo/vendor/CryptoJS/ripemd160.js"></script>
   <script src="js/neo/vendor/CryptoJS/aes.js"></script>
   <script src="js/neo/vendor/CryptoJS/pad-nopadding.js"></script>
+  
+  <!--<script src="js/vendor/sm.js"></script>-->
+  <script src="js/neo/vendor/ecdsa_bundle.js"></script>
+  <script src="js/neo/vendor/secp256k1_bundle.js"></script>
+  
+  <script src="js/iconfont.js"></script>
+  <script src="js/jquery.placeholder.min.js"></script>
+  <script src="js/jquery.waypoints.min.js"></script>
+  <script src="js/sweetalert.min.js"></script>
+  <script src="js/main.js"></script>
 
   <script src="js/neo/app.js"></script>
   <script src="js/neo/wallet.js"></script>

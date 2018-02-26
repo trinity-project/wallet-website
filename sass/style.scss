@@ -7,23 +7,14 @@ body {
   background-color: #f0f0f0;
   padding: 0;
   margin: 0;
-  height: 736px;
-  overflow: hidden;
+  height: 100%;
+  overflow-x: hidden;
 }
 
 @media screen and (max-width: 768px) {
   body {
     height: 100vh;
   }
-}
-
-body.style-2 {
-  background-color: #ffffff;
-  background-size: cover;
-  background-position: -30% center;
-  background-repeat: no-repeat;
-  background-image: url(../images/bg_2.jpg);
-  height: 100%;
 }
 
 body.style-3 {
@@ -47,7 +38,7 @@ input {
 }
 
 a {
-  color: #33cccc;
+  color: #000000;
   -moz-transition: all 0.3s ease;
   -o-transition: all 0.3s ease;
   -webkit-transition: all 0.3s ease;
@@ -56,7 +47,7 @@ a {
 }
 
 a:hover {
-  color: #29a3a3;
+  color: #000000;
 }
 
 .icon {
@@ -105,22 +96,251 @@ a:hover {
   padding: 0;
   height: 100%;
 }
+input,
+textarea {
+  color: #000;
+}
+
+.placeholder {
+  color: #aaa;
+}
+
+.js .animate-box {
+  opacity: 0;
+}
+
+.container-fluid {
+  padding-right: 0; 
+  padding-left: 0; 
+  margin-right: auto;
+  margin-left: auto;
+}
+::-webkit-scrollbar{
+  display:none;
+}
+.row{
+  width: 100%;
+  max-width: 1050px;
+  min-width: 755px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+/*  nav start  */
+nav{
+  width: 100%;
+  max-width: 1050px;
+  min-width: 755px;
+  height: 58px;
+  position: fixed !important;
+  top: 0;
+  z-index: 333;
+  margin: auto;
+  left: 0;
+  right: 0;
+}
+.navbar-nav {
+    float: right;
+}
+.navbar-nav > li > a {
+    padding: 0 10px;
+    font-weight: 600;
+    line-height: 54px;
+    background-color: transparent;
+}
+.navbar-default .navbar-nav>.active>a,
+.navbar-default .navbar-nav>.active>a:focus, 
+.navbar-default .navbar-nav>.active>a:hover {
+    color: #FF95AE;
+    background-color: #e7e7e7;
+    border-bottom: 2px #FF95AE solid;
+}
+@media screen and (max-width: 768px){
+  .navbar-nav>li>a {
+      padding-top: 22px;
+      padding-bottom: 22px;
+  }
+}
+/*  nav end  */
+
+
+/*  sign-up start  */
+
+.sign-up-box {
+  background-color: white;
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  width: 478px;
+  padding: 17px;
+  border-radius: 5px;
+  text-align: center;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  margin-left: -256px;
+  margin-top: -200px;
+  overflow: hidden;
+  display: none;
+  z-index: 99999;
+}
+
+.sign-up-box .icon-left {
+  width: 20px;
+  height: 20px;
+  margin-left: -18px;
+  margin-bottom: 22px;
+  color: #000000;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.sign-up-box h2 {
+  font-family: "yu gothic ui semibold";
+  letter-spacing: 0px;
+  font-size: 32px;
+  line-height: 44px;
+  margin: 25px 0 20px 0;
+  color: #FF95AE;
+}
+
+.sign-up-box .form-group {
+  margin-bottom: 23px;
+}
+
+.sign-up-box .form-group p {
+  font-size: 14px;
+  color: #9f9f9f;
+  font-weight: 300;
+  text-align: center;
+}
+
+.sign-up-box .form-group p a {
+  color: #000000;
+}
+
+.sign-up-box label {
+  font-weight: 300;
+  font-size: 12px;
+}
+
+.sign-up-box .form-control {
+  font-size: 16px;
+  font-weight: 300;
+  height: 50px;
+  padding-left: 0;
+  padding-right: 0;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -o-box-shadow: none;
+  box-shadow: none;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  -ms-border-radius: 0px;
+  border-radius: 0px;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+.sign-up-box .form-control::-webkit-input-placeholder {
+  color: rgba(0, 0, 0, 0.3);
+}
+
+
+.sign-up-box .form-control:focus,
+.sign-up-box .form-control:active {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.sign-up-box .remember {
+  font-size: 13px;
+  float: left;
+}
+
+.sign-up-box .forget {
+  font-size: 13px;
+  float: right;
+  margin-top: 1px;
+}
+
+.sign-up-box .forget a {
+  color: #FF95AE;
+}
+
+.btn-sign-up {
+  background-color: #FC6686;
+  color: white;
+  border: none;
+  box-shadow: none;
+  font-size: 17px;
+  font-weight: 500;
+  -webkit-border-radius: 4px;
+  border-radius: 5px;
+  padding: 10px 32px;
+  margin: 26px 5px 0 5px;
+  cursor: pointer;
+  -webkit-box-shadow: -2px 10px 20px -1px rgba(252, 102, 134, 0.4);
+  -moz-box-shadow: -2px 10px 20px -1px rgba(252, 102, 134, 0.4);
+  -o-box-shadow: -2px 10px 20px -1px rgba(252, 102, 134, 0.4);
+  box-shadow: -2px 10px 20px -1px rgba(252, 102, 134, 0.4);
+}
+.btn-sign-up-cancel{
+  background-color: #C1C1C1;
+  color: white;
+  border: none;
+  box-shadow: none;
+  font-size: 17px;
+  font-weight: 500;
+  -webkit-border-radius: 4px;
+  border-radius: 5px;
+  padding: 10px 32px;
+  margin: 26px 5px 0 5px;
+  cursor: pointer;
+}
+
+.btn-sign-up:hover,
+.btn-sign-up:focus,
+.btn-sign-up:active {
+  color: #ffffff;
+  background: #FD6E7E !important;
+  outline: none;
+}
+
+.sign-up-box .form-group p a {
+  font-weight: 600;
+  color: #FF95AE;
+}
+
+
+
+
+/*  sign-up end  */
+
+
+/*  login start  */
 
 .login-form {
-  padding: 30px;
+  padding: 80px 30px 0 30px;
   height: 100%;
+  z-index:2;
+  min-height: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display:none;
   -webkit-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
   -o-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
   box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
-  background: rgba(255, 255, 255, .8);
+  background: rgba(255, 255, 255, 1); 
 }
 
-@media screen and (max-width: 768px) {
-  .login-form {
-    padding: 30px;
-  }
-}
 
 .login-form h2 {
   font-family: "yu gothic ui semibold";
@@ -240,66 +460,86 @@ a:hover {
   color: #FF95AE;
 }
 
-input,
-textarea {
-  color: #000;
-}
-
-.placeholder {
-  color: #aaa;
-}
-
-.js .animate-box {
-  opacity: 0;
-}
 
 
 
+/*  login end  */
 
-/*  index页面开始  */
+
+/*  index start  */
 
 .index-form {
-  padding: 30px;
-  height: 100%;
+  padding: 80px 30px 0 30px;
+  min-height:100vh;
   -webkit-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
   -o-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
   box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
-  background: url(../images/wallet_bg.png) no-repeat;
-  -webkit-background-size: 100% 100%;
-  background-size: 100% 100%;
+  background: url(../images/bg_2.jpg) repeat;
+  background-attachment: fixed;
 }
 
-.index-form h1 {
-  text-align: center;
-  font-size: 21px;
-  margin: 20px 0 0px 0;
-  color: #FFFFFF;
-  span {
-    font-size: 33px;
-    margin-left: 6px;
+.index-form .index-box{
+  padding: 20px;
+  width: 100%;
+  background: rgba(255,255,255,0.8);
+  border: 1px solid #e1e1e1;
+  border-radius: 10px;
+  margin: 0 0 20px 0;
+  .record-a{
+    color:#FF95AE;
+    padding:8px 20px 8px 8px;
   }
 }
 
+.index-form .index-box:hover{
+  background: rgba(255,255,255,1);
+  -webkit-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
+}
+
+.index-form h1 {
+    font-family: "yu gothic ui semibold";
+    text-align: left;
+    font-size: 26px;
+    color: #000000;
+    font-size: 28px;
+    margin-top: 0;
+}
+.index-form .pager {
+    margin: 0;
+}
+.index-form .pager li>a, .pager li>span {
+    display: inline-block;
+    padding: 5px 14px;
+    background-color:transparent;
+    border: none;
+}
 .index-form h2 {
-  font-family: "yu gothic ui semibold";
-  text-align: center;
-  font-size: 26px;
-  margin: 0 0 97px 0;
-  color: #FFFFFF;
+    font-family: "yu gothic ui semibold";
+    text-align: left;
+    font-size: 20px;
+    /* margin: 0 0 97px 0; */
+    color: #000000;
+    span {
+    font-size: 27px;
+    margin-left: 6px;
+  }
 }
 
 .index-form p {
   font-size: 15px;
   text-align: center;
-  color: #FFFFFF;
+  color: #000000;
 }
 
 .index-form h3 {
   font-size: 10px;
   text-align: center;
   margin: 7px 0 110px 0;
-  color: #FFFFFF;
+  color: #000000;
 }
 
 .index-form h4 {
@@ -311,10 +551,10 @@ textarea {
   margin: 0 0 30px 0;
 }
 
-.index-form .icon-mes {
+.index-form .icon-setting {
   width: 20px;
-  height: 30px;
-  color: #FFFFFF;
+  height: 20px;
+  color: #000000;
   vertical-align: -0.15em;
   fill: currentColor;
   float: right;
@@ -326,7 +566,7 @@ textarea {
   width: 17px;
   height: 17px;
   margin-left: 6px;
-  color: #FFFFFF;
+  color: #000000;
   vertical-align: -0.15em;
   fill: currentColor;
   overflow: hidden;
@@ -361,7 +601,7 @@ textarea {
 .index-form .form-group p {
   text-align: left;
   font-size: 17px;
-  color: #FFFFFF;
+  color: #000000;
   font-weight: 400;
   float: left;
   margin: 0;
@@ -372,12 +612,11 @@ textarea {
   color: #000000;
 }
 
-.index-form .form-group #wallet_qr {
-  width: 60px;
-  float: right;
-  margin-right: 6%;
-  cursor: pointer;
-  opacity: 0.7;
+.index-form .index-box #wallet_qr {
+  position: absolute;
+  width: 80px;
+  bottom: 20px;
+  right: 20px;
 }
 
 .index-form label {
@@ -393,7 +632,7 @@ textarea {
   border: none;
   font-size: 18px;
   background: #FC6686;
-  color: #ffffff;
+  color: #000000;
   -webkit-border-radius: 30px;
   -moz-border-radius: 30px;
   -o-border-radius: 30px;
@@ -407,7 +646,7 @@ textarea {
 .btn-index:hover,
 .btn-index:focus,
 .btn-index:active {
-  color: #ffffff;
+  color: #000000;
   background: #FD6E7E !important;
   outline: none;
 }
@@ -432,7 +671,7 @@ textarea {
 .index-form #txonchain img{
   width: 61px;
   height: 61px;
-  color: #FFFFFF;
+  color: #000000;
   fill: currentColor;
   overflow: hidden;
   position: absolute;
@@ -442,7 +681,7 @@ textarea {
 .index-form #channel-btn img{
   width: 67px;
   height: 61px;
-  color: #FFFFFF;
+  color: #000000;
   position: absolute;
   right: 44%;
   cursor: pointer; }
@@ -479,7 +718,7 @@ textarea {
 
 
 
-/*  wallet页面开始  */
+/*  wallet start  */
 
 .wallet-form {
   width: 100%;
@@ -596,45 +835,136 @@ textarea {
 
 
 
-/*  wallet页面结束  */
+/*  wallet end  */
 
 
-/*  setting页面开始  */
+/*  record start  */
 
-.setting-form {
-  width: 100%;
-  padding: 30px;
+.record-form {
+  padding: 80px 30px 0 30px;
   position: absolute;
-  bottom: 0px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
   display: none;
-  z-index: 5;
-  /*margin-top: 8em;*/
   -webkit-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
   -o-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
   box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
-  background: rgba(255, 255, 255, 1);
-}
+  background: white; }
 
 @media screen and (max-width: 768px) {
-  .setting-form {
-    /*padding: 15px;*/
-    padding: 30px;
-  }
+  .record-form {
+    padding: 30px; } }
+
+.record-form h4 {
+  width: 100%;
+  text-align: center;
+  font-family: "yu gothic ui semibold";
+  letter-spacing: 0px;
+  font-size: 23px;
+  color: #FF95AE;
+  margin: 0; }
+
+.record-form .icon-left {
+  width: 24px;
+  height: 24px;
+  color: #000000;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+  cursor: pointer;
+  float: left; }
+
+.record-form div {
+  position: relative; }
+
+.record-form div p {
+  color: #000000;
+  font-weight: 500;
+  margin-bottom: 0;
+  max-width: 322px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; }
+
+.record-box {
+  padding-left: 5px;
+  border-bottom: solid 1px #d8d8d8;
+  margin-bottom: 6px;
+  padding-bottom: 6px; }
+  .record-box h5 {
+    display: inline;
+    color: #FD5E7E;
+    padding: 0 5px 0 1px;
+    font-size: 13px; }
+
+
+
+
+/*  record end  */
+
+
+/*  setting start  */
+
+.setting-form {
+  padding: 80px 30px 0 30px;
+  min-height:100vh;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  display: none;
+  -webkit-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
+  background: url(../images/bg_2.jpg) repeat;
+  background-attachment: fixed;
 }
 
-.setting-form h2 {
-  font-family: "yu gothic ui semibold";
-  text-align: center;
-  font-size: 26px;
-  margin: 0px 0 63px 0;
+.setting-form .setting-box{
+  padding: 20px;
+  width: 100%;
+  height:100%;
+  background: rgba(255,255,255,0.8);
+  border: 1px solid #e1e1e1;
+  border-radius: 10px;
+  margin: 0 0 20px 0;
+  overflow:hidden;
+  .record-a{
+    color:#FF95AE;
+    padding:8px 20px 8px 8px;
+  }
+}
+.setting-form .setting-box:hover{
+  background: rgba(255,255,255,1);
+  -webkit-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
+}
+.setting-form .pager {
+  margin: 0; }
+
+.setting-form .pager li > a, .pager li > span {
+  display: inline-block;
+  padding: 5px 14px;
+  background-color: transparent;
+  border: none; }
+
+.setting-form .setting-close-btn {
+  font-size: 34px;
   color: #000000;
+  display: block;
 }
 
 .setting-form span {
-  text-align: center;
   font-size: 19px;
-  font-weight: bold;
 }
 
 .setting-form .form-group {
@@ -666,14 +996,13 @@ textarea {
 }
 
 .setting-form .setting-save-btn {
-  height: 58px;
-  width: 300px;
+  width: 82px;
   padding-right: 20px;
   padding-left: 20px;
   border: none;
   font-size: 18px;
   background: #FC6686;
-  margin: 30px 0;
+  margin: 15px 0 0;
   color: #ffffff;
   -webkit-border-radius: 30px;
   -moz-border-radius: 30px;
@@ -696,10 +1025,10 @@ textarea {
 
 
 
-/*  setting页面结束  */
+/*  setting end  */
 
 
-/*  add页面开始  */
+/*  add start  */
 
 .add-form {
   width: 100%;
@@ -795,28 +1124,49 @@ textarea {
 
 
 
-/*  setting页面结束  */
+/*  setting end  */
 
 
-/*  transfer页面开始  */
+/*  transfer start  */
 
 .transfer-form {
-  padding: 30px;
-  min-height: 100%;
+  padding: 80px 30px 0 30px;
+  min-height: 100vh;
   position: absolute;
+  top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 2;
+  z-index: 1;
   display: none;
   -webkit-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
   -o-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
   box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
-  background: rgba(255, 255, 255, 1);
-}
+  background: url(../images/bg_2.jpg) repeat;
+  background-attachment: fixed; }
 
-.transfer-form h2 {
+.transfer-form .transfer-box {
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid #e1e1e1;
+  border-radius: 10px;
+  margin: 0 0 20px 0;
+  overflow: hidden; }
+  .assets-form .assets-box .record-a {
+    color: #FF95AE;
+    padding: 8px 20px 8px 8px; }
+
+.transfer-form .transfer-box:hover {
+  background: white;
+  -webkit-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1); }
+
+.transfer-form h1 {
   font-family: "yu gothic ui semibold";
   /*  letter-spacing: 2px;*/
   font-size: 37px;
@@ -896,7 +1246,8 @@ textarea {
   font-weight: 300;
   height: 66px;
   line-height: 66px;
-  padding-left: 0;
+  width:calc(100% - 92px);
+  display:inline;
   padding-right: 40px;
   border: none;
   border-bottom: 2px solid #E7E6E6;
@@ -921,19 +1272,6 @@ textarea {
   color: #E7E6E6;
   font-weight: 400;
   padding-right: 20%;
-}
-
-
-.transfer-form .form-amount {
-  font-size: 60px;
-  line-height: 60px !important;
-}
-
-.transfer-form .form-amount::-webkit-input-placeholder {
-  color: #E7E6E6;
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 60px !important;
 }
 
 .transfer-form .form-control:focus,
@@ -995,35 +1333,55 @@ textarea {
 .transfer-form .form-btn {
   width: 100%;
   text-align: center;
-  margin-top: 40%;
 }
 
 
 
 
-/*  transfer页面结束  */
+/*  transfer end  */
 
 
-/*  txonchain页面开始  */
+/*  txonchain start  */
 
 .txonchain-form {
-  padding: 30px;
-  height: 100%;
+  padding: 80px 30px 0 30px;
+  min-height: 100vh;
   position: absolute;
+  top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 2;
+  z-index: 1;
   display: none;
   -webkit-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
   -o-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
   box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
-  background: white; }
+  background: url(../images/bg_2.jpg) repeat;
+  background-attachment: fixed; }
 
-.txonchain-form h2 {
+.txonchain-form .txonchain-box {
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid #e1e1e1;
+  border-radius: 10px;
+  margin: 0 0 20px 0;
+  overflow: hidden; }
+  .assets-form .assets-box .record-a {
+    color: #FF95AE;
+    padding: 8px 20px 8px 8px; }
+
+.txonchain-form .txonchain-box:hover {
+  background: white;
+  -webkit-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1); }
+
+.txonchain-form h1 {
   font-family: "yu gothic ui semibold";
-  /*  letter-spacing: 2px;*/
   font-size: 37px;
   margin: 0 0 30px 0;
   color: #FF95AE; }
@@ -1173,45 +1531,59 @@ textarea {
   margin-bottom: 0px;
   font-weight: 500; }
 
-.form-remark {
-  border-bottom: none !important; }
-
-.txonchain-form .form-btn {
-  width: 100%;
-  text-align: center;
-  margin-top: 40%;
-}
 
 
 
+/*  txonchain end  */
 
-/*  txonchain页面结束  */
-
-/*  assets页面开始  */
+/*  assets start  */
 
 .assets-form {
-  padding: 30px;
-  height: 100%;
+  padding: 80px 30px 0 30px;
+  min-height:100vh;
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 5;
+  z-index: 1;
   display: none;
   -webkit-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
   -o-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
   box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
-  background: rgba(255, 255, 255, 1);
+  background: url(../images/bg_2.jpg) repeat;
+  background-attachment: fixed;
 }
 
-@media screen and (max-width: 768px) {
-  .assets-form {
-    padding: 30px;
+.assets-form .assets-box{
+  padding: 20px;
+  width: 100%;
+  height:190px;
+  background: rgba(255,255,255,0.8);
+  border: 1px solid #e1e1e1;
+  border-radius: 10px;
+  margin: 0 0 20px 0;
+  overflow:hidden;
+  .record-a{
+    color:#FF95AE;
+    padding:8px 20px 8px 8px;
   }
 }
-
+.assets-form .assets-box:hover{
+  background: rgba(255,255,255,1);
+  -webkit-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
+}
+.assets-form h1 {
+    font-family: "yu gothic ui semibold";
+    text-align: left;
+    color: #000000;
+    font-size: 28px;
+    margin-top: 0;
+}
 .assets-form h4 {
   width: 100%;
   text-align: center;
@@ -1235,12 +1607,13 @@ textarea {
   float: left;
 }
 
-.assets-form div img {
-  width: 40px;
-  height: 40px;
-  padding: 4px;
-  border: 1px solid #EBEBEB;
-  border-radius: 50%;
+.assets-form .assets-box img {
+  width:150px;
+  height:150px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  bottom: 20px;
 }
 
 .assets-form div p {
@@ -1253,10 +1626,10 @@ textarea {
 
 
 
-/*  assets页面结束  */
+/*  assets end  */
 
 
-/*  contacts页面开始  */
+/*  contacts start  */
 
 .channel-contacts-form {
   padding: 30px;
@@ -1309,26 +1682,26 @@ textarea {
   font-weight: 500; }
 
 
-/*  contacts页面结束  */
+/*  contacts end  */
 
 .curtain {
-  width: 100%;
-  height: 100%;
-  background-color: #000;
-  position: absolute;
-  top: 0;
+  background-color: black;
+  /* IE8 */
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=40)";
+  /* IE8 */
+  background-color: rgba(0, 0, 0, 0.4);
+  position: fixed;
   left: 0;
-  z-index: 4;
-  opacity: 0.3;
-  /*兼容IE8及以下版本浏览器*/
-  filter: alpha(opacity=30);
+  right: 0;
+  top: 0;
+  bottom: 0;
   display: none;
-}
+  z-index: 9999; }
 
 
 
 
-/*  comfirm页面开始  */
+/*  comfirm start  */
 
 .comfirm-form {
   padding: 30px;
@@ -1352,7 +1725,7 @@ textarea {
   color: #000000;
 }
 
-.close-btn {
+.comfirm-form .close-btn {
   content: '×';
   font-size: 34px;
   color: #000000;
@@ -1362,7 +1735,7 @@ textarea {
   top: 0px;
 }
 
-.close-btn:hover {
+.comfirm-form .close-btn:hover {
   color: #aaaaaa;
 }
 
@@ -1468,10 +1841,10 @@ textarea {
 
 
 
-/*  comfirm页面结束  */
+/*  comfirm end  */
 
 
-/*  pay页面开始  */
+/*  pay start  */
 
 .pay-form {
   padding: 30px;
@@ -1600,10 +1973,10 @@ textarea {
 
 
 
-/*  pay页面结束  */
+/*  pay end  */
 
 
-/*  pay1页面开始  */
+/*  pay1 start  */
 
 .pay1-form {
   padding: 30px;
@@ -1715,10 +2088,10 @@ textarea {
 
 
 
-/*  pay1页面结束  */
+/*  pay1 end  */
 
 
-/*  deposit-pay页面开始  */
+/*  deposit-pay start  */
 
 .deposit-pay-form {
   padding: 30px;
@@ -1847,170 +2220,48 @@ textarea {
 
 
 
-/*  deposit-pay页面结束  */
+/*  deposit-pay end  */
 
 
-/*  sign-up页面开始  */
-
-.sign-up-form {
-  padding: 30px;
-  height: 100%;
-  -webkit-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
-  -o-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
-  box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
-  background: rgba(255, 255, 255, .8);
-}
-
-@media screen and (max-width: 768px) {
-  .sign-up-form {
-    padding: 30px 40px 30px 40px;
-  }
-}
-
-.sign-up-form .icon-left {
-  width: 20px;
-  height: 20px;
-  margin-left: -18px;
-  margin-bottom: 22px;
-  color: #000000;
-  vertical-align: -0.15em;
-  fill: currentColor;
-  overflow: hidden;
-  cursor: pointer;
-}
-
-.sign-up-form h2 {
-  font-family: "yu gothic ui semibold";
-  letter-spacing: 0px;
-  font-size: 32px;
-  line-height: 44px;
-  margin: 0 0 66px 0;
-  color: #FF95AE;
-}
-
-.sign-up-form .form-group {
-  margin-bottom: 23px;
-}
-
-.sign-up-form .form-group p {
-  font-size: 14px;
-  color: #9f9f9f;
-  font-weight: 300;
-  text-align: center;
-}
-
-.sign-up-form .form-group p a {
-  color: #000000;
-}
-
-.sign-up-form label {
-  font-weight: 300;
-  font-size: 12px;
-}
-
-.sign-up-form .form-control {
-  font-size: 16px;
-  font-weight: 300;
-  height: 50px;
-  padding-left: 0;
-  padding-right: 0;
-  border: none;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  -o-box-shadow: none;
-  box-shadow: none;
-  -webkit-border-radius: 0px;
-  -moz-border-radius: 0px;
-  -ms-border-radius: 0px;
-  border-radius: 0px;
-  -moz-transition: all 0.3s ease;
-  -o-transition: all 0.3s ease;
-  -webkit-transition: all 0.3s ease;
-  -ms-transition: all 0.3s ease;
-  transition: all 0.3s ease;
-}
-
-.sign-up-form .form-control::-webkit-input-placeholder {
-  color: rgba(0, 0, 0, 0.3);
-}
-
-
-.sign-up-form .form-control:focus,
-.sign-up-form .form-control:active {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
-}
-
-.sign-up-form .remember {
-  font-size: 13px;
-  float: left;
-}
-
-.sign-up-form .forget {
-  font-size: 13px;
-  float: right;
-  margin-top: 1px;
-}
-
-.sign-up-form .forget a {
-  color: #FF95AE;
-}
-
-.btn-sign-up {
-  height: 50px;
-  width: 300px;
-  margin-top: 54px;
-  padding-right: 20px;
-  padding-left: 20px;
-  border: none;
-  background: #FC6686;
-  color: #ffffff;
-  font-size: 16px;
-  -webkit-border-radius: 30px;
-  -moz-border-radius: 30px;
-  -o-border-radius: 30px;
-  border-radius: 30px;
-  -webkit-box-shadow: -2px 10px 20px -1px rgba(252, 102, 134, 0.4);
-  -moz-box-shadow: -2px 10px 20px -1px rgba(252, 102, 134, 0.4);
-  -o-box-shadow: -2px 10px 20px -1px rgba(252, 102, 134, 0.4);
-  box-shadow: -2px 10px 20px -1px rgba(252, 102, 134, 0.4);
-}
-
-.btn-sign-up:hover,
-.btn-sign-up:focus,
-.btn-sign-up:active {
-  color: #ffffff;
-  background: #FD6E7E !important;
-  outline: none;
-}
-
-.sign-up-form .form-group p a {
-  font-weight: 600;
-  color: #FF95AE;
-}
-
-/*  sign-up页面结束  */
-
-
-/*  channel页面开始  */
+/*  channel start  */
 
 .channel-form {
-  padding: 30px;
-  min-height: 100%;
+  padding: 80px 30px 0 30px;
+  min-height: 100vh;
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 3;
+  z-index: 1;
   display: none;
   -webkit-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
   -o-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
   box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
-  background: rgba(255, 255, 255, 1);
-}
+  background: url(../images/bg_2.jpg) repeat;
+  background-attachment: fixed; }
+
+.channel-form .channel-box {
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid #e1e1e1;
+  border-radius: 10px;
+  margin: 0 0 20px 0;
+  overflow: hidden; }
+  .assets-form .assets-box .record-a {
+    color: #FF95AE;
+    padding: 8px 20px 8px 8px; }
+
+.channel-form .channel-box:hover {
+  background: white;
+  -webkit-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1); }
+
 
 .channel-form h2 {
   font-family: "yu gothic ui semibold";
@@ -2027,13 +2278,9 @@ textarea {
   color: #000000;
 }
 
-.channel-form h4 {
-  width: 50%;
-  font-family: "yu gothic ui semibold";
-  letter-spacing: 0px;
-  font-size: 17px;
-  color: #000000;
-  margin: 4px 0 30px 0;
+.channel-form label {
+  font-size:20px;
+  font-weight: 300;
 }
 
 .channel-form .icon-left {
@@ -2076,11 +2323,6 @@ textarea {
   border: 1px solid #E7E6E6;
   border-radius: 50%;
   cursor: pointer;
-}
-
-.channel-form label {
-  font-size: 14px;
-  font-weight: 300;
 }
 
 .channel-form .form-control {
@@ -2193,36 +2435,38 @@ textarea {
 .channel-form .form-btn {
   width: 100%;
   text-align: center;
-  margin-top: 40%;
+  margin-top: 4%;
 }
 
 
 
 
-/*  channel页面结束  */
+/*  channel end  */
 
 
-/*  channel-pay页面开始  */
+/*  channel-pay start  */
 
 .channel-pay-form {
-  padding: 30px;
-  width: 100%;
-  position: absolute;
-  bottom: 0px;
-  z-index: 7;
+  background-color: white;
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  width: 478px;
+  padding: 17px;
+  border-radius: 5px;
+  text-align: center;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  margin-left: -256px;
+  margin-top: -200px;
+  overflow: hidden;
   display: none;
-  -webkit-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
-  -o-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
-  box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
-  background: rgba(255, 255, 255, 1);
+  z-index: 99999;
 }
 
 .channel-pay-form h2 {
   font-family: "yu gothic ui semibold";
-  font-size: 23px;
   text-align: center;
-  margin: 0 0 30px 0;
+  margin: 25px 0 20px 0;
   color: #000000;
 }
 
@@ -2240,15 +2484,12 @@ textarea {
   color: #aaaaaa;
 }
 
-.channel-pay-form h3 {
-  font-family: "yu gothic ui semibold";
-  font-size: 16px;
-  margin: 0;
+.channel-pay-form h4 {
+  text-align: left;
   color: #000000;
 }
 
 .channel-pay-form .form-group {
-  margin-bottom: 220px;
   position: relative;
 }
 
@@ -2313,8 +2554,24 @@ textarea {
 }
 
 
-.channel-pay-form .form-group1 {
-  margin-bottom: 70px;
+.channel-pay-form .btn-channel-pay{
+  height: 58px;
+  width: 300px;
+  padding-right: 20px;
+  padding-left: 20px;
+  margin-top: 20px;
+  border: none;
+  font-size: 18px;
+  background: #FC6686;
+  color: #ffffff;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  -o-border-radius: 30px;
+  border-radius: 30px;
+  -webkit-box-shadow: -2px 10px 20px -1px rgba(252, 102, 134, 0.4);
+  -moz-box-shadow: -2px 10px 20px -1px rgba(252, 102, 134, 0.4);
+  -o-box-shadow: -2px 10px 20px -1px rgba(252, 102, 134, 0.4);
+  box-shadow: -2px 10px 20px -1px rgba(252, 102, 134, 0.4);
 }
 
 .deposit-pay-form #success-div {
@@ -2331,41 +2588,60 @@ textarea {
 
 
 
-/*  deposit-pay页面结束  */
+/*  deposit-pay end  */
 
 
-/*  channel-edit页面开始  */
+/*  channel-edit start  */
 
 .channel-edit-form {
-  padding: 30px;
+  padding: 80px 30px 0 30px;
+  min-height: 100vh;
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 2;
+  z-index: 1;
   display: none;
   -webkit-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
   -o-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
   box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
-  background: rgba(255, 255, 255, 1);
-}
+  background: url(../images/bg_2.jpg) repeat;
+  background-attachment: fixed; }
 
-@media screen and (max-width: 768px) {
-  .channel-edit-form {
-    padding: 30px;
-  }
+
+.channel-edit-form .channel-edit-box {
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid #e1e1e1;
+  border-radius: 10px;
+  margin: 0 0 20px 0;
+  overflow: hidden; }
+  .assets-form .assets-box .record-a {
+    color: #FF95AE;
+    padding: 8px 20px 8px 8px; }
+
+.channel-edit-form .channel-edit-box:hover {
+  background: white;
+  -webkit-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1); }
+
+.channel-edit-form #channel-regist {
+    float: right;
+    font-size: 18px;
+    line-height: 79px;
+    color: #FD6E7E;
+    cursor: pointer;
 }
 
 .channel-edit-form h4 {
-  width: 100%;
-  text-align: center;
-  font-family: "yu gothic ui semibold";
-  letter-spacing: 0px;
-  font-size: 23px;
-  color: #FF95AE;
-  margin: 0;
+    display:inline;
+    margin-right: 40px;
 }
 
 .channel-edit-form .icon-left {
@@ -2379,10 +2655,6 @@ textarea {
   overflow: hidden;
   cursor: pointer;
   float: left;
-}
-
-.channel-edit-form div {
-  position: relative;
 }
 
 .channel-edit-form div p {
@@ -2410,10 +2682,10 @@ textarea {
 
 
 
-/*  channel-edit页面结束  */
+/*  channel-edit end  */
 
 
-/*  channel-edit1页面开始  */
+/*  channel-edit1 start  */
 
 .channel-edit-form1 {
   padding: 30px;
@@ -2501,10 +2773,10 @@ textarea {
 
 
 
-/*  channel-edit1页面结束  */
+/*  channel-edit1 end  */
 
 
-/*  channel-info页面开始  */
+/*  channel-infos start  */
 
 .channel-info-form {
   padding: 30px;
@@ -2534,6 +2806,7 @@ textarea {
   position: absolute;
   right: 8px;
   top: 0px;
+  cursor: pointer;
 }
 
 .channel-info-form .close-btn:hover {

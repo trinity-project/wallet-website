@@ -32,45 +32,79 @@ var contentWayPoint = function() {
     }
   }, { offset: '85%' });
 };
-//index开始
-// $("#channel-btn").click(function() {
-//   $.ajax({
-//     url: "http://47.254.39.10:20552",
-//     type: "POST",
-//     data: JSON.stringify({
-//       "jsonrpc": "2.0",
-//       "method": "getchannelstate",
-//       "params": [$("#wallet_add").html()],
-//       "id": 1
-//     }),
-//     contentType: 'application/json',
-//     success: function(message) {
-//       $('#channels').html('');
-//       if (message.result) {
-//         message.result.forEach((item) => {
-//           // if (item.tx_info && item.channel_state === 'State.OPEN') {
-//           if (item.tx_info) {
-//             $(`<div class='channel-box'><p>${item.tx_info[1].address}</p><h5>Deposit:${item.tx_info[0].deposit}</h5><h5>Balance: ${item.tx_info[0].balance}</h5><h5>${item.channel_state}</h5></div>`)
-//               .appendTo('#channels').click(() => {
-//                 transFace('.channel-info-form');
-//                 // b = $(obj).attr("id").split("-")[1]; //获取点击了第几个div   
-//                 $("#info-channel-name").text(item.channel_name);
-//                 $("#info-sender-addr").text(item.tx_info[0].address);
-//                 $("#info-receiver-addr").text(item.tx_info[1].address);
-//                 $("#info-time").text(item.open_block);
-//                 $("#info-sender-deposit").text(item.tx_info[0].deposit);
-//                 $("#info-sender-balance").text(item.tx_info[0].balance);
-//                 $("#info-state").text(item.channel_state);
-//               });
-//           }
-//         });
-//       }
-//     },
-//     error: function(message) {
-//       alert("error");
-//     }
-//   });
+//sign up开始
+// $(".btn-sign-up").click(function(){
+//   if (!$("#sign-up-password").val()) {
+//     $("#sign-up-danger").text("Password can't be empty.");
+//     $("#sign-up-danger").show();
+//     return;
+//   }
+//   if ($("#sign-up-password").val().length < 8) {
+//     $("#sign-up-danger").text("Password at least 8 characters.");
+//     $("#sign-up-danger").show(); 
+//     return;
+//   } 
+//   if ($("#sign-up-repassword").val()!==$("#sign-up-password").val()) {
+//     $("#sign-up-danger").text("Password and Repeat Password inconsistent.");
+//     $("#sign-up-danger").show();
+//     return;
+//   }
+//   $("#sign-up-danger").hide();
+//   $("#sign-up-success").text("success.");
+//   $("#sign-up-success").show();
 // });
+$(".btn-sign-up-cancel").click(function(){
+  $("#curtain").hide();
+  $(".sign-up-box").hide();
+  $("#sign-up-danger").hide();
+  $("#sign-up-success").hide();
+});
+//sign up结束
+//login开始
+$("#a").click(function(){
+  transFace('.login-form');
+})
+$("#sign-in-btn").click(function(){
+  transFace('.login-form');
+})
+//login结束
+//nav start
+$(".navbar-nav").find("li").click(function() {
+    $(this).siblings().removeAttr("class");
+    $(this).attr("class", "active");
+})
+//nav end
+//index开始
+$("#login-a").click(function(){
+  swal({ 
+    title: "Sign In", 
+    type: "input",
+    text: "Private Key:", 
+    showCancelButton: true, 
+    closeOnConfirm: false, 
+    showLoaderOnConfirm: true,
+    confirmButtonText:"Login",
+    inputPlaceholder: "Private Key" 
+  },
+  function(inputValue){ 
+    if (inputValue === false) return false; 
+    
+    if (inputValue === "") { 
+      swal.showInputError("Private Key can't be empty!");
+      return false 
+    } 
+    
+    setTimeout(function(){ 
+      swal("Success!","","success"); 
+    }, 2000);
+  });
+});
+
+$("#signup-a").click(function(){
+  $("#curtain").show();
+  $(".sign-up-box").show();
+});
+
 $("#setting-reset").click(function() {
   $(".setting-input").val("https://test.trinity.tech");
 })
@@ -79,11 +113,30 @@ $("#setting-reset").click(function() {
    $("#txonchain-address").val("");
    $("#txonchain-amount").val("");
  });
-// $(".setting-save-btn").click(function() {
-//   $(".setting-form").hide();
-//   alert("Save success!");
-// })
+$("#wallet_qr").click(function(){
+  swal({
+    title: "Wallet Address",
+    text: $("#wallet_add").html(),
+    imageUrl: 'images/wallet_qrcode_3V.png',
+    imageSize:  "200x200",
+    confirmButtonText:"关闭",
+    allowOutsideClick:"ture"
+  });
+});
+$(".record-channel-a").click(function(){
+  $("#onchannel-record-table").slideDown("slow");
+  $("#onchian-record-table").hide();
+})
+$(".record-chain-a").click(function(){
+  $("#onchian-record-table").slideDown("slow");
+  $("#onchannel-record-table").hide();
+})
 //index结束
+//setting start
+$("#setting-btn3").click(function(){
+  $("#setting-gateway").fadeToggle();
+})
+//setting end
 //channel-edit开始
 $("#channel-regist").click(function() {
    transFace('.channel-form');
@@ -94,9 +147,9 @@ $("#channel-regist").click(function() {
 //channel-edit结束
 
 //channel开始
-$("#regist-channel-assets").focus(function() {
-  transFace('.assets-form');
-});
+// $("#regist-channel-assets").focus(function() {
+//   transFace('.assets-form');
+// });
 $(".btn-channel").click(function() {
   if (!$("#regist-channel-address").val()) {
     alert("Address can't be empty.");
@@ -107,14 +160,14 @@ $(".btn-channel").click(function() {
     return;
   }
   if (!$("#regist-channel-time").val()) {
-    alert("Time Password can't be empty.");
+    alert("Time can't be empty.");
     return;
   }
   transFace('.channel-pay-form');
   $("#channel-comfirm-info").html("You will add a new channel. <br />Receiver address : " + $("#regist-channel-address").val() + "<br>Deposit : " + $("#regist-channel-deposit").val() + $("#regist-channel-assets").val());
 });
-$('#frm_confirm_password').submit(() => {  
-  if ($("#channel-comfirm-password").val() == "123456") {
+$(".btn-channel-pay").click(function(){
+    if ($("#channel-comfirm-password").val() == "123456") {
     $.ajax({
       url: "http://47.254.39.10:20552",
       type: "POST",
@@ -133,16 +186,6 @@ $('#frm_confirm_password').submit(() => {
           alert(message.error.message);
         } else {
           alert("Regist success!");
-          // $("#Channel-3").show();
-          // $("#channel-remark-3").text($("#regist-channel-remark").val() || $("#regist-channel-remark").val());
-          // $("#channel-address-3").text(message.result.channel_name);
-          // $("#channel-time-3").text($("#regist-channel-time").val() + "Block");
-          // $("#channel-deposit-3").text("Deposit:" + $("#regist-channel-deposit").val() + $("#regist-channel-assets").val());
-          // $("#channel-state-3").text("State:OPEN");
-          // $('#frm_confirm_password').hide();
-          // $("#channel-pay-close-btn").trigger('click');
-          // $(".channel-form").hide();
-          // $(".channel-edit-form").show();
           $.ajax({
             url: "http://47.254.39.10:20552",
             type: "POST",
@@ -174,7 +217,6 @@ $('#frm_confirm_password').submit(() => {
   } else {
     alert("The password is incorrect.");
   }
-  return false;
 });
 
 // $("#channel-comfirm-password").change(function() {
@@ -302,10 +344,9 @@ $('#frm_deposit_password').submit(() => {
 });
 //add-comfirm结束
 //transfer开始
-$("#transfer-assets").focus(function() {
-  transFace('.assets-form');
-  // $(".assets-form").show();
-});
+// $("#transfer-assets").focus(function() {
+//   transFace('.assets-form');
+// });
 $("#transfer-channel-name").focus(function() {
   transFace('.channel-edit-form');
   // $(".channel-edit-form").show();
@@ -334,12 +375,9 @@ $(".btn-transfer").click(function() {
 });
 //transfer结束
 //transfer on chain开始
-$("#txonchain-assets").focus(function() {
-  transFace('.assets-form');
-});
-$(".icon-contacts").click(function() {
-  transFace('.channel-contacts-form');
-});
+// $("#txonchain-assets").focus(function() {
+//   transFace('.assets-form');
+// });
 $(".btn-txonchain").click(function() {
   if (!$("#txonchain-address").val()) {
     alert("Address can't be empty.");
@@ -398,11 +436,11 @@ $('#frm_txonchain_password').submit(() => {
 });
 //transfer on chain结束
 //assets开始
-$("#NEO,#GAS,#TNC").click(function() {
-  transFace();
-  $("#regist-channel-assets, #transfer-assets,#txonchain-assets").val(this.id);
-  $("#amount-svg,#amount-svg1").text(this.id).show();
-});
+// $("#NEO,#GAS,#TNC").click(function() {
+//   transFace();
+//   $("#regist-channel-assets, #transfer-assets,#txonchain-assets").val(this.id);
+//   $("#amount-svg,#amount-svg1").text(this.id).show();
+// });
 //assets结束
 //contacts开始
 $(".contact-box").click(function() {
@@ -446,20 +484,15 @@ $('#frm_pay_password').submit(() => {
 })
 //Payment结束
 
-$(".curtain").click(function() {
-  transFace(FACE_BACK);
-});
+// $(".curtain").click(function() {
+//   $(".curtain").hide();
+//   // transFace(FACE_BACK);
+// });
 
 // On load
 $(function() {
   placeholderFunction();
   contentWayPoint();
-
-  if ($("#sign-up-agree").prop('checked')) {
-    $(".btn-sign-up").removeAttr("disabled");
-  } else {
-    $(".btn-sign-up").attr('disabled', "true");
-  }
 
   if ($("#transfer-assets").val() == "" || $("#transfer-assets").val() == null) {
     $("#amount-svg").hide();
@@ -474,7 +507,7 @@ $(function() {
 
 $("#wallet_add,#wallet-address").html("ATiabWLxT5sLQpkppZDK9JmCF9wBFYpX3V");
 
-setInterval(function(){  
+// setInterval(function(){  
       $.ajax({
         url: "http://47.254.39.10:20552",
         type: "POST",
@@ -512,7 +545,7 @@ setInterval(function(){
           // if (item.tx_info && item.channel_state === 'State.OPEN') {
           if (item.tx_info) {
             var aa = item.channel_state.split('.');
-            $(`<div class='channel-box'><p>${item.tx_info[1].address}</p><h5>Deposit:${item.tx_info[0].deposit}</h5><h5>Balance: ${item.tx_info[0].balance}</h5><h5>State: ${aa[1]}</h5></div>`)
+            $(`<div class='channel-edit-box' style='position: relative;'><h2>${item.tx_info[1].address}</h2><h4>Deposit:${item.tx_info[0].deposit}</h4><h4>Balance: ${item.tx_info[0].balance}</h4><h4>State: ${aa[1]}</h4></div>`)
               .appendTo('#channels').click(() => {
                 transFace('.channel-info-form');
                 // b = $(obj).attr("id").split("-")[1]; //获取点击了第几个div   
@@ -530,7 +563,7 @@ setInterval(function(){
     error: function(message) {
     }
   });
-},2000);
+// },2000);
 });
 /* common function*/
 // 显隐密码

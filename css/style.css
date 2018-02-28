@@ -121,6 +121,39 @@ textarea {
   margin: 0 auto;
   overflow: hidden; }
 
+.demo-label {
+  margin: 0;
+  display: inline-block; }
+
+.demo-radio {
+  display: none; }
+
+.demo-radioInput {
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 100%;
+  display: inline-block;
+  height: 16px;
+  margin-right: 10px;
+  margin-top: -1px;
+  vertical-align: middle;
+  width: 16px;
+  line-height: 1; }
+
+.demo-radio:checked + .demo-radioInput:after {
+  background-color: #FF95AE;
+  border-radius: 100%;
+  content: '\2714';
+  color: #ffffff;
+  font-size: 16px;
+  display: inline-block;
+  height: 14px;
+  margin: 0;
+  width: 14px; }
+
+.demo-checkbox.demo-radioInput, .demo-radio:checked + .demo-checkbox.demo-radioInput:after {
+  border-radius: 0; }
+
 /*  nav start  */
 nav {
   width: 100%;
@@ -185,12 +218,16 @@ nav {
   cursor: pointer; }
 
 .sign-up-box h2 {
-  font-family: "yu gothic ui semibold";
-  letter-spacing: 0px;
-  font-size: 32px;
-  line-height: 44px;
-  margin: 25px 0 20px 0;
-  color: #FF95AE; }
+  color: #575757;
+  font-size: 30px;
+  text-align: center;
+  font-weight: 600;
+  text-transform: none;
+  position: relative;
+  margin: 25px 0;
+  padding: 0;
+  line-height: 40px;
+  display: block; }
 
 .sign-up-box .form-group {
   margin-bottom: 23px; }
@@ -205,37 +242,29 @@ nav {
   color: #000000; }
 
 .sign-up-box label {
-  font-weight: 300;
-  font-size: 12px; }
+  font-weight: 300; }
 
 .sign-up-box .form-control {
-  font-size: 16px;
-  font-weight: 300;
-  height: 50px;
-  padding-left: 0;
-  padding-right: 0;
-  border: none;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  -o-box-shadow: none;
-  box-shadow: none;
-  -webkit-border-radius: 0px;
-  -moz-border-radius: 0px;
-  -ms-border-radius: 0px;
-  border-radius: 0px;
-  -moz-transition: all 0.3s ease;
-  -o-transition: all 0.3s ease;
-  -webkit-transition: all 0.3s ease;
-  -ms-transition: all 0.3s ease;
-  transition: all 0.3s ease; }
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 3px;
+  border: 1px solid #d7d7d7;
+  height: 43px;
+  margin-top: 10px;
+  margin-bottom: 17px;
+  font-size: 18px;
+  box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.06);
+  padding: 0 12px;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s; }
+
+.sign-up-box .form-control:focus {
+  outline: none;
+  box-shadow: 0px 0px 3px #c4e6f5;
+  border: 1px solid #b4dbed; }
 
 .sign-up-box .form-control::-webkit-input-placeholder {
   color: rgba(0, 0, 0, 0.3); }
-
-.sign-up-box .form-control:focus,
-.sign-up-box .form-control:active {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.4); }
 
 .sign-up-box .remember {
   font-size: 13px;
@@ -260,15 +289,11 @@ nav {
   border-radius: 5px;
   padding: 10px 32px;
   margin: 26px 5px 0 5px;
-  cursor: pointer;
-  -webkit-box-shadow: -2px 10px 20px -1px rgba(252, 102, 134, 0.4);
-  -moz-box-shadow: -2px 10px 20px -1px rgba(252, 102, 134, 0.4);
-  -o-box-shadow: -2px 10px 20px -1px rgba(252, 102, 134, 0.4);
-  box-shadow: -2px 10px 20px -1px rgba(252, 102, 134, 0.4); }
+  cursor: pointer; }
 
 .btn-sign-up-cancel {
   background-color: #C1C1C1;
-  color: white;
+  color: #FFFFFF !important;
   border: none;
   box-shadow: none;
   font-size: 17px;
@@ -278,6 +303,10 @@ nav {
   padding: 10px 32px;
   margin: 26px 5px 0 5px;
   cursor: pointer; }
+
+.btn-sign-up-cancel:hover {
+  background-color: #b9b9b9;
+  color: #FFFFFF !important; }
 
 .btn-sign-up:hover,
 .btn-sign-up:focus,
@@ -292,7 +321,7 @@ nav {
 
 /*  sign-up end  */
 /*  login start  */
-.login-form {
+.login-box {
   padding: 80px 30px 0 30px;
   height: 100%;
   z-index: 2;
@@ -308,7 +337,7 @@ nav {
   box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
   background: white; }
 
-.login-form h2 {
+.login-box h2 {
   font-family: "yu gothic ui semibold";
   letter-spacing: 0px;
   font-size: 32px;
@@ -316,23 +345,23 @@ nav {
   margin: 38px 0 66px 0;
   color: #FF95AE; }
 
-.login-form .form-group {
+.login-box .form-group {
   margin-bottom: 30px; }
 
-.login-form .form-group p {
+.login-box .form-group p {
   font-size: 14px;
   color: #9f9f9f;
   font-weight: 300;
   text-align: center; }
 
-.login-form .form-group p a {
+.login-box .form-group p a {
   color: #000000; }
 
-.login-form label {
+.login-box label {
   font-weight: 300;
   font-size: 14px; }
 
-.login-form .form-control {
+.login-box .form-control {
   font-size: 16px;
   font-weight: 300;
   height: 50px;
@@ -354,7 +383,7 @@ nav {
   -ms-transition: all 0.3s ease;
   transition: all 0.3s ease; }
 
-.login-form .form-control::-webkit-input-placeholder {
+.login-box .form-control::-webkit-input-placeholder {
   color: rgba(0, 0, 0, 0.3); }
 
 .copyrights {
@@ -364,20 +393,20 @@ nav {
   font-size: 0;
   overflow: hidden; }
 
-.login-form .form-control:focus,
-.login-form .form-control:active {
+.login-box .form-control:focus,
+.login-box .form-control:active {
   border-bottom: 1px solid rgba(0, 0, 0, 0.4); }
 
-.login-form .remember {
+.login-box .remember {
   font-size: 13px;
   float: left; }
 
-.login-form .forget {
+.login-box .forget {
   font-size: 13px;
   float: right;
   margin-top: 1px; }
 
-.login-form .forget a {
+.login-box .forget a {
   color: #FF95AE; }
 
 .btn-login {
@@ -406,7 +435,7 @@ nav {
   background: #FD6E7E !important;
   outline: none; }
 
-.login-form .form-group p a {
+.login-box .form-group p a {
   font-weight: 600;
   color: #FF95AE; }
 
@@ -479,12 +508,10 @@ nav {
   color: #000000; }
 
 .index-form h4 {
-  width: 50%;
   font-family: "yu gothic ui semibold";
-  letter-spacing: 0px;
-  font-size: 17px;
+  font-size: 20px;
   color: #000000;
-  margin: 0 0 30px 0; }
+  text-align: center; }
 
 .index-form .icon-setting {
   width: 20px;
@@ -646,17 +673,11 @@ nav {
 
 .record-form .record-box {
   padding: 20px;
-  width: 100%;
-  height: 100%;
   background: rgba(255, 255, 255, 0.8);
   border: 1px solid #e1e1e1;
   border-radius: 10px;
   margin: 0 0 20px 0;
   overflow: hidden; }
-
-.assets-form .assets-box .record-a {
-  color: #FF95AE;
-  padding: 8px 20px 8px 8px; }
 
 .record-form .record-box:hover {
   background: white;
@@ -665,14 +686,21 @@ nav {
   -o-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
   box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1); }
 
-.record-form h4 {
-  width: 100%;
-  text-align: center;
+.record-form .record-box-left {
+  position: relative;
+  color: #000000;
+  float: left;
+  height: 77%;
+  width: 40%;
+  margin-right: 5%;
+  word-break: break-all; }
+
+.record-form h1 {
   font-family: "yu gothic ui semibold";
-  letter-spacing: 0px;
-  font-size: 23px;
-  color: #FF95AE;
-  margin: 0; }
+  font-size: 29px;
+  margin-top: 4%;
+  color: #000000;
+  text-align: center; }
 
 .record-form .icon-left {
   width: 24px;
@@ -729,8 +757,6 @@ nav {
 
 .setting-form .setting-box {
   padding: 20px;
-  width: 100%;
-  height: 100%;
   background: rgba(255, 255, 255, 0.8);
   border: 1px solid #e1e1e1;
   border-radius: 10px;
@@ -739,6 +765,14 @@ nav {
   .setting-form .setting-box .record-a {
     color: #FF95AE;
     padding: 8px 20px 8px 8px; }
+
+.setting-form .setting-box-left {
+  position: relative;
+  float: left;
+  height: 77%;
+  width: 40%;
+  margin-right: 5%;
+  word-break: break-all; }
 
 .setting-form .setting-box:hover {
   background: white;
@@ -761,8 +795,18 @@ nav {
   color: #000000;
   display: block; }
 
-.setting-form span {
-  font-size: 19px; }
+.setting-form h1 {
+  font-family: "yu gothic ui semibold";
+  font-size: 29px;
+  margin-top: 4%;
+  color: #000000;
+  text-align: center; }
+
+.setting-form h3 {
+  font-size: 27px;
+  line-height: 49px;
+  margin: 10px 0;
+  word-wrap: break-word; }
 
 .setting-form .form-group {
   margin-bottom: 30px;
@@ -903,7 +947,7 @@ nav {
 .transfer-form {
   padding: 80px 30px 0 30px;
   min-height: 100vh;
-  position: absolute;
+  position: absolute !important;
   top: 0;
   bottom: 0;
   left: 0;
@@ -919,17 +963,12 @@ nav {
 
 .transfer-form .transfer-box {
   padding: 20px;
-  width: 100%;
-  height: 100%;
+  height: 77%;
   background: rgba(255, 255, 255, 0.8);
   border: 1px solid #e1e1e1;
   border-radius: 10px;
   margin: 0 0 20px 0;
   overflow: hidden; }
-
-.assets-form .assets-box .record-a {
-  color: #FF95AE;
-  padding: 8px 20px 8px 8px; }
 
 .transfer-form .transfer-box:hover {
   background: white;
@@ -938,19 +977,25 @@ nav {
   -o-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
   box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1); }
 
+.transfer-form .transfer-box-left {
+  float: left;
+  height: 77%;
+  width: 40%;
+  margin-right: 5%;
+  word-break: break-all; }
+
 .transfer-form h1 {
   font-family: "yu gothic ui semibold";
-  /*  letter-spacing: 2px;*/
-  font-size: 37px;
-  margin: 0 0 30px 0;
-  color: #FF95AE; }
+  font-size: 33px;
+  margin-top: 4%;
+  color: #000000;
+  text-align: center; }
 
 .transfer-form h3 {
-  font-family: "yu gothic ui semibold";
-  letter-spacing: -2px;
-  font-size: 29px;
-  margin: 0 0 30px 0;
-  color: #000000; }
+  font-size: 27px;
+  line-height: 49px;
+  margin: 10px 0;
+  word-wrap: break-word; }
 
 .transfer-form h4 {
   width: 50%;
@@ -960,20 +1005,8 @@ nav {
   color: #000000;
   margin: 0 0 30px 0; }
 
-.transfer-form .icon-left {
-  width: 20px;
-  height: 20px;
-  margin-left: -18px;
-  margin-bottom: 22px;
-  color: #000000;
-  vertical-align: -0.15em;
-  fill: currentColor;
-  overflow: hidden;
-  cursor: pointer; }
-
 .transfer-form .form-group {
-  margin-bottom: 30px;
-  position: relative; }
+  margin: 35px 0; }
 
 .transfer-form .form-group1 {
   margin-bottom: 4px; }
@@ -1008,8 +1041,7 @@ nav {
   font-weight: 300;
   height: 66px;
   line-height: 66px;
-  width: calc(100% - 92px);
-  display: inline;
+  width: 100%;
   padding-right: 40px;
   border: none;
   border-bottom: 2px solid #E7E6E6;
@@ -1037,19 +1069,6 @@ nav {
 .transfer-form .form-control:focus,
 .login-form .form-control:active {
   border-bottom: 1px solid rgba(0, 0, 0, 0.4); }
-
-.transfer-form #amount-svg {
-  width: 49px;
-  height: 30px;
-  color: #FFFFFF;
-  text-align: center;
-  position: absolute;
-  right: 4px;
-  font-size: 15px;
-  top: calc(50% - 15px);
-  padding: 4px;
-  background: #3E496A;
-  border-radius: 8px; }
 
 .transfer-form .btn-transfer {
   height: 58px;
@@ -1109,17 +1128,12 @@ nav {
 
 .txonchain-form .txonchain-box {
   padding: 20px;
-  width: 100%;
-  height: 100%;
+  height: 77%;
   background: rgba(255, 255, 255, 0.8);
   border: 1px solid #e1e1e1;
   border-radius: 10px;
   margin: 0 0 20px 0;
   overflow: hidden; }
-
-.assets-form .assets-box .record-a {
-  color: #FF95AE;
-  padding: 8px 20px 8px 8px; }
 
 .txonchain-form .txonchain-box:hover {
   background: white;
@@ -1128,18 +1142,25 @@ nav {
   -o-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
   box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1); }
 
+.txonchain-form .txonchain-box-left {
+  float: left;
+  height: 77%;
+  width: 40%;
+  margin-right: 5%;
+  word-break: break-all; }
+
 .txonchain-form h1 {
   font-family: "yu gothic ui semibold";
-  font-size: 37px;
-  margin: 0 0 30px 0;
-  color: #FF95AE; }
+  font-size: 33px;
+  margin-top: 4%;
+  color: #000000;
+  text-align: center; }
 
 .txonchain-form h3 {
-  font-family: "yu gothic ui semibold";
-  letter-spacing: -2px;
-  font-size: 29px;
-  margin: 0 0 30px 0;
-  color: #000000; }
+  font-size: 27px;
+  line-height: 49px;
+  margin: 10px 0;
+  word-wrap: break-word; }
 
 .txonchain-form h4 {
   width: 50%;
@@ -1161,11 +1182,7 @@ nav {
   cursor: pointer; }
 
 .txonchain-form .form-group {
-  margin-bottom: 30px;
-  position: relative; }
-
-.txonchain-form .form-group1 {
-  margin-bottom: 4px; }
+  margin: 35px 0; }
 
 .txonchain-form .form-group p {
   font-size: 14px;
@@ -1221,10 +1238,6 @@ nav {
   color: #E7E6E6;
   font-weight: 400;
   padding-right: 20%; }
-
-.txonchain-form .form-amount {
-  font-size: 60px;
-  line-height: 60px !important; }
 
 .txonchain-form .form-amount::-webkit-input-placeholder {
   color: #E7E6E6;
@@ -1300,7 +1313,6 @@ nav {
 
 .assets-form .assets-box {
   padding: 20px;
-  width: 100%;
   background: rgba(255, 255, 255, 0.8);
   border: 1px solid #e1e1e1;
   border-radius: 10px;
@@ -1317,27 +1329,43 @@ nav {
   -o-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
   box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1); }
 
+.assets-form .assets-box-left {
+  position: relative;
+  float: left;
+  height: 77%;
+  width: 40%;
+  margin-right: 5%;
+  word-break: break-all; }
+
 .assets-form h1 {
   font-family: "yu gothic ui semibold";
   text-align: left;
   color: #000000;
-  font-size: 28px;
+  font-size: 29px;
   margin-top: 0; }
 
 .assets-form h2 {
-  font-size: 24px; }
+  font-size: 21px;
+  color: #000000; }
 
-.assets-form .icon-left {
-  width: 24px;
-  height: 24px;
-  margin-left: -18px;
-  margin-bottom: 22px;
-  color: #000000;
-  vertical-align: -0.15em;
-  fill: currentColor;
-  overflow: hidden;
+.assets-form h3 {
+  font-size: 20px; }
+
+.assets-form label {
+  margin: 5px 0;
+  font-weight: normal;
+  font-size: 18px; }
+
+.assets-form #private-key-show {
   cursor: pointer;
-  float: left; }
+  padding-right: 10px;
+  padding-left: 10px;
+  border: none;
+  font-size: 18px;
+  background: #FC6686;
+  margin: 15px 0 0;
+  color: #ffffff;
+  border-radius: 10px; }
 
 .assets-form .assets-box img {
   width: 120px;
@@ -1353,58 +1381,6 @@ nav {
   font-weight: 500; }
 
 /*  assets end  */
-/*  contacts start  */
-.channel-contacts-form {
-  padding: 30px;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 5;
-  display: none;
-  -webkit-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
-  -o-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
-  box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
-  background: white; }
-
-.channel-contacts-form h4 {
-  width: 100%;
-  text-align: center;
-  font-family: "yu gothic ui semibold";
-  letter-spacing: 0px;
-  font-size: 23px;
-  color: #000000;
-  margin: 0; }
-
-.channel-contacts-form .icon-left {
-  width: 24px;
-  height: 24px;
-  margin-left: -18px;
-  margin-bottom: 22px;
-  color: #000000;
-  vertical-align: -0.15em;
-  fill: currentColor;
-  overflow: hidden;
-  cursor: pointer;
-  float: left; }
-
-.channel-contacts-form div img {
-  width: 40px;
-  height: 40px;
-  padding: 4px;
-  border: 1px solid #EBEBEB;
-  border-radius: 50%; }
-
-.channel-contacts-form div p {
-  display: inline;
-  color: #000000;
-  padding-left: 5px;
-  font-weight: 500; }
-
-/*  contacts end  */
 .curtain {
   background-color: black;
   /* IE8 */
@@ -1802,17 +1778,19 @@ nav {
 /*  pay1 end  */
 /*  deposit-pay start  */
 .deposit-pay-form {
-  padding: 30px;
-  width: 100%;
-  position: absolute;
-  bottom: 0px;
-  z-index: 7;
+  background-color: white;
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  width: 478px;
+  padding: 17px;
+  border-radius: 5px;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  margin-left: -256px;
+  margin-top: -200px;
+  overflow: hidden;
   display: none;
-  -webkit-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
-  -o-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
-  box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
-  background: white; }
+  z-index: 99999; }
 
 .deposit-pay-form h2 {
   font-family: "yu gothic ui semibold";
@@ -1840,11 +1818,7 @@ nav {
   color: #000000; }
 
 .deposit-pay-form .form-group {
-  margin-bottom: 300px;
   position: relative; }
-
-.deposit-pay-form .form-group1 {
-  margin-bottom: 4px; }
 
 .deposit-pay-form .form-group p {
   font-size: 14px;
@@ -1896,24 +1870,31 @@ nav {
   color: #E7E6E6;
   font-weight: 400; }
 
-.deposit-pay-form .form-group1 {
-  margin-bottom: 70px; }
-
-.deposit-pay-form #success-div {
-  width: 100%;
-  text-align: center;
-  display: none; }
-
-.deposit-pay-form #success-div img {
-  width: 87px;
-  margin: 97px 0 30px 0; }
+.deposit-pay-form .btn-deposit-pay {
+  height: 58px;
+  width: 300px;
+  padding-right: 20px;
+  padding-left: 20px;
+  margin-top: 20px;
+  border: none;
+  font-size: 18px;
+  background: #FC6686;
+  color: #ffffff;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  -o-border-radius: 30px;
+  border-radius: 30px;
+  -webkit-box-shadow: -2px 10px 20px -1px rgba(252, 102, 134, 0.4);
+  -moz-box-shadow: -2px 10px 20px -1px rgba(252, 102, 134, 0.4);
+  -o-box-shadow: -2px 10px 20px -1px rgba(252, 102, 134, 0.4);
+  box-shadow: -2px 10px 20px -1px rgba(252, 102, 134, 0.4); }
 
 /*  deposit-pay end  */
 /*  channel start  */
 .channel-form {
   padding: 80px 30px 0 30px;
   min-height: 100vh;
-  position: absolute;
+  position: absolute !important;
   top: 0;
   bottom: 0;
   left: 0;
@@ -1929,8 +1910,7 @@ nav {
 
 .channel-form .channel-box {
   padding: 20px;
-  width: 100%;
-  height: 100%;
+  height: 77%;
   background: rgba(255, 255, 255, 0.8);
   border: 1px solid #e1e1e1;
   border-radius: 10px;
@@ -1948,6 +1928,13 @@ nav {
   -o-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
   box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1); }
 
+.channel-form .channel-box-left {
+  float: left;
+  height: 77%;
+  width: 40%;
+  margin-right: 5%;
+  word-break: break-all; }
+
 .channel-form h2 {
   font-family: "yu gothic ui semibold";
   font-size: 37px;
@@ -1955,11 +1942,17 @@ nav {
   margin-top: 0; }
 
 .channel-form h3 {
+  font-size: 26px;
+  line-height: 49px;
+  margin: 10px 0;
+  word-wrap: break-word; }
+
+.channel-form h1 {
   font-family: "yu gothic ui semibold";
-  letter-spacing: -2px;
-  font-size: 29px;
-  margin: 0 0 30px 0;
-  color: #000000; }
+  font-size: 33px;
+  margin-top: 4%;
+  color: #000000;
+  text-align: center; }
 
 .channel-form label {
   font-size: 20px;
@@ -1977,11 +1970,7 @@ nav {
   cursor: pointer; }
 
 .channel-form .form-group {
-  margin-bottom: 16px;
-  position: relative; }
-
-.channel-form .form-group1 {
-  margin-bottom: 4px; }
+  margin: 27px 0; }
 
 .channel-form .form-group p {
   font-size: 14px;
@@ -1990,16 +1979,6 @@ nav {
 
 .channel-form .form-group a {
   color: #000000; }
-
-.channel-form .form-group svg {
-  position: absolute;
-  right: 4px;
-  font-size: 15px;
-  top: calc(50% - 15px);
-  padding: 4px;
-  border: 1px solid #E7E6E6;
-  border-radius: 50%;
-  cursor: pointer; }
 
 .channel-form .form-control {
   font-size: 18px;
@@ -2030,10 +2009,6 @@ nav {
   color: #E7E6E6;
   font-weight: 400; }
 
-.channel-form .form-amount {
-  font-size: 60px;
-  line-height: 60px !important; }
-
 .channel-form .form-amount::-webkit-input-placeholder {
   color: #E7E6E6;
   font-weight: 400;
@@ -2043,19 +2018,6 @@ nav {
 .channel-form .form-control:focus,
 .login-form .form-control:active {
   border-bottom: 1px solid rgba(0, 0, 0, 0.4); }
-
-.channel-form #amount-svg {
-  width: 49px;
-  height: 30px;
-  color: #FFFFFF;
-  text-align: center;
-  position: absolute;
-  right: 4px;
-  font-size: 15px;
-  top: calc(50% - 15px);
-  padding: 4px;
-  background: #3E496A;
-  border-radius: 8px; }
 
 .channel-form .btn-channel {
   height: 58px;
@@ -2244,17 +2206,11 @@ nav {
 
 .channel-edit-form .channel-edit-box {
   padding: 20px;
-  width: 100%;
-  height: 100%;
   background: rgba(255, 255, 255, 0.8);
   border: 1px solid #e1e1e1;
   border-radius: 10px;
   margin: 0 0 20px 0;
   overflow: hidden; }
-
-.assets-form .assets-box .record-a {
-  color: #FF95AE;
-  padding: 8px 20px 8px 8px; }
 
 .channel-edit-form .channel-edit-box:hover {
   background: white;
@@ -2263,16 +2219,36 @@ nav {
   -o-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
   box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1); }
 
+.channel-edit-form .channel-edit-box-left {
+  float: left;
+  height: 77%;
+  width: 40%;
+  margin-right: 5%;
+  word-break: break-all; }
+
 .channel-edit-form #channel-regist {
   float: right;
   font-size: 18px;
-  line-height: 79px;
+  line-height: 50px;
   color: #FD6E7E;
   cursor: pointer; }
+
+.channel-edit-form h1 {
+  font-family: "yu gothic ui semibold";
+  font-size: 33px;
+  margin-top: 4%;
+  color: #000000;
+  text-align: center; }
 
 .channel-edit-form h2 {
   margin: 10px 0;
   font-size: 22px; }
+
+.channel-edit-form h3 {
+  font-size: 26px;
+  line-height: 49px;
+  margin: 10px 0;
+  word-wrap: break-word; }
 
 .channel-edit-form h4 {
   display: inline;
@@ -2298,17 +2274,6 @@ nav {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap; }
-
-.channel-box {
-  padding-left: 5px;
-  border-bottom: solid 1px #d8d8d8;
-  margin-bottom: 6px;
-  padding-bottom: 6px; }
-  .channel-box h5 {
-    display: inline;
-    color: #FD5E7E;
-    padding: 0 5px 0 1px;
-    font-size: 13px; }
 
 /*  channel-edit end  */
 /*  channel-edit1 start  */
@@ -2392,13 +2357,14 @@ nav {
   background-color: white;
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   width: 478px;
+  height: 540px;
   padding: 17px;
   border-radius: 5px;
   position: fixed;
   left: 50%;
   top: 50%;
-  margin-left: -256px;
-  margin-top: -200px;
+  margin-left: -239px;
+  margin-top: -270px;
   overflow: hidden;
   display: none;
   z-index: 99999; }

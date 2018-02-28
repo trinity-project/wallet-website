@@ -32,211 +32,426 @@ var contentWayPoint = function() {
     }
   }, { offset: '85%' });
 };
-//sign up开始
-// $(".btn-sign-up").click(function(){
-//   if (!$("#sign-up-password").val()) {
-//     $("#sign-up-danger").text("Password can't be empty.");
-//     $("#sign-up-danger").show();
-//     return;
-//   }
-//   if ($("#sign-up-password").val().length < 8) {
-//     $("#sign-up-danger").text("Password at least 8 characters.");
-//     $("#sign-up-danger").show(); 
-//     return;
-//   } 
-//   if ($("#sign-up-repassword").val()!==$("#sign-up-password").val()) {
-//     $("#sign-up-danger").text("Password and Repeat Password inconsistent.");
-//     $("#sign-up-danger").show();
-//     return;
-//   }
-//   $("#sign-up-danger").hide();
-//   $("#sign-up-success").text("success.");
-//   $("#sign-up-success").show();
-// });
-$(".btn-sign-up-cancel").click(function(){
-  $("#curtain").hide();
-  $(".sign-up-box").hide();
-  $("#sign-up-danger").hide();
-  $("#sign-up-success").hide();
-});
-//sign up结束
-//login开始
-$("#a").click(function(){
-  transFace('.login-form');
-})
-$("#sign-in-btn").click(function(){
-  transFace('.login-form');
-})
-//login结束
+//全局变量申明
+var addr;
+var privateKey;
+var TrinityTestNet = "http://47.88.35.235:21332";
 //nav start
 $(".navbar-nav").find("li").click(function() {
     $(this).siblings().removeAttr("class");
     $(this).attr("class", "active");
-})
-//nav end
-//index开始
-$("#login-a").click(function(){
-  swal({ 
-    title: "Sign In", 
-    type: "input",
-    text: "Private Key:", 
-    showCancelButton: true, 
-    closeOnConfirm: false, 
-    showLoaderOnConfirm: true,
-    confirmButtonText:"Login",
-    inputPlaceholder: "Private Key" 
-  },
-  function(inputValue){ 
-    if (inputValue === false) return false; 
-    
-    if (inputValue === "") { 
-      swal.showInputError("Private Key can't be empty!");
-      return false 
-    } 
-    
-    setTimeout(function(){ 
-      swal("Success!","","success"); 
-    }, 2000);
-  });
 });
-
+var hideall = function(){
+  $(".index-form").hide();
+  $(".assets-form").hide();
+  $(".txonchain-form").hide();
+  $(".channel-edit-form").hide();
+  $(".channel-form").hide();
+  $(".transfer-form").hide();
+  $(".record-form").hide();
+  $(".setting-form").hide();
+}
+$("#nav-btn-index").click(function() {
+  hideall();
+  $(".index-form").show();
+});
+$("#nav-btn-assets").click(function() {
+  hideall();
+  assetsfun(privateKey);
+  getbalanceonchain();
+  $(".assets-form").show();
+ });
+$("#nav-btn-transfer").click(function() {
+  hideall();
+  $("#txonchain-address").val("");
+  $("#txonchain-amount").val("");
+  $(".txonchain-form").show();
+ });
+$("#nav-btn-channel").click(function() {
+  hideall();
+  getchannelstate();
+  $(".channel-edit-form").show();
+});
+$("#nav-btn-record").click(function() {
+  hideall();
+  $(".record-form").show();
+});
+$("#nav-btn-setting").click(function() {
+  hideall();
+  $(".setting-form").show();
+});
+//nav end
+//index start
+var addressfun = function(a){
+  privateKey = a; //随机生成私钥
+  //console.log('privateKey:'+privateKey);
+  var txRawDataTest = "d101500400e1f505141a3db733023a855ac2077926c60e4c1fb4d5af00147880ddceb5101a29e05ea09da1ad310539dc8e6953c1087472616e7366657267f1dfcf0051ec48ec95c8d0569e0b95075d099d84f1000000000000000002207880ddceb5101a29e05ea09da1ad310539dc8e69f0045a962c980000";
+  var signre = signatureData( txRawDataTest, privateKey); //签名
+  //console.log('signre:'+signre);
+  var pubkey = getPublicKey(privateKey,0); //公钥
+  //console.log('pubkey:'+ab2hexstring(pubkey));
+  var pubKeyEncoded =getPublicKeyEncoded(ab2hexstring(pubkey));
+  //console.log('pubKeyEncoded:'+pubKeyEncoded);
+  var pubKeySignatureScript =createSignatureScript(pubKeyEncoded);
+  //console.log('pubKeySignatureScript:'+pubKeySignatureScript);
+  var pubKeyHash = getHash(pubKeySignatureScript);
+  //console.log('pubKeyHash:'+pubKeyHash);
+  addr = ToAddress(pubKeyHash); //钱包地址
+  //console.log('addr:'+addr);
+}
 $("#signup-a").click(function(){
   $("#curtain").show();
   $(".sign-up-box").show();
 });
-
-$("#setting-reset").click(function() {
-  $(".setting-input").val("https://test.trinity.tech");
-})
- $("#txonchain").click(function() {
-   transFace('.txonchain-form');
-   $("#txonchain-address").val("");
-   $("#txonchain-amount").val("");
- });
+$("#index-details-btn").click(function(){
+  hideall();
+  assetsfun(privateKey);
+  getbalanceonchain();
+  $(".assets-form").show();
+});
 $("#wallet_qr").click(function(){
   swal({
     title: "Wallet Address",
     text: $("#wallet_add").html(),
-    imageUrl: 'images/wallet_qrcode_3V.png',
+    imageUrl: "http://qr.liantu.com/api.php?text="+addr,
     imageSize:  "200x200",
-    confirmButtonText:"关闭",
+    confirmButtonText:"Close",
     allowOutsideClick:"ture"
   });
 });
 $(".record-channel-a").click(function(){
   $("#onchannel-record-table").slideDown("slow");
   $("#onchian-record-table").hide();
-})
+});
 $(".record-chain-a").click(function(){
   $("#onchian-record-table").slideDown("slow");
   $("#onchannel-record-table").hide();
-})
-//index结束
-//setting start
-$("#setting-btn3").click(function(){
-  $("#setting-gateway").fadeToggle();
-})
-$("#setting-btn4").click(function(){
-  window.location.reload();
-})
-//setting end
-//channel-edit开始
+});
+var getbalanceonchain = function(){
+    $.ajax({
+    url: TrinityTestNet,
+    type: "POST",
+    data: JSON.stringify({
+      "jsonrpc": "2.0",
+      "method": "getBalance",
+      "params": [$("#wallet_add").text()],
+      "id": 1
+    }),
+    contentType: 'application/json',
+    success: function(message) {
+      $(".total-balance").text(message.result.tncBalance + "TNC");
+      $("#assets-neobalance").text(message.result.neoBalance);
+      $("#assets-tncbalance").text(message.result.tncBalance);
+      $("#assets-gasbalance").text(message.result.gasBalance);
+    },
+    error: function(message) {
+      //alert("Something wrong with your internet suddenly.");
+    }
+  });
+}
+//index end
+//sign up start
+$(".btn-sign-up").click(function(){
+  if (!$("#sign-up-password").val()) {
+    $("#sign-up-danger").text("Password can't be empty.");
+    $("#sign-up-danger").slideDown("slow");
+    return;
+  }
+  if ($("#sign-up-password").val().length < 8) {
+    $("#sign-up-danger").text("Password at least 8 characters.");
+    $("#sign-up-danger").slideDown("slow");
+    return;
+  } 
+  if ($("#sign-up-repassword").val()!==$("#sign-up-password").val()) {
+    $("#sign-up-danger").text("Password and Repeat Password inconsistent.");
+    $("#sign-up-danger").slideDown("slow");
+    return;
+  }
+  var walletfun = function(){
+    privateKey = ab2hexstring(generatePrivateKey()); //随机生成私钥
+    //console.log('privateKey:'+privateKey);
+    var privateKeyTest = "5e980ec243c32cbbd2b5addc4f643774a6a6bb7123b49244b6e67cf56122eaa0";//测试密钥
+    var txRawDataTest = "d101500400e1f505141a3db733023a855ac2077926c60e4c1fb4d5af00147880ddceb5101a29e05ea09da1ad310539dc8e6953c1087472616e7366657267f1dfcf0051ec48ec95c8d0569e0b95075d099d84f1000000000000000002207880ddceb5101a29e05ea09da1ad310539dc8e69f0045a962c980000";
+    //console.log('privateKeyTest:'+privateKeyTest);
+    // var password = "11111111";
+    // var walletBlob = generateWalletFileBlob(privateKey, password); //keystore
+    // console.log('walletBlob:'+walletBlob);
+    // var objectURL = window.URL.createObjectURL(new Blob([walletBlob], { type: 'application/octet-stream' })); //下载链接
+    // console.log('objectURL:'+objectURL);
+    // var objectName = objectURL.substring(objectURL.lastIndexOf('/') + 1); //下载名称
+    // console.log('objectName:'+objectName);
+    var signre = signatureData( txRawDataTest, privateKey); //签名
+    //console.log('signre:'+signre);
+    var pubkey = getPublicKey(privateKey,0); //公钥
+    //console.log('pubkey:'+ab2hexstring(pubkey));
+    var pubKeyEncoded =getPublicKeyEncoded(ab2hexstring(pubkey));
+    //console.log('pubKeyEncoded:'+pubKeyEncoded);
+    var pubKeySignatureScript =createSignatureScript(pubKeyEncoded);
+    //console.log('pubKeySignatureScript:'+pubKeySignatureScript);
+    var pubKeyHash = getHash(pubKeySignatureScript);
+    //console.log('pubKeyHash:'+pubKeyHash);
+    addr = ToAddress(pubKeyHash); //钱包地址
+    //console.log('addr:'+addr);
+  }
+  walletfun();
+  $(".sign-up-box").hide();
+  $("#curtain").hide(); 
+  swal({ 
+    title: "Create success", 
+    text: "<div style='word-break:break-all;font-size:20px'>This is your Private Key, Please keep it safe.<br><br><div class='alert alert-info' role='alert'>" + privateKey + "</div></div>", 
+    type: "success",
+    confirmButtonColor: "#FC6686",
+    confirmButtonText: "Import", 
+    closeOnConfirm: false, 
+    html: true   
+  },function(isConfirm){ 
+  if (isConfirm) {
+  loginfun();
+} 
+});
+});
+$(".btn-sign-up-cancel").click(function(){
+  $("#curtain").hide();
+  $(".sign-up-box .form-group").show();
+  $(".sign-up-box .form-group1 .btn-sign-up").show();
+  $("#sign-up-password").val("");
+  $("#sign-up-repassword").val("");
+  $(".sign-up-box").hide();
+  $("#sign-up-danger").hide();
+  $("#sign-up-success").hide();
+  loginfun();
+});
+//sign up end
+//login start
+var loginfun = function(){
+    swal({ 
+    title: "Import your wallet", 
+    text: "From Private Key", 
+    type: "input",
+    showCancelButton: true, 
+    confirmButtonColor: "#FC6686",
+    confirmButtonText: "Import",
+    cancelButtonColor: "#d9edf7",  
+    cancelButtonText: "Create",
+    closeOnConfirm: false, 
+    closeOnCancel: false  
+  },
+  function(inputValue){ 
+    if (inputValue === false){
+      swal({ 
+        title: "Import your wallet", 
+        text: "From Private Key", 
+        type: "input",
+        showCancelButton: true, 
+        confirmButtonColor: "#FC6686",
+        confirmButtonText: "Import",
+        cancelButtonColor: "#d9edf7", 
+        cancelButtonText: "Create",
+        closeOnConfirm: false, 
+        closeOnCancel: false,
+        timer:1   
+      })
+      $("#curtain").show();
+      $(".sign-up-box").show();
+      return false;
+    }
+    if (inputValue === "") { 
+      swal.showInputError("Private Key can't be empty!");
+      return false
+    } 
+    if (inputValue.length !== 64) { 
+      swal.showInputError("PrivateKey length check failed.");
+      return false
+    } 
+    setTimeout(function(){ 
+      swal({ 
+        title: "Success!", 
+        timer: 1000, 
+        type: "success",
+        cancelButtonText: "Close"
+      });
+      $("nav").css("filter","blur(0px)");
+      $(".index-form").css("filter","blur(0px)");
+      addressfun(inputValue); 
+      $("#wallet_add,#wallet-address").html(addr);
+      $("#wallet_qr").attr('src','http://qr.liantu.com/api.php?text='+addr);
+      getbalanceonchain();
+      getchannelstate();
+    }, 1);
+  });
+};
+//login end
+//channel-edit start
 $("#channel-regist").click(function() {
    transFace('.channel-form');
    $("#regist-channel-address").val("");
    $("#regist-channel-deposit").val("");
    $("#regist-channel-time").val(""); 
  });
-//channel-edit结束
+var getchannelstate = function(){
+  $.ajax({
+    url: TrinityTestNet,
+    type: "POST",
+    data: JSON.stringify({
+      "jsonrpc": "2.0",
+      "method": "getchannelstate",
+      "params": [$("#wallet_add").html()],
+      "id": 1
+    }),
+    contentType: 'application/json',
+    success: function(message) {
+      $('#channels').html('');
+      $('#channels-index').html('');
+      if (message.result) {
+        message.result.forEach((item) => {
+          if (item.tx_info) {
+            var aa = item.channel_state.split('.');
+            $(`<tr><td>2018.01.31</td><td>${item.tx_info[1].address}</td><td>${item.tx_info[0].deposit}TNC</td><td>${item.tx_info[0].balance}TNC</td><td>OPEN</td><td style="color: #FF95AE;cursor: pointer;">Details ></td></tr>`)
+              .appendTo('#channels-index').click(() => {
+                transFace('.channel-info-form');  
+                $("#info-channel-name").text(item.channel_name);
+                $("#info-sender-addr").text(item.tx_info[0].address);
+                $("#info-receiver-addr").text(item.tx_info[1].address);
+                $("#info-contract-addr").text(item.tx_info[0].address);
+                $("#info-time").text(item.open_block);
+                $("#info-sender-deposit").text(item.tx_info[0].deposit);
+                $("#info-sender-balance").text(item.tx_info[0].balance);
+                $("#info-state").text(aa[1]);
+              });
+          }
+          $("#channels-mes").hide();
+        });
+        message.result.forEach((item) => {
+          // if (item.tx_info && item.channel_state === 'State.OPEN') {
+          if (item.tx_info) {
+            var aa = item.channel_state.split('.');
+            $(`<div class='channel-edit-box' style='position: relative;cursor: pointer;'><h2>${item.tx_info[1].address}</h2><h4>Deposit:${item.tx_info[0].deposit}</h4><h4>Balance: ${item.tx_info[0].balance}</h4><h4>State: ${aa[1]}</h4></div>`)
+              .appendTo('#channels').click(() => {
+                transFace('.channel-info-form');
+                $("#info-channel-name").text(item.channel_name);
+                $("#info-sender-addr").text(item.tx_info[0].address);
+                $("#info-receiver-addr").text(item.tx_info[1].address);
+                $("#info-contract-addr").text(item.tx_info[0].address);
+                $("#info-time").text(item.open_block);
+                $("#info-sender-deposit").text(item.tx_info[0].deposit);
+                $("#info-sender-balance").text(item.tx_info[0].balance);
+                $("#info-state").text(aa[1]);
+              });
+          }
+        });
+      }
+    },
+    error: function(message) {
+    }
+  });
+}
+//channel-edit end
 
-//channel开始
-// $("#regist-channel-assets").focus(function() {
-//   transFace('.assets-form');
-// });
+//channel start
 $(".btn-channel").click(function() {
-  if (!$("#regist-channel-address").val()) {
-    alert("Address can't be empty.");
+  if($("#regist-channel-address").val().length != 34){
+    swal({ 
+      title: "Address length check failed.", 
+      type: "error", 
+      showCancelButton: false
+    });
     return;
   }
   if (!$("#regist-channel-deposit").val()) {
-    alert("Deposit can't be empty.");
-    return;
-  }
-  if (!$("#regist-channel-time").val()) {
-    alert("Time can't be empty.");
-    return;
-  }
-  transFace('.channel-pay-form');
-  $("#channel-comfirm-info").html("You will add a new channel. <br />Receiver address : " + $("#regist-channel-address").val() + "<br>Deposit : " + $("#regist-channel-deposit").val() + $("#regist-channel-assets").val());
-});
-$(".btn-channel-pay").click(function(){
-    if ($("#channel-comfirm-password").val() == "123456") {
-    $.ajax({
-      url: "http://47.254.39.10:20552",
-      type: "POST",
-      data: JSON.stringify({
-        "jsonrpc": "2.0",
-        "method": "registchannle",
-        "params": [$("#wallet_add").html(), $("#regist-channel-address").val(), $("#regist-channel-assets").val(), $("#regist-channel-deposit").val(), $("#regist-channel-time").val()],
-        "id": 1
-      }),
-      // crossDomain: true,
-      contentType: 'application/json',
-      success: function(message) {
-        if (message.result.error) {
-          alert(message.result.error);
-        } else if (message.error) {
-          alert(message.error.message);
-        } else {
-          alert("Regist success!");
-          $.ajax({
-            url: "http://47.254.39.10:20552",
-            type: "POST",
-            data: JSON.stringify({
-              "jsonrpc": "2.0",
-              "method": "sendrawtransaction",
-              "params": [$("#wallet_add").html(), message.result.channel_name, message.result.trad_info],
-              "id": 1
-            }),
-            contentType: 'application/json',
-            success: function(message) {
-              if(message.result == "SUCCESS"){
-              transFace('.channel-edit-form', true);
-              $("#channel-btn").trigger('click');//refresh channel list
-              }else{
-                alert("something error");
-              }
-            },
-            error: function(message) {
-              alert("error");
-            }
-          });
-        }
-      },
-      error: function(message) {
-        alert("error");
-      }
+    swal({ 
+      title: "Deposit can't be empty.", 
+      type: "error", 
+      showCancelButton: false
     });
-  } else {
-    alert("The password is incorrect.");
+    return;
   }
+  if ($("#regist-channel-deposit").val() > Number($(".total-balance").text())) {
+    swal.showInputError("Deposit amount should be less than the balance on chain.");
+    return;
+  } 
+  // if (!$("#regist-channel-time").val()) {
+  //   alert("Time can't be empty.");
+  //   return;
+  // }
+  swal({ 
+      title: "Add Channel", 
+      text: "You will add a new channel. <br />Receiver address : " + $("#regist-channel-address").val() + "<br>Deposit : " + $("#regist-channel-deposit").val() + $("#regist-channel-assets").val(), 
+      type: "info",
+      confirmButtonColor: "#FC6686",
+      confirmButtonText: "Comfirm", 
+      closeOnConfirm: false, 
+      html: true   
+    },function(isConfirm){ 
+    if (isConfirm) {
+    registchannle();
+  } 
+  });
+  //transFace('.channel-pay-form');
+  //$("#channel-comfirm-info").html("You will add a new channel. <br />Receiver address : " + $("#regist-channel-address").val() + "<br>Deposit : " + $("#regist-channel-deposit").val() + $("#regist-channel-assets").val());
 });
-
-// $("#channel-comfirm-password").change(function() {
-  
-// });
-//channel结束
-//channel-info开始
-$("#deposit-pay-close-btn").click(function() {
-    $(".channel-info-form").hide();
-    $(".curtain").hide();
-})
+var registchannle = function(){
+    $.ajax({
+    url: TrinityTestNet,
+    type: "POST",
+    data: JSON.stringify({
+      "jsonrpc": "2.0",
+      "method": "registchannle",
+      "params": [$("#wallet_add").html(), $("#regist-channel-address").val(), $("#regist-channel-assets").val(), $("#regist-channel-deposit").val(), "1"],
+      "id": 1
+    }),
+    contentType: 'application/json',
+    success: function(message) {
+      if (message.result.error) {
+        alert(message.result.error);
+      } else if (message.error) {
+        alert(message.error.message);
+      } else {
+        alert("Regist success!");
+        $.ajax({
+          url: TrinityTestNet,
+          type: "POST",
+          data: JSON.stringify({
+            "jsonrpc": "2.0",
+            "method": "sendrawtransaction",
+            "params": [$("#wallet_add").html(), message.result.channel_name, message.result.trad_info],
+            "id": 1
+          }),
+          contentType: 'application/json',
+          success: function(message) {
+            if(message.result == "SUCCESS"){
+            transFace('.channel-edit-form', true);
+            $("#channel-btn").trigger('click');//refresh channel list
+            }else{
+              alert("something error");
+            }
+          },
+          error: function(message) {
+            alert("error");
+          }
+        });
+      }
+    },
+    error: function(message) {
+      alert("error");
+    }
+  });
+}
+//channel end
+//channel-info start
 $("#btn_closechannel").click(function() {
   if ($("#info-state").text() == "OPEN") {
-    var se=confirm("Comfirm close channle?");
-      if (se==true){
-        $.ajax({
-          url: "http://47.254.39.10:20552",
+      $(".channel-info-form").hide();
+      $(".curtain").hide();
+      swal({ 
+        title: "Comfirm close channle?", 
+        type: "info", 
+        showCancelButton: true, 
+        closeOnConfirm: false, 
+        showLoaderOnConfirm: true, 
+      },
+      function(){ 
+          $.ajax({
+          url: TrinityTestNet,
           type: "POST",
           data: JSON.stringify({
             "jsonrpc": "2.0",
@@ -247,19 +462,20 @@ $("#btn_closechannel").click(function() {
           contentType: 'application/json',
           success: function(message) {
             if (message.result) {
-              alert("Channle is in SETTLING state.");
+              sweetAlert("Channle is in SETTLING state.", "","success");
               $(".channel-info-form").hide();
+              $(".curtain").hide();
+            }else{
+              sweetAlert("something error", "","error");
             }
           },
           error: function(message) {
-            alert("error");
+            sweetAlert("something error", "","error");
           }
         });
-      }else{
-        return false;
-      }
+        });
   } else {
-    alert('Channel not in OPEN state.');
+    sweetAlert("Channel not in OPEN state.", "","error");
   }
 })
 $(".btn-totransfer").click(function() {
@@ -268,13 +484,13 @@ $(".btn-totransfer").click(function() {
   $("#transfer-channel-name").val($("#info-channel-name").text());
   $("#transfer-address").val($("#info-receiver-addr").text());
   $("#transfer-amount").val("");
-  $("#total-amount").text($("#info-sender-balance").text());
+  $("#channel-balance").text($("#info-sender-balance").text());
   } else {
     alert('Channel not in OPEN state.');
   }
 });
-//channel-info结束
-//add开始
+//channel-info end
+//add start
 $("#add-deposit").click(function(){
   if ($("#info-state").text() == "OPEN") {
     transFace('.add-form');
@@ -286,83 +502,88 @@ $("#add-deposit").click(function(){
 });
 $(".add-deposit-btn").click(function() {
   if ($(".add-input").val()) {
-      if ($(".add-input").val() > Number($("#total-amount2").text())) {
-        alert("Deposit amount should be less than the balance on chain.");
+      if ($(".add-input").val() > Number($(".total-balance").text())) {
+        swal.showInputError("Deposit amount should be less than the balance on chain.");
         return;
       } else {
-      transFace('.deposit-pay-form');
-      $("#deposit-comfirm-info").text("Add " + $(".add-input").val() + "TNC as deposit");
+      // $(".deposit-pay-form").show();
+      $(".add-form").hide();
+      $(".curtain").hide();
+      swal({ 
+          title: "Add deposit", 
+          text: "Add " + $(".add-input").val() + "TNC as deposit", 
+          type: "info",
+          confirmButtonColor: "#FC6686",
+          confirmButtonText: "Comfirm", 
+          closeOnConfirm: false, 
+          html: true   
+        },function(isConfirm){ 
+        if (isConfirm) {
+        updatedeposit();
+      } 
+      });
+      //$("#deposit-comfirm-info").text("Add " + $(".add-input").val() + "TNC as deposit");
     }
   } else {
     alert("Deposit can't be empty.");
   }
 });
-$(".add-close-btn").click(function() {
+$("#add-close-btn").click(function() {
     $(".add-form").hide();
     $(".curtain").hide();
 })
-//add结束
-//add-comfirm开始
-$('#frm_deposit_password').submit(() => {  
-  if ($("#comfirm-password1").val() == "123456") {
-    $.ajax({
-      url: "http://47.254.39.10:20552",
-      type: "POST",
-      data: JSON.stringify({
-        "jsonrpc": "2.0",
-        "method": "updatedeposit",
-        "params": [$("#wallet_add").text(),$("#info-channel-name").text(),"TNC",$(".add-input").val()],
-        "id": 1
-      }),
-      // crossDomain: true,
-      contentType: 'application/json',
-      success: function(message) {
-        if (message.result && message.result.error) {
-          alert(message.result.error);
-        } else if (message.error) {
-          alert(message.error.message);
-        } else {
-          alert("Add deposit success!");
-          transFace(FACE_BACK);
-          $("#channel-btn").trigger('click');//refresh channel list
-          $.ajax({
-            url: "http://47.254.39.10:20552",
-            type: "POST",
-            data: JSON.stringify({
-              "jsonrpc": "2.0",
-              "method": "sendrawtransaction",
-              "params": [$("#wallet_add").html(), message.result.channel_name, message.result.trad_info],
-              "id": 1
-            }),
-            contentType: 'application/json',
-            success: function(message) {
-               
-            },
-            error: function(message) {
-              alert("error");
-            }
-          });
-        }
-      },
-      error: function(message) {
-        alert("error");
+//add end
+//add-comfirm start
+$("#deposit-pay-close-btn").click(function() {
+    $(".deposit-pay-form").hide();
+    $(".curtain").hide();
+})
+var updatedeposit = function(){
+  $.ajax({
+    url: TrinityTestNet,
+    type: "POST",
+    data: JSON.stringify({
+      "jsonrpc": "2.0",
+      "method": "updatedeposit",
+      "params": [$("#wallet_add").text(),$("#info-channel-name").text(),"TNC",$(".add-input").val()],
+      "id": 1
+    }),
+    contentType: 'application/json',
+    success: function(message) {
+      if (message.result && message.result.error) {
+        alert(message.result.error);
+      } else if (message.error) {
+        alert(message.error.message);
+      } else {
+        alert("Add deposit success!");
+        transFace(FACE_BACK);
+        $("#channel-btn").trigger('click');//refresh channel list
+        $.ajax({
+          url: TrinityTestNet,
+          type: "POST",
+          data: JSON.stringify({
+            "jsonrpc": "2.0",
+            "method": "sendrawtransaction",
+            "params": [$("#wallet_add").html(), message.result.channel_name, message.result.trad_info],
+            "id": 1
+          }),
+          contentType: 'application/json',
+          success: function(message) {
+             
+          },
+          error: function(message) {
+            alert("error");
+          }
+        });
       }
-    });
-    $("#comfirm-password1").val("");
-  } else {
-    alert("The password is incorrect.");
-  }
-  return false;
-});
-//add-comfirm结束
-//transfer开始
-// $("#transfer-assets").focus(function() {
-//   transFace('.assets-form');
-// });
-$("#transfer-channel-name").focus(function() {
-  transFace('.channel-edit-form');
-  // $(".channel-edit-form").show();
-});
+    },
+    error: function(message) {
+      alert("error");
+    }
+  });
+}
+//add-comfirm end
+//transfer start
 $(".btn-transfer").click(function() {
   if (!$("#transfer-address").val()) {
     alert("Address can't be empty.");
@@ -376,7 +597,7 @@ $(".btn-transfer").click(function() {
     alert("Amount can't be empty.");
     return;
   }
-  if ($("#transfer-amount").val() > Number($("#total-amount").text())) {
+  if ($("#transfer-amount").val() > Number($(".total-balance").text())) {
     alert("The transfer amount should be less than the balance amount.");
     return;
   }
@@ -385,43 +606,53 @@ $(".btn-transfer").click(function() {
   // $(".pay-form").show();
   $("#comfirm-info").html("transfer " + $("#transfer-amount").val() + $("#amount-svg").text() + " to<br/>" + $("#transfer-address").val());
 });
-//transfer结束
-//transfer on chain开始
-// $("#txonchain-assets").focus(function() {
-//   transFace('.assets-form');
-// });
+//transfer end
+//transfer on chain start
 $(".btn-txonchain").click(function() {
-  if (!$("#txonchain-address").val()) {
-    alert("Address can't be empty.");
+  if($("#txonchain-address").val().length != 34){
+    swal({ 
+      title: "Address length check failed.", 
+      type: "error", 
+      showCancelButton: false
+    });
     return;
   }
   if (!$("#txonchain-assets").val()) {
-    alert("Assets can't be empty.");
+    swal({ 
+      title: "Assets can't be empty.", 
+      type: "error", 
+      showCancelButton: false
+    });
     return;
   }
   if (!$("#txonchain-amount").val()) {
-    alert("Amount can't be empty.");
+    swal({ 
+      title: "Amount can't be empty.", 
+      type: "error", 
+      showCancelButton: false
+    });
     return;
   }
-  if ($("#txonchain-amount").val() > Number($("#total-amount1").text())) {
-    alert("The transfer amount should be less than the balance amount.");
+  if ($("#txonchain-amount").val() > Number($(".total-balance").text())) {
+    swal({ 
+      title: "The transfer amount should be less than the balance amount.", 
+      type: "error", 
+      showCancelButton: false
+    });
     return;
   }
-  transFace('.pay1-form');
-  // $(".curtain").show();
-  // $(".pay-form").show();
-  $("#comfirm-info1").html("transfer " + $("#txonchain-amount").val() + $("#amount-svg1").text() + " to<br/>" + $("#txonchain-address").val());
-});
-$(".btn-pay1-cancel").click(function(){
-  $("#curtain").hide();
-  $(".pay1-form").hide();
-  $("#pay1-danger").hide();
-  $("#pay1-success").hide();
-});
-$('.btn-pay1').click(function() { 
-  if ($("#comfirm-password2").val() == "123456") {
+  swal({ 
+    title: "Payment", 
+    text: "transfer " + $("#txonchain-amount").val()  + "TNC to<br/>" + $("#txonchain-address").val(), 
+    type: "info", 
+    showCancelButton: true, 
+    closeOnConfirm: false, 
+    showLoaderOnConfirm: true, 
+    html:true
+  },
+  function(){ 
     $.ajax({
-      url: "http://47.254.39.10:20552",
+      url: TrinityTestNet,
       type: "POST",
       data: JSON.stringify({
         "jsonrpc": "2.0",
@@ -429,48 +660,52 @@ $('.btn-pay1').click(function() {
         "params": [$("#wallet_add").text(),$("#txonchain-address").val(),"TNC",$("#txonchain-amount").val()],
         "id": 1
       }),
-      // crossDomain: true,
       contentType: 'application/json',
       success: function(message) {
         if (message.result && message.result.error) {
-          alert(message.result.error);
+          swal(message.result.error, "","error");
         } else if (message.error) {
-          alert(message.error.message);
+          swal(message.error.message, "","error");
         } else {
-          alert("Transfer success!");
-          transFace('.index-form');
-          //$("#channel-btn").trigger('click');//refresh channel list
+          swal("Transfer success!", "","success");
         }
       },
       error: function(message) {
         alert("error");
       }
     });
-    $("#comfirm-password2").val("");
+  });
+});
+//transfer on chain end
+//assets start
+var assetsfun = function(a){
+  $("#assets-private-key").text(a);
+
+  var pubkey = getPublicKey(privateKey,0); //公钥
+  $("#assets-public-key").text(ab2hexstring(pubkey));
+
+  var pubKeyEncoded =getPublicKeyEncoded(ab2hexstring(pubkey));
+  var pubKeySignatureScript =createSignatureScript(pubKeyEncoded);
+  var pubKeyHash = getHash(pubKeySignatureScript);
+  $("#assets-script-hash").text(pubKeyHash);
+
+  addr = ToAddress(pubKeyHash); //钱包地址
+  $("#assets-address").text(addr);
+}
+$("#private-key-show").click(function() {
+  if($("#private-key-show").text()=="Show"){
+    $("#private-key-show").text("Hide");
   } else {
-    alert("The password is incorrect.");
+  $("#private-key-show").text("Show");
   }
-  return false;
+  $("#assets-private-key").slideToggle("slow");
 });
-//transfer on chain结束
-//assets开始
-// $("#NEO,#GAS,#TNC").click(function() {
-//   transFace();
-//   $("#regist-channel-assets, #transfer-assets,#txonchain-assets").val(this.id);
-//   $("#amount-svg,#amount-svg1").text(this.id).show();
-// });
-//assets结束
-//contacts开始
-$(".contact-box").click(function() {
-  transFace();
-  $("#txonchain-address,#regist-channel-address").val($(this).children().text());
-});
-//contacts结束
-//Payment开始
+//assets end
+//Payment start
 $('.btn-pay').click(function() {  
   if ($("#comfirm-password").val() == "123456") {
     $.ajax({
-      url: "http://47.254.39.10:20552",
+      url: TrinityTestNet,
       type: "POST",
       data: JSON.stringify({
         "jsonrpc": "2.0",
@@ -500,7 +735,21 @@ $('.btn-pay').click(function() {
   }
   return false;
 })
-//Payment结束
+//Payment end
+//setting start
+$("#setting-btn3").click(function(){
+  $("#setting-gateway").fadeToggle();
+});
+$(".setting-save-btn").click(function(){
+  $("#setting-gateway").fadeOut();
+});
+$("#setting-reset").click(function() {
+  $(".setting-input").val("https://test.trinity.tech");
+})
+$("#setting-btn4").click(function(){
+  window.location.reload();
+});
+//setting end
 
 // $(".curtain").click(function() {
 //   $(".curtain").hide();
@@ -511,6 +760,7 @@ $('.btn-pay').click(function() {
 $(function() {
   placeholderFunction();
   contentWayPoint();
+  loginfun();
 
   if ($("#transfer-assets").val() == "" || $("#transfer-assets").val() == null) {
     $("#amount-svg").hide();
@@ -523,64 +773,7 @@ $(function() {
     $("#amount-svg1").show();
   }
 
-$("#wallet_add,#wallet-address").html("ATiabWLxT5sLQpkppZDK9JmCF9wBFYpX3V");
-
 // setInterval(function(){  
-      $.ajax({
-        url: "http://47.254.39.10:20552",
-        type: "POST",
-        data: JSON.stringify({
-          "jsonrpc": "2.0",
-          "method": "getbalanceonchain",
-          "params": [$("#wallet_add").text(),"TNC"],
-          "id": 1
-        }),
-        contentType: 'application/json',
-        success: function(message) {
-          $("#index-balance").text(message.result);
-          $("#total-amount1").text(message.result);
-          $("#total-amount2").text(message.result);
-        },
-        error: function(message) {
-          //alert("Something wrong with your internet suddenly.");
-        }
-      });
-
-  $.ajax({
-    url: "http://47.254.39.10:20552",
-    type: "POST",
-    data: JSON.stringify({
-      "jsonrpc": "2.0",
-      "method": "getchannelstate",
-      "params": [$("#wallet_add").html()],
-      "id": 1
-    }),
-    contentType: 'application/json',
-    success: function(message) {
-      $('#channels').html('');
-      if (message.result) {
-        message.result.forEach((item) => {
-          // if (item.tx_info && item.channel_state === 'State.OPEN') {
-          if (item.tx_info) {
-            var aa = item.channel_state.split('.');
-            $(`<div class='channel-edit-box' style='position: relative;'><h2>${item.tx_info[1].address}</h2><h4>Deposit:${item.tx_info[0].deposit}</h4><h4>Balance: ${item.tx_info[0].balance}</h4><h4>State: ${aa[1]}</h4></div>`)
-              .appendTo('#channels').click(() => {
-                transFace('.channel-info-form');
-                // b = $(obj).attr("id").split("-")[1]; //获取点击了第几个div   
-                $("#info-channel-name").text(item.channel_name);
-                $("#info-receiver-addr").text(item.tx_info[1].address);
-                $("#info-time").text(item.open_block);
-                $("#info-sender-deposit").text(item.tx_info[0].deposit);
-                $("#info-sender-balance").text(item.tx_info[0].balance);
-                $("#info-state").text(aa[1]);
-              });
-          }
-        });
-      }
-    },
-    error: function(message) {
-    }
-  });
 // },2000);
 });
 /* common function*/

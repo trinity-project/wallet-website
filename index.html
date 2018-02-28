@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Trinity</title>
+  <title>Trinity Wallet</title>
   <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" />
   <meta name="description" content="" />
   <meta name="keywords" content="Trinity,TNC" />
@@ -20,7 +20,7 @@
 <body>
   <div class="form-box">
     <!-- nav start -->
-      <nav class="navbar navbar-default" role="navigation" style="margin-bottom: 0;">
+      <nav class="navbar navbar-default" role="navigation" style="margin-bottom: 0;filter: blur(5px);">
         <div class="container-fluid"> 
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse"
@@ -34,33 +34,33 @@
         </div>
         <div class="collapse navbar-collapse" id="example-navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="javascript:;" face-button data-go=".index-form">🏠Home</a></li>
-            <li><a href="javascript:;" face-button data-go=".assets-form">💳Assets</a></li>
-            <li><a href="javascript:;" face-button data-go=".txonchain-form">💰Transfer</a></li>
-            <li><a href="javascript:;" face-button data-go=".channel-edit-form">💸Channel</a></li>
-            <li><a href="javascript:;" face-button data-go=".record-form">📋Record</a></li>
-            <li><a href="javascript:;" face-button data-go=".setting-form">🔨Setting</a></li>
+            <li class="active"><a href="javascript:;" id="nav-btn-index">🏠Home</a></li>
+            <li><a href="javascript:;" id="nav-btn-transfer">💰Transfer</a></li>
+            <li><a href="javascript:;" id="nav-btn-channel">💸Channel</a></li>
+            <li><a href="javascript:;" id="nav-btn-assets">💳Assets</a></li>
+            <li><a href="javascript:;" id="nav-btn-record" style="display: none;">📋Record</a></li>
+            <li><a href="javascript:;" id="nav-btn-setting">🔨Setting</a></li>
           </ul>
-          <div style="float: right;margin-right: 20px;">          
+<!--           <div style="float: right;margin-right: 20px;">          
             <a style="line-height: 58px;cursor: pointer;" id="login-a">Login&nbsp;</a><a>/</a><a style="cursor: pointer;" id="signup-a">&nbsp;Sign up</a>
-          </div>
+          </div> -->
         </div>
         </div>
       </nav>
     <!-- nav end -->
     <!-- index form start-->
-    <form action="#" class="index-form animate-box">
+    <form action="#" class="index-form animate-box" style="filter: blur(5px);">
       <div class="row">
       <img src="images/trinity_HD.png" style="width: 600px;position: fixed;z-index: -1;right: -216px;bottom: 20px;opacity: 0.3;">
       <div class="index-box" style="position: relative;">
-        <a href="" style="position: absolute;right: 20px;color: #FF95AE;">Details ></a>
+        <a href="javascript:;" style="position: absolute;right: 20px;color: #FF95AE;" id="index-details-btn">Details ></a>
         <h1>My Wallet</h1>
-        <h2>Name:Bob</h2>
-        <h2>Wallet Address:<a id="wallet_add"></a></h2>
-        <h2>Balance On Chain:<span id="index-balance"></span>TNC</h2>
-        <img src="images/wallet_qrcode_3V.png" id="wallet_qr" href="javascript:;">
+        <h2>Name : Wallet</h2>
+        <h2>Wallet Address : <a id="wallet_add"></a></h2>
+        <h2>Balance On Chain : <span class="total-balance"></span></h2>
+        <img src="" id="wallet_qr" href="javascript:;"/>
       </div>
-      <div class="index-box">
+      <div class="index-box" style="display: none;">
         <h1>Record</h1>
         <a href="javascript:;" class="record-a record-channel-a">On Channel</a><a href="javascript:;" class="record-a record-chain-a">On Chain</a>
         <table class="table table-hover" id="onchannel-record-table">
@@ -139,7 +139,7 @@
       </div>
       <div class="index-box">
         <h1>Channel</h1>
-        <table class="table table-hover" id="onchannel-record-table">
+        <table class="table table-hover">
           <thead>
             <tr>
               <th>Date</th>
@@ -150,106 +150,43 @@
               <th></th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>2018.01.31</td>
-              <td>AHSuAAA4vL6uCdA8uwDM9NLsvQ2YrTmWcU</td>
-              <td>200TNC</td>
-              <td>200TNC</td>
-              <td>OPEN</td>
-              <td style="color: #FF95AE;cursor: pointer;">Details ></td>
-            </tr>
-            <tr>
-              <td>2018.02.07</td>
-              <td>AHSuAAA4vL6uCdA8uwDM9NLsvQ2YrTmWcU</td>
-              <td>200TNC</td>
-              <td>200TNC</td>
-              <td>OPEN</td>
-              <td>Details ></td>
-            </tr>
-            <tr>
-              <td>2018.01.31</td>
-              <td>AHSuAAA4vL6uCdA8uwDM9NLsvQ2YrTmWcU</td>
-              <td>200TNC</td>
-              <td>200TNC</td>
-              <td>OPEN</td>
-              <td>Details ></td>
-            </tr>
-            <tr>
-              <td>2018.01.31</td>
-              <td>AHSuAAA4vL6uCdA8uwDM9NLsvQ2YrTmWcU</td>
-              <td>200TNC</td>
-              <td>200TNC</td>
-              <td>OPEN</td>
-              <td>Details ></td>
-            </tr>
-          </tbody>
+          <tbody id="channels-index"></tbody>
         </table>
+        <h4 id="channels-mes">Not yet have a channel.</h4>
       </div>
       </div>
     </form>
     <!-- index form end-->
     <!-- sign up form start-->
-    <div class="sign-up-box tab-pane fade active in" id="generateWallet" ng-controller="GenerateWalletCtrl">
+    <div action="#" class="sign-up-box">
+      <h2>Create Wallet</h2>
       <div class="form-group">
-        <label class="control-label">Enter a strong password (at least 8 characters):</label><br />
-        <div class="input-group">
-          <input class="form-control" ng-change="changeCreatePassword1()" ng-model="$parent.createPassword1" placeholder="密码" aria-label="password" type="text" onfocus="this.type='password'" autocomplete="off" />
-        </div>
+        <label for="sign-up-password" class="sr-only">Password</label>
+        <input type="password" class="form-control" id="sign-up-password" placeholder="Password" autocomplete="off">
       </div>
-      <div class="form-group" ng-if="!isDisplayPassword">
-        <label class="control-label" translate="RE_ENTER_PASSWORD">Re-Enter password:</label>
-        <input class="form-control" ng-change="changeCreatePassword2()" ng-model="$parent.createPassword2" placeholder="重新输入密码" type="text" onfocus="this.type='password'" autocomplete="off"/>
+      <div class="form-group" style="margin-bottom: 10px;">
+        <label for="sign-up-repassword" class="sr-only">Repeat Password</label>
+        <input type="password" class="form-control" id="sign-up-repassword" placeholder="Repeat Password" autocomplete="off">
       </div>
-    
-      <!-- fromRandomPrivateKey -->
-      <div id="fromRandomPrivateKey">
-        <div class="form-group">
-          <button class="btn btn-primary btn-block" ng-click="generateWalletFileFromRandomPrivateKey()">Generate Wallet</button>
-        </div>
+      <div class="alert alert-danger" id="sign-up-danger" style="display: none;" role="alert"></div>
+      <div class="form-group1" style="text-align: center;margin-bottom: 10px;">
+        <input type="button" value="Import" class="btn btn-sign-up-cancel">
+        <input type="button" value="Create" class="btn btn-sign-up">
       </div>
-      <input class="form-control" type="text" ng-model="privateKey" id="privateKey" name="privateKey" readonly="readonly" aria-label="privateKey">
-<!--       <div action="#" class="sign-up-box">
-        <h2>Create Wallet</h2>
-        <div class="form-group">
-          <label for="sign-up-password" class="sr-only">Password</label>
-          <input type="password" class="form-control" id="sign-up-password" placeholder="Password" autocomplete="off">
-        </div>
-        <div class="form-group" style="margin-bottom: 10px;">
-          <label for="sign-up-repassword" class="sr-only">Repeat Password</label>
-          <input type="password" class="form-control" id="sign-up-repassword" placeholder="Repeat Password" autocomplete="off">
-        </div>
-        <div class="alert alert-success" id="sign-up-success" style="display: none;" role="alert"></div>
-        <div class="alert alert-danger" id="sign-up-danger" style="display: none;" role="alert"></div>
-        <div class="form-group" style="text-align: center;margin-bottom: 10px;">
-          <input type="button" value="Cancel" class="btn btn-sign-up-cancel">
-          <input type="button" value="Sign Up" ng-click="generateWalletFileFromRandomPrivateKey()" class="btn btn-sign-up">
-        </div> -->
-    </div>
     </div>
     <!-- sign up form end-->
     <!-- login form start-->
-    <form action="#" class="login-form animate-box">
-<!--       <div id="logo" class="logo col-md-12 text-center">
-          <a class="navbar-brand" href="javascript:;">
-              <img src="images/logo.png" class="normal" alt="logo" style="width:200px">
-          </a>
-      </div> -->
+    <form action="#" class="login-box animate-box">
       <h2>Sign In<br>My Wallet</h2>
-<!--       <div class="form-group" style="margin-bottom: 17px;">
-        <label for="username" class="sr-only">Username</label>
-        <input type="text" class="form-control" id="username" placeholder="Email/Phone number" autocomplete="off">
-      </div> -->
       <div class="form-group" style="margin-bottom: 7px;">
         <label for="password" class="sr-only">Password</label>
         <input type="password" class="form-control" id="password" placeholder="Password" autocomplete="off">
       </div>
       <div class="form-group">
-        <label class="remember" for="remember"><input type="checkbox" id="remember">Keep me sign in</label><!-- <label class="forget"><a href="forgot.html">Forgot Password?</a></label> -->
+        <label class="remember" for="remember"><input type="checkbox" id="remember">Keep me sign in</label>
       </div>
       <div class="form-group" style="text-align: center;margin-bottom: 12px;">
         <input type="button" value="Sign In" class="btn btn-login">
-        <!-- <input type="button" value="Sign In" class="btn btn-login" onclick="location.href='index.html'"> -->
       </div>
       <div class="form-group" style="margin-bottom: 87px;">
         <p>Dont't have a wallet? <a id="sign-up-btn">Sign Up</a></p>
@@ -257,122 +194,92 @@
     </form>
     <!-- login form end-->
     <div id="curtain" class="curtain"></div>
-    <!-- setting form start-->
-    <form action="#" class="setting-form animate-box">
-      <div class="row">
-        <img src="images/trinity_HD.png" style="display: flex;width: 600px;height: 600px;position: absolute;z-index: -1;left: -241px;
-      bottom: 180px;opacity: 0.3;">
-        <div class="setting-box" style="position: relative;height: 100%;color: #000000;">
-            <h1 style="margin: 20px;float: left;font-size: 33px;">Setting</h1>
-        </div>
-        <div class="setting-box" style="position: relative;cursor: not-allowed;">
-          <h3>Change Name</h3>
-        </div>
-        <div class="setting-box" style="position: relative;cursor: not-allowed;">
-          <h3>Change Password</h3>
-        </div>
-        <div class="setting-box" style="position: relative;">
-          <h3 id="setting-btn3" style="cursor: pointer;">Change Gateway</h3>
-          <div id="setting-gateway" style="padding: 0 14px;display: none">
-            <span>Gateway : </span>
-            <input type="text" class="setting-input" value="https://test.trinity.tech">
-            <a style="font-size: 16px;" id="setting-reset">Reset</a>
-              <input type="button" value="Save" class="setting-save-btn" face-button data-action="close">
-          </div>
-        </div>
-        <div class="setting-box" style="position: relative;">
-          <h3 id="setting-btn4" style="cursor: pointer;">Close Wallet</h3>
-        </div>
-      </div>
-<!--       <ul class="pager">
-        <li class="previous"><a class="setting-close-btn" face-button data-action="close" id="setting-close-btn">×</a></li>
-      </ul>
-      <h2>Setting</h2>
-      <h3 id="setting-btn1">Change Name</h3>
-      <hr/>
-      <h3 id="setting-btn2">Change Password</h3>
-      <hr/>
-      <h3 id="setting-btn3">Change Gateway</h3>
-      <hr/>
-      <div id="setting-gateway" style="padding: 0 14px;display: none">
-        <span>Gateway : </span>
-        <input type="text" class="setting-input" value="https://test.trinity.tech">
-        <a style="font-size: 16px;" id="setting-reset">Reset</a>
-          <input type="button" value="Save" class="setting-save-btn" face-button data-action="close">
-      <hr/>
-      </div>
-      <h3 id="setting-btn4">Close Wallet</h3> -->
-    </form>
-    <!-- setting form end-->
-    <!-- record form start-->
-    <form action="#" class="record-form scroll animate-box">
-      <div class="row">
-        <img src="images/trinity_HD.png" style="width: 600px;height: 600px;position: fixed;left: -241px;bottom: 180px;opacity: 0.3;">
-        <div class="record-box" style="position: relative;height: 100%;color: #000000;">
-            <h1 style="margin: 20px;float: left;font-size: 33px;">Record</h1>
-        </div>
-        <div class="record-box">
-          <h3>Record1</h3>
-        </div>
-        <div class="record-box">
-          <h3>Record2</h3>
-        </div>
-      </div>
-      <div class="record-body">
-      </div>
-    </form>
-    <!-- record form end-->
     <!-- channel-edit form start-->
     <form action="#" class="channel-edit-form scroll animate-box">
-<!--       <div style="text-align: center;">
-        <svg class="icon icon-left" face-button data-action="close" aria-hidden="true">
-          <use xlink:href="#icon-right"></use>
-        </svg>
-        <span style=" width: 100%;text-align: center;letter-spacing: 0px;font-size: 23px;color: #FD6E7E;margin: 0;">Channel</span>
-        <span style="float: right;text-align: right;font-size: 26px;letter-spacing: 0px;color: #000000;margin: 0;" id="channel-regist">＋</span>
-        <hr style="margin: 10px 0;color:#FD6E7E;">
-      </div>
-      <div id="channels" class="channel-body">
-      </div> -->
       <div class="row">
-        <img src="images/trinity_HD.png" style="display: flex;width: 600px;height: 600px;position: absolute;z-index: -1;left: -241px;
-      bottom: 180px;opacity: 0.3;">
-        <div class="channel-edit-box" style="position: relative;height: 100%;color: #000000;">
-            <h1 style="margin: 20px;float: left;font-size: 33px;">Channel List</h1>
+        <img src="images/trinity_HD.png" style="display: flex;width: 900px;height: 900px;position: absolute;z-index: -1;right:-400px;bottom: 0px;opacity: 0.3;">
+        <div class="channel-edit-box channel-edit-box-left" style="position: relative;">
+            <h1 style="font-size: 33px;">Channel</h1>
+            <h3>The status channel is a technical realization of a chain expansion solution. Click on the channel, you can view the channel details, add a deposit, channel transfer and closing channels and other functions.</h3>
+        </div>
+        <div class="channel-edit-box">
+            <h1 style="margin-top: 10px;float: left;">Channel List</h1>
             <a id="channel-regist">Add Channel</a>
         </div>
         <div id="channels" class="channel-body">
           <div class="channel-edit-box" style="position: relative;">
-            <h1>Unable to connect to the Internet</h1>
+            <h2>Not yet have a channel.</h2>
           </div>
         </div>
       </div>
     </form>
     <!-- channel-edit form end-->
+    <!-- channel form start-->
+    <form action="#" class="channel-form animate-box">
+      <div class="row">
+        <img src="images/trinity_HD.png" style="width: 550px;height: 550px;position: fixed;left: 200px;bottom: -147px;opacity: 0.3;">
+        <div class="channel-box channel-box-left" style="position: relative;">
+          <h1>Add Channel</h1>
+          <h3>The transaction is settled through a smart contract on the chain and real-time transactions are performed in the channel under the chain, so as to realize the instant payment of assets, low transaction cost, scalability and privacy protection.If you want to use the status channel, you need to add a channel by entering your address, asset type and deposit.</h3>
+        </div>
+        <div class="channel-box" style="position: relative;">
+        <div class="form-group">
+          <label for="regist-channel-address">Address : </label>
+          <input type="text" class="form-control" id="regist-channel-address" placeholder="Address">
+        </div>
+        <div class="form-group">
+          <label for="regist-channel-assets">Assets : </label>
+          <select class="form-control" id="regist-channel-assets" disabled="disabled">
+            <option>TNC</option>
+            <option>NEO</option>
+            <option>GAS</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="regist-channel-deposit">Deposit : </label>
+          <input type="text" class="form-control" id="regist-channel-deposit" placeholder="Deposit">
+        </div>
+        <div class="form-group" style="display: none;">
+          <label for="regist-channel-time">Channel Life : </label>
+          <input type="text" class="form-control" id="regist-channel-time" placeholder="Channel Life(day)">
+        </div>
+        <div class="form-group">
+            <p class="total-amount">&nbsp;(Balance on chain: <span class="total-balance"></span>)</p>
+          </div>
+        <div class="form-group form-btn">
+          <input type="button" value="Add" class="btn btn-channel">
+        </div>
+        </div>
+      </div>
+    </form>
+    <!-- channel form end-->
     <!-- channel-info form start-->
     <form action="#" class="channel-info-form animate-box" data-animate-effect="fadeInBottom">
       <a class="close-btn" id="info-close-btn" face-button data-action="close">×</a>
       <h4 id="info-remark">Channel Info</h4>
       <label style="display: none;">Channel Name:
-        <br><span id="info-channel-name">AZXy3tWPN86UZRYpSRH4EzanMy6vgQaLG3</span></label>
+        <br><span id="info-channel-name"></span></label>
       <br>
       <label>Local Address:
-        <br><span id="info-sender-addr">AZXy3tWPN86UZRYpSRH4EzanMy6vgQaLG3</span></label>
+        <br><span id="info-sender-addr"></span></label>
       <br>
       <label>Remote Address:
         <br><span id="info-receiver-addr"></span></label>
+      <br>
+      <label>Contract Address:
+        <br><span id="info-contract-addr"></span></label>
       <br>
       <label>Deposit:<span id="info-sender-deposit"></span>TNC</label><a id="add-deposit">Add</a>
       <br>
       <label>Balance:<span id="info-sender-balance"></span>TNC</label>
       <br>
-      <label>Channel Life(day):<span id="info-time"></span></label>
+      <label style="display: none;">Channel Life(day):<span id="info-time"></span></label>
       <br>
       <label>Channel State:<span id="info-state"></span></label>
       <br>
       <div style="text-align: center;margin-top: 10%">
         <input type="button" value="Transfer" class="btn btn-totransfer">
-        <br><a id="btn_closechannel" face-button data-action="close" style="color: red;font-size: 14px;cursor: pointer;">Close Channel</a>
+        <br><a id="btn_closechannel" style="color: red;font-size: 14px;cursor: pointer;">Close Channel</a>
       </div>
     </form>
     <!-- channel-info form end-->
@@ -382,7 +289,7 @@
       <h2>Add Deposit</h2>
       <span>Amount : </span>
       <input type="text" class="add-input">
-      <p class="total-amount">(Balance on chain: <span id="total-amount2" style="font-size: 16px;">1000</span>)</p>
+      <p class="total-amount">(Balance on chain: <span class="total-balance" style="font-size: 16px;">1000</span>)</p>
       <div style="text-align: center;margin: 10%">
         <input type="button" value="Next" class="add-deposit-btn">
       </div>
@@ -403,81 +310,11 @@
           <input type="password" class="form-control" id="comfirm-password1" placeholder="Password" autocomplete="off">
         </div>
       </div>
-      <div id="success-div">
-        <img src="images/success.png">
-        <h2 style="margin-bottom: 45%;">Success!</h2>
+      <div class="form-group" style="text-align: center;">
+        <input type="button" value="Next" class="btn btn-deposit-pay">
       </div>
     </form>
     <!-- deposit-pay form end-->
-    <!-- channel form start-->
-    <form action="#" class="channel-form animate-box">
-      <div class="row">
-        <img src="images/trinity_HD.png" style="width: 550px;height: 550px;position: fixed;left: 200px;bottom: -147px;opacity: 0.3;">
-        <div class="channel-box" style="position: relative;">
-          <h1>Add Channel</h1>
-        <div class="form-group">
-          <label for="regist-channel-address">Address : </label>
-          <input type="text" list="itemlist" class="form-control" id="regist-channel-address" placeholder="Address">
-          <datalist id="itemlist">
-              <option>AZLtmATYKJLJgdTEap1osSFTpfmnexBCLZ</option>
-              <option>AavoNbubwPBRAPdQBnepDZyd57GidsUDkb</option>
-              <option>AHSuAAA4vL6uCdA8uwDM9NLsvQ2YrTmWcU</option>
-              <option>AGgZna4kbTXPm16yYZyG6RyrQz2Sqotno6</option>
-              <option>AKauFqeT7ZGanD2p5LuSMUn3HpqsWdEdp9</option>
-          </datalist>
-        </div>
-        <div class="form-group">
-          <label for="regist-channel-assets">Assets : </label>
-          <select class="form-control" id="regist-channel-assets">
-            <option>NEO</option>
-            <option>TNC</option>
-            <option>GAS</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="regist-channel-deposit">Deposit : </label>
-          <input type="text" class="form-control" id="regist-channel-deposit" placeholder="Deposit">
-        </div>
-        <div class="form-group">
-          <label for="regist-channel-time">Channel Life : </label>
-          <input type="text" class="form-control" id="regist-channel-time" placeholder="Channel Life(day)">
-        </div>
-        <div class="form-group form-btn">
-          <input type="button" value="Add" class="btn btn-channel">
-        </div>
-        </div>
-      </div>
-    </form>
-    <!-- channel form end-->
-    <!-- channel-contacts form start-->
-    <form action="#" class="channel-contacts-form animate-box">
-      <svg class="icon icon-left" aria-hidden="true" face-button data-action="back" id="close-channel-contacts">
-        <use xlink:href="#icon-right"></use>
-      </svg>
-      <h4>Contacts</h4>
-      <hr style="margin-top: 14px;margin-bottom: 14px;">
-      <div class="contact-box">
-        <p>AZLtmATYKJLJgdTEap1osSFTpfmnexBCLZ</p>
-      </div>
-      <hr style="margin-top: 14px;margin-bottom: 14px;">
-      <div class="contact-box">
-        <p>AavoNbubwPBRAPdQBnepDZyd57GidsUDkb</p>
-      </div>
-      <hr style="margin-top: 14px;margin-bottom: 14px;">
-      <div class="contact-box">
-        <p>AHSuAAA4vL6uCdA8uwDM9NLsvQ2YrTmWcU</p>
-      </div>
-      <hr style="margin-top: 14px;margin-bottom: 14px;">
-      <div class="contact-box">
-        <p>AGgZna4kbTXPm16yYZyG6RyrQz2Sqotno6</p>
-      </div>
-      <hr style="margin-top: 14px;margin-bottom: 14px;">
-      <div class="contact-box">
-        <p>AKauFqeT7ZGanD2p5LuSMUn3HpqsWdEdp9</p>
-      </div>
-      <hr style="margin-top: 14px;margin-bottom: 14px;">
-    </form>
-    <!-- channel-contacts form end-->
     <!-- channel-pay form start-->
     <form id="frm_confirm_password" action="#" class="channel-pay-form animate-box" data-animate-effect="fadeInBottom">
       <a class="close-btn" id="channel-pay-close-btn" face-button data-action="close">×</a>
@@ -522,8 +359,11 @@
     <form action="#" class="transfer-form animate-box">
       <div class="row">
         <img src="images/trinity_HD.png" style="width: 600px;height: 600px;position: fixed;left: -106px;bottom: 2px;opacity: 0.3;">
-        <div class="transfer-box" style="position: relative;">
+        <div class="transfer-box transfer-box-left" style="position: relative;">
           <h1>Transfer</h1>
+          <h3>Channel transaction is settled through a smart contract on the chain and real-time transactions are performed in the channel under the chain, so as to realize the instant payment of assets, low transaction cost, scalability and privacy protection and other advantages.</h3>
+        </div>
+        <div class="transfer-box" style="position: relative;">
           <div class="form-group" style="display: none;">
             <svg class="icon icon-channel-name" aria-hidden="true">
               <use xlink:href="#icon-arrow-right"></use>
@@ -533,98 +373,48 @@
           </div>
           <div class="form-group">
             <label for="transfer-address" style="font-size: 20px;">Address : </label>
-            <select class="form-control" id="transfer-address">
-              <option>AZLtmATYKJLJgdTEap1osSFTpfmnexBCLZ</option>
-              <option>AavoNbubwPBRAPdQBnepDZyd57GidsUDkb</option>
-              <option>AHSuAAA4vL6uCdA8uwDM9NLsvQ2YrTmWcU</option>
-              <option>AGgZna4kbTXPm16yYZyG6RyrQz2Sqotno6</option>
-              <option>AKauFqeT7ZGanD2p5LuSMUn3HpqsWdEdp9</option>
-            </select>
+            <input type="text" class="form-control" id="transfer-address" placeholder="Address" disabled="disabled">
           </div>
           <div class="form-group">
             <label for="transfer-assets" style="font-size: 20px;">Assets : </label>
-            <select class="form-control" id="transfer-assets">
+            <select class="form-control" id="transfer-assets" disabled="disabled">
               <option>NEO</option>
               <option>TNC</option>
               <option>GAS</option>
             </select>
           </div>
           <div class="form-group form-group1">
-<!--             <span id="amount-svg">TNC</span> -->
             <label for="transfer-amount" style="font-size: 20px;">Amount : </label>
             <input type="number" class="form-control form-amount" id="transfer-amount" placeholder="Amount" autocomplete="off">
           </div>
           <div class="form-group form-group1">
-            <p class="total-amount">&nbsp;(Balance amount: <span id="total-amount">1000</span>)</p>
+            <p class="total-amount">&nbsp;(Balance amount: <span id="channel-balance"></span>)</p>
           </div>
           <div class="form-group form-btn">
             <input type="button" value="Next" class="btn btn-transfer">
           </div>
         </div>
       </div>
-<!--       <svg class="icon icon-left" aria-hidden="true" face-button data-action="close" id="transfer-close-btn">
-        <use xlink:href="#icon-right"></use>
-      </svg>
-      <h2>Transfer</h2>
-      <div class="form-group" style="display: none;">
-        <svg class="icon icon-channel-name" aria-hidden="true">
-          <use xlink:href="#icon-arrow-right"></use>
-        </svg>
-        <label for="transfer-channel-name" class="sr-only">Channel Name</label>
-        <input type="text" class="form-control" id="transfer-channel-name" placeholder="Channel Name" readonly="true">
-      </div>
-      <div class="form-group">
-        <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-tongxunlu"></use>
-        </svg>
-        <label for="transfer-address" class="sr-only">Address</label>
-        <input type="text" class="form-control" id="transfer-address" placeholder="Address" autocomplete="off">
-      </div>
-      <div class="form-group">
-        <svg class="icon icon-assets" face-button data-go=".assets-form" aria-hidden="true">
-          <use xlink:href="#icon-arrow-right"></use>
-        </svg>
-        <label for="transfer-assets" class="sr-only">Assets</label>
-        <input type="text" class="form-control" id="transfer-assets" placeholder="Assets" readonly="true" value="TNC">
-      </div>
-      <div class="form-group form-group1">
-        <span id="amount-svg">TNC</span>
-        <label for="transfer-amount" class="sr-only">Amount</label>
-        <input type="number" class="form-control form-amount" id="transfer-amount" placeholder="Amount" autocomplete="off">
-      </div>
-      <div class="form-group form-group1">
-        <p class="total-amount">&nbsp;(Balance amount: <span id="total-amount">1000</span>)</p>
-      </div>
-      <div class="form-group">
-        <label for="transfer-remark" class="sr-only">Remark</label>
-        <input type="text" class="form-control form-remark" id="transfer-remark" placeholder="Remark" autocomplete="off">
-      </div>
-      <div class="form-group form-btn">
-        <input type="button" value="Next" class="btn btn-transfer">
-      </div> -->
     </form>
     <!-- transfer form end-->
     <!-- transfer on chain form start-->
     <form action="#" class="txonchain-form animate-box">
         <div class="row">
-        <img src="images/trinity_HD.png" style="width: 500px;height: 500px;position: fixed;left: -52px;bottom: 2px;opacity: 0.3;">
-        <div class="txonchain-box" style="position: relative;">
+        <img src="images/trinity_HD.png" style="width: 500px;height: 500px;position: fixed;left: -52px;z-index: -1;bottom: 2px;opacity: 0.3;">
+        <div class="txonchain-box txonchain-box-left" style="position: relative;">
           <h1>Transfer on chain</h1>
+          <h3>Transfer on chain is normal digital currency transfer.Transfer is the process of transferring data currency from one address to another. If you want to transfer to others, you need to enter your wallet address, recipient address, transfer amount. </h3>
+        </div>
+        <div class="txonchain-box" style="position: relative;">
           <div class="form-group">
             <label for="txonchain-address" style="font-size: 20px;">Address : </label>
-            <select class="form-control" id="txonchain-address">
-              <option>AZLtmATYKJLJgdTEap1osSFTpfmnexBCLZ</option>
-              <option>AavoNbubwPBRAPdQBnepDZyd57GidsUDkb</option>
-              <option>AHSuAAA4vL6uCdA8uwDM9NLsvQ2YrTmWcU</option>
-              <option>AGgZna4kbTXPm16yYZyG6RyrQz2Sqotno6</option>
-              <option>AKauFqeT7ZGanD2p5LuSMUn3HpqsWdEdp9</option>
-            </select>
+            <input type="text" class="form-control" id="txonchain-address" placeholder="Address">
           </div>
           <div class="form-group">
             <label for="txonchain-assets" style="font-size: 20px;">Assets : </label>
-            <select class="form-control" id="txonchain-assets">
-              <option>NEO</option>
+            <select class="form-control" id="txonchain-assets" disabled="disabled">
               <option>TNC</option>
+              <option>NEO</option>
               <option>GAS</option>
             </select>
           </div>
@@ -633,87 +423,49 @@
             <input type="number" class="form-control form-amount" id="txonchain-amount" placeholder="Amount" autocomplete="off">
           </div>
           <div class="form-group">
-            <p class="total-amount">&nbsp;(Balance on chain: <span id="total-amount1"></span>)</p>
+            <p class="total-amount">&nbsp;(Balance on chain: <span class="total-balance"></span>)</p>
           </div>
           <div class="form-group" style="text-align: center;">
             <input type="button" value="Next" class="btn btn-txonchain">
           </div>
         </div>
       </div>
-<!--       <div class="form-group">
-        <svg class="icon icon-contacts" aria-hidden="true">
-          <use xlink:href="#icon-tongxunlu"></use>
-        </svg>
-        <label for="txonchain-address" class="sr-only">Address</label>
-        <input type="text" class="form-control" id="txonchain-address" placeholder="Address" autocomplete="off">
-      </div>
-      <div class="form-group">
-        <svg class="icon icon-assets" face-button data-go=".assets-form" aria-hidden="true">
-          <use xlink:href="#icon-arrow-right"></use>
-        </svg>
-        <label for="txonchain-assets" class="sr-only">Assets</label>
-        <input type="text" class="form-control" id="txonchain-assets" placeholder="Assets" readonly="true" value="TNC">
-      </div>
-      <div class="form-group form-group1">
-        <span id="amount-svg1">TNC</span>
-        <label for="txonchain-amount" class="sr-only">Amount</label>
-        <input type="number" class="form-control form-amount" id="txonchain-amount" placeholder="Amount" autocomplete="off">
-      </div>
-      <div class="form-group form-group1">
-        <p class="total-amount">&nbsp;(Balance on chain: <span id="total-amount1">1000</span>)</p>
-      </div>
-      <div class="form-group form-btn">
-        <input type="button" value="Next" class="btn btn-txonchain">
-      </div> -->
     </form>
     <!-- transfer on chain form end-->
     <!-- assets form start-->
     <form action="#" class="assets-form animate-box">
       <div class="row">
-        <img src="images/trinity_HD.png" style="display: flex;width: 450px;height: 450px;position: absolute;z-index: -1;left: -181px;
-      bottom: 180px;opacity: 0.3;">
-        <div class="assets-box" style="position: relative;height: 100%;color: #000000;">
-            <h1 style="margin: 20px;float: left;font-size: 33px;">Assets List</h1>
+        <img src="images/trinity_HD.png" style="display: flex;width: 450px;height: 450px;position: absolute;z-index: -1;left: 800px;bottom: 25px;opacity: 0.3;">
+        <div class="assets-box assets-box-left">
+            <h1 style="font-size: 33px;">My Wallet</h1>
+            <h2>Wallet Address : </h2><label id="assets-address"></label>
+            <h2>Script Hash : </h2><label id="assets-script-hash"></label>
+            <h2>Public Key : </h2><label id="assets-public-key"></label>
+            <h2 style="display: inline;">Private Key : </h2><label id="private-key-show">Show</label><label id="assets-private-key" style="display: none;"></label>
+            <h2>Download Wallet File: </h2><label id="assets-wallet-file">Coming soon...</label>
+        </div>
+        <div class="assets-box" style="position: relative;">
+          <h1>Assets List</h1>
         </div>
         <div class="assets-box" style="position: relative;">
           <h1>NEO</h1>
-          <h2>Balance On Chain:<span>400</span>NEO</h2>
-          <h2>Last Transactions:</h2>
+          <h3>Balance On Chain : <span id="assets-neobalance">0</span> NEO</h3>
+          <h3>Last Transactions : </h3>
           <img src="images/NEO.png" id="neo" href="javascript:;">
         </div>
         <div class="assets-box" style="position: relative;">
           <h1>TNC</h1>
-          <h2>Balance On Chain:<span>10000</span>TNC</h2>
-          <h2>Last Transactions:</h2>
+          <h3>Balance On Chain : <span id="assets-tncbalance">0</span> TNC</h3>
+          <h3>Last Transactions : </h3>
           <img src="images/trinity.png" id="tnc" href="javascript:;">
         </div>
         <div class="assets-box" style="position: relative;">
           <h1>GAS</h1>
-          <h2>Balance On Chain:<span>0</span>GAS</h2>
-          <h2>Last Transactions:<span id="index-balance"></span></h2>
+          <h3>Balance On Chain : <span id="assets-gasbalance">0</span> GAS</h3>
+          <h3>Last Transactions : <span id="index-balance"></span></h3>
           <img src="images/GAS.png" id="gas" href="javascript:;">
         </div>
       </div>
-<!--       <svg class="icon icon-left" aria-hidden="true" face-button data-action="back" id="close-assets">
-        <use xlink:href="#icon-right"></use>
-      </svg>
-      <h4>Assets</h4>
-      <hr style="margin-top: 14px;margin-bottom: 14px;">
-      <div id="NEO">
-        <img src="images/NEO.png">
-        <p>NEO</p>
-      </div>
-      <hr style="margin-top: 14px;margin-bottom: 14px;">
-      <div id="GAS">
-        <img src="images/GAS.png">
-        <p>GAS</p>
-      </div>
-      <hr style="margin-top: 14px;margin-bottom: 14px;">
-      <div id="TNC">
-        <img src="images/trinity.png">
-        <p>TNC</p>
-      </div>
-      <hr style="margin-top: 14px;margin-bottom: 14px;"> -->
     </form>
     <!-- assets form end-->
     <!-- pay form start-->
@@ -762,37 +514,68 @@
       </div>
     </form>
     <!-- pay1 form end-->
+    <!-- record form start-->
+    <form action="#" class="record-form scroll animate-box">
+      <div class="row">
+        <img src="images/trinity_HD.png" style="width: 600px;height: 600px;position: fixed;left: -241px;bottom: 180px;opacity: 0.3;">
+        <div class="record-box record-box-left">
+            <h1 style="font-size: 33px;">Record</h1>
+            <h3>On the record page, you can see your previous transfer history.</h3>
+        </div>
+        <div class="record-box">
+            <h1 style="margin-top: 10px;float: left;">Record List</h1>
+        </div>
+        <div class="record-box">
+          <h3>Record1</h3>
+        </div>
+        <div class="record-box">
+          <h3>Record2</h3>
+        </div>
+      </div>
+      <div class="record-body">
+      </div>
+    </form>
+    <!-- record form end-->
+    <!-- setting form start-->
+    <form action="#" class="setting-form animate-box">
+      <div class="row">
+        <img src="images/trinity_HD.png" style="display: flex;width: 600px;height: 600px;position: absolute;z-index: -1;left: -241px;
+      bottom: 330px;opacity: 0.3;">
+        <div class="setting-box setting-box-left" style="position: relative;">
+            <h1 style="font-size: 33px;">Setting</h1>
+            <h3>In the setting page, you can Change Gateway and Close Wallet,more setting function will meet with you in the near future.</h3>
+        </div>
+        <div class="setting-box" style="position: relative;cursor: not-allowed;">
+          <h3>Change Name (Coming soon...)</h3>
+        </div>
+        <div class="setting-box" style="position: relative;cursor: not-allowed;">
+          <h3>Change Password (Coming soon...)</h3>
+        </div>
+        <div class="setting-box" style="position: relative;">
+          <h3 id="setting-btn3" style="cursor: pointer;">Change Gateway</h3>
+          <div id="setting-gateway" style="padding: 0 14px;display: none">
+            <span>Gateway : </span>
+            <input type="text" class="setting-input" value="https://test.trinity.tech">
+            <a style="font-size: 16px;" id="setting-reset">Reset</a>
+              <input type="button" value="Save" class="setting-save-btn">
+          </div>
+        </div>
+        <div class="setting-box" style="position: relative;">
+          <h3 id="setting-btn4" style="cursor: pointer;">Close Wallet</h3>
+        </div>
+      </div>
+    </form>
+    <!-- setting form end-->
   </div>
   <script src="js/jquery.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="https://cdn.bootcss.com/modernizr/2.8.3/modernizr.min.js"></script>
-  <script>if (typeof module === 'object') {window.jQuery = window.$ = module.exports;};</script>
-  <script src="js/neo/vendor/plugins.js"></script>
-  
-  <script src="https://cdn.bootcss.com/angular.js/1.6.4/angular.min.js"></script>
-  <script src="https://cdn.bootcss.com/angular-translate/2.15.1/angular-translate.min.js"></script>
-  <script src="https://cdn.bootcss.com/angular-translate/2.15.1/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
-  <script src="http://cdn.bootcss.com/angular-ui-bootstrap/0.11.2/ui-bootstrap-tpls.js"></script>
-  <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="https://cdn.bootcss.com/sql.js/0.4.0/js/sql.js"></script>
-  
-  <script src="js/neo/vendor/CryptoJS/sha256.js"></script>
-  <script src="js/neo/vendor/CryptoJS/ripemd160.js"></script>
-  <script src="js/neo/vendor/CryptoJS/aes.js"></script>
-  <script src="js/neo/vendor/CryptoJS/pad-nopadding.js"></script>
-  
-  <!--<script src="js/vendor/sm.js"></script>-->
-  <script src="js/neo/vendor/ecdsa_bundle.js"></script>
-  <script src="js/neo/vendor/secp256k1_bundle.js"></script>
-  
   <script src="js/iconfont.js"></script>
   <script src="js/jquery.placeholder.min.js"></script>
   <script src="js/jquery.waypoints.min.js"></script>
   <script src="js/sweetalert.min.js"></script>
   <script src="js/main.js"></script>
-
-  <script src="js/neo/app.js"></script>
-  <script src="js/neo/wallet.js"></script>
+  <script src="js/bundle.js"></script>
 </body>
 
 </html>

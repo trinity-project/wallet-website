@@ -296,17 +296,17 @@ var getchannelstate = function(){
       if(message.result.type == "transaction"){
       $('#channels').html('');
       $('#channels-index').html('');
-      if (message.result) {
-        message.result.forEach((item) => {
+      if (message.result.message) {
+        message.result.message.forEach((item) => {
           if (item.tx_info) {
             var aa = item.channel_state.split('.');
-            $(`<tr><td>${item.tx_info[1].address}</td><td>${item.tx_info[0].deposit}TNC</td><td>${item.tx_info[0].balance}TNC</td><td>OPEN</td><td style="color: #FF95AE;cursor: pointer;">Details ></td></tr>`)
+            $(`<tr><td>${item.tx_info[1].address}</td><td>${item.tx_info[0].deposit}TNC</td><td>${item.tx_info[0].balance}TNC</td><td>${aa[1]}</td><td style="color: #FF95AE;cursor: pointer;">Details ></td></tr>`)
               .appendTo('#channels-index').click(() => {
                 transFace('.channel-info-form');  
                 $("#info-channel-name").text(item.channel_name);
                 $("#info-sender-addr").text(item.tx_info[0].address);
                 $("#info-receiver-addr").text(item.tx_info[1].address);
-                $("#info-contract-addr").text(item.tx_info[0].address);
+                //$("#info-contract-addr").text(item.tx_info[0].address);
                 $("#info-time").text(item.open_block);
                 $("#info-sender-deposit").text(item.tx_info[0].deposit);
                 $("#info-sender-balance").text(item.tx_info[0].balance);
@@ -315,7 +315,7 @@ var getchannelstate = function(){
           }
           $("#channels-mes").hide();
         });
-        message.result.forEach((item) => {
+        message.result.message.forEach((item) => {
           // if (item.tx_info && item.channel_state === 'State.OPEN') {
           if (item.tx_info) {
             var aa = item.channel_state.split('.');
@@ -372,11 +372,12 @@ var getchannelstate = function(){
 }
 //channel-edit end
 
-//channel start
+//regist channel start
 $(".btn-channel").click(function() {
   if($("#regist-channel-address").val().length != 34){
     swal({ 
-      title: "Address length check failed.", 
+      title: "Error!", 
+      text: "Address length check failed.", 
       type: "error", 
       showCancelButton: false
     });
@@ -384,7 +385,8 @@ $(".btn-channel").click(function() {
   }
   if (!$("#regist-channel-deposit").val()) {
     swal({ 
-      title: "Deposit can't be empty.", 
+      title: "Error!", 
+      text: "Deposit can't be empty.", 
       type: "error", 
       showCancelButton: false
     });
@@ -448,7 +450,8 @@ $(".btn-channel").click(function() {
             if(message.result =="fail"){
               swal("fail!", message.result,"error");
             } else {
-              swal("Transfer success!", "","success");
+              $("#nav-btn-channel").click();
+              swal("Add success!", "","success");
             }
           },
           error: function(message) {
@@ -464,7 +467,7 @@ $(".btn-channel").click(function() {
   } 
   });
 });
-//channel end
+//regist channel end
 //channel-info start
 $("#btn_closechannel").click(function() {
   if ($("#info-state").text() == "OPEN") {
@@ -517,6 +520,10 @@ $(".btn-totransfer").click(function() {
     sweetAlert("Channel not in OPEN state.", "","error");
   }
 });
+$("#info-close-btn").click(function() {
+  $(".channel-info-form").hide();
+  $(".curtain").hide();
+})
 //channel-info end
 //add start
 $("#add-deposit").click(function(){
@@ -636,17 +643,48 @@ $(".btn-transfer").click(function() {
     alert("The transfer amount should be less than the balance amount.");
     return;
   }
-  transFace('.pay-form');
-  // $(".curtain").show();
-  // $(".pay-form").show();
-  $("#comfirm-info").html("transfer " + $("#transfer-amount").val() + $("#amount-svg").text() + " to<br/>" + $("#transfer-address").val());
+  swal({ 
+    title: "Payment", 
+    text: "transfer " + $("#transfer-amount").val() + "TNC to<br/>" + $("#transfer-address").val(), 
+    type: "info", 
+    showCancelButton: true, 
+    closeOnConfirm: false, 
+    showLoaderOnConfirm: true, 
+    html:true
+  },
+  function(){
+    $.ajax({
+      url: TrinityTestNet,
+      type: "POST",
+      data: JSON.stringify({
+        "jsonrpc": "2.0",
+        "method": "sendertoreceiver",
+        "params": [$(".wallet_add").text(),$("#transfer-address").val(),"TNC",$("#transfer-amount").val()],
+        "id": 1
+      }),
+      contentType: 'application/json',
+      success: function(message) {
+        if (message.result && message.result.error) {
+          swal(message.result.error, "","error");
+        } else if (message.error) {
+          swal(message.error.message, "","error");
+        } else {
+          swal("Transfer success!", "","success");
+        }
+      },
+      error: function(message) {
+        alert("error");
+      }
+    }); 
+  });
 });
 //transfer end
 //transfer on chain start
 $(".btn-txonchain").click(function() {
   if($("#txonchain-address").val().length != 34){
     swal({ 
-      title: "Address length check failed.", 
+      title: "Error!", 
+      text:"Address length check failed.",
       type: "error", 
       showCancelButton: false
     });
@@ -654,7 +692,8 @@ $(".btn-txonchain").click(function() {
   }
   if (!$("#txonchain-assets").val()) {
     swal({ 
-      title: "Assets can't be empty.", 
+      title: "Error!", 
+      text: "Assets can't be empty.", 
       type: "error", 
       showCancelButton: false
     });
@@ -662,7 +701,8 @@ $(".btn-txonchain").click(function() {
   }
   if (!$("#txonchain-amount").val()) {
     swal({ 
-      title: "Amount can't be empty.", 
+      title: "Error!", 
+      text: "Amount can't be empty.", 
       type: "error", 
       showCancelButton: false
     });
@@ -670,7 +710,8 @@ $(".btn-txonchain").click(function() {
   }
   if ($("#txonchain-amount").val() > Number($(".total-balance").text())) {
     swal({ 
-      title: "The transfer amount should be less than the balance amount.", 
+      title: "Error!", 
+      text: "The transfer amount should be less than the balance amount.", 
       type: "error", 
       showCancelButton: false
     });

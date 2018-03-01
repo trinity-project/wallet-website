@@ -142,7 +142,7 @@
         <table class="table table-hover">
           <thead>
             <tr>
-              <th>Date</th>
+<!--               <th>Date</th> -->
               <th>Address</th>
               <th>Deposit</th>
               <th>Balance</th>
@@ -255,7 +255,7 @@
     <!-- channel form end-->
     <!-- channel-info form start-->
     <form action="#" class="channel-info-form animate-box" data-animate-effect="fadeInBottom">
-      <a class="close-btn" id="info-close-btn" face-button data-action="close">×</a>
+      <a class="close-btn" id="info-close-btn">×</a>
       <h4 id="info-remark">Channel Info</h4>
       <label style="display: none;">Channel Name:
         <br><span id="info-channel-name"></span></label>
@@ -266,15 +266,14 @@
       <label>Remote Address:
         <br><span id="info-receiver-addr"></span></label>
       <br>
-      <label>Contract Address:
+<!--       <label>Contract Address:
         <br><span id="info-contract-addr"></span></label>
-      <br>
+      <br> -->
       <label>Deposit:<span id="info-sender-deposit"></span>TNC</label><a id="add-deposit">Add</a>
       <br>
       <label>Balance:<span id="info-sender-balance"></span>TNC</label>
       <br>
       <label style="display: none;">Channel Life(day):<span id="info-time"></span></label>
-      <br>
       <label>Channel State:<span id="info-state"></span></label>
       <br>
       <div style="text-align: center;margin-top: 10%">
@@ -378,8 +377,8 @@
           <div class="form-group">
             <label for="transfer-assets" style="font-size: 20px;">Assets : </label>
             <select class="form-control" id="transfer-assets" disabled="disabled">
-              <option>NEO</option>
               <option>TNC</option>
+              <option>NEO</option>
               <option>GAS</option>
             </select>
           </div>

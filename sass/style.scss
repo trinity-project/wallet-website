@@ -780,7 +780,7 @@ nav{
   position: relative;
   color: #000000;
   float: left;
-  height: 77%;
+  height: 82%;
   width: 40%;
   margin-right: 5%;
   word-break: break-all;
@@ -866,7 +866,7 @@ nav{
 .setting-form .setting-box-left{
   position: relative;
   float: left;
-  height: 77%;
+  height: 82%;
   width: 40%;
   margin-right: 5%;
   word-break: break-all;
@@ -1089,7 +1089,7 @@ nav{
 
 .transfer-form .transfer-box {
   padding: 20px;
-  height: 77%;
+  height: 82%;
   background: rgba(255, 255, 255, 0.8);
   border: 1px solid #e1e1e1;
   border-radius: 10px;
@@ -1105,7 +1105,7 @@ nav{
 
 .transfer-form .transfer-box-left{
   float: left;
-  height: 77%;
+  height: 82%;
   width: 40%;
   margin-right: 5%;
   word-break: break-all;
@@ -1278,7 +1278,7 @@ nav{
 
 .txonchain-form .txonchain-box {
   padding: 20px;
-  height: 77%;
+  height: 82%;
   background: rgba(255, 255, 255, 0.8);
   border: 1px solid #e1e1e1;
   border-radius: 10px;
@@ -1294,7 +1294,7 @@ nav{
 
 .txonchain-form .txonchain-box-left{
   float: left;
-  height: 77%;
+  height: 82%;
   width: 40%;
   margin-right: 5%;
   word-break: break-all;
@@ -1489,7 +1489,7 @@ nav{
 .assets-form .assets-box-left{
   position: relative;
   float: left;
-  height: 77%;
+  height: 82%;
   width: 40%;
   margin-right: 5%;
   word-break:break-all;
@@ -1503,6 +1503,7 @@ nav{
 }
 .assets-form h2 {
   font-size: 21px;
+  margin: 10px 0;
   color: #000000;
 }
 .assets-form h3 {
@@ -2141,7 +2142,7 @@ nav{
 
 .channel-form .channel-box {
   padding: 20px;
-  height: 77%;
+  height: 82%;
   background: rgba(255, 255, 255, 0.8);
   border: 1px solid #e1e1e1;
   border-radius: 10px;
@@ -2160,7 +2161,7 @@ nav{
 
 .channel-form .channel-box-left{
   float: left;
-  height: 77%;
+  height: 82%;
   width: 40%;
   margin-right: 5%;
   word-break: break-all;
@@ -2499,7 +2500,7 @@ nav{
   box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1); }
 .channel-edit-form .channel-edit-box-left{
   float: left;
-  height: 77%;
+  height: 82%;
   width: 40%;
   margin-right: 5%;
   word-break: break-all;
@@ -2659,14 +2660,14 @@ nav{
   background-color: white;
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   width: 478px;
-  height: 540px;
+  height: 460px;
   padding: 17px;
   border-radius: 5px;
   position: fixed;
   left: 50%;
   top: 50%;
   margin-left: -239px;
-  margin-top: -270px;
+  margin-top: -230px;
   overflow: hidden;
   display: none;
   z-index: 99999;

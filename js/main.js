@@ -37,7 +37,7 @@ var addr;
 var privateKey;
 var pubkey;
 var txRawDataTest;
-var TrinityTestNet = "http://192.168.206.55:5000";
+var TrinityTestNet = "http://47.254.39.10:20552";
 //nav start
 $(".navbar-nav").find("li").click(function() {
     $(this).siblings().removeAttr("class");
@@ -131,7 +131,7 @@ $(".record-chain-a").click(function(){
 });
 var getbalanceonchain = function(){
     $.ajax({
-    url: "http://192.168.206.55:21332",
+    url: "http://47.88.35.235:21332",
     type: "POST",
     data: JSON.stringify({
       "jsonrpc": "2.0",
@@ -372,11 +372,12 @@ var getchannelstate = function(){
 }
 //channel-edit end
 
-//channel start
+//regist channel start
 $(".btn-channel").click(function() {
   if($("#regist-channel-address").val().length != 34){
     swal({ 
-      title: "Address length check failed.", 
+      title: "Error!", 
+      text: "Address length check failed.", 
       type: "error", 
       showCancelButton: false
     });
@@ -384,7 +385,8 @@ $(".btn-channel").click(function() {
   }
   if (!$("#regist-channel-deposit").val()) {
     swal({ 
-      title: "Deposit can't be empty.", 
+      title: "Error!", 
+      text: "Deposit can't be empty.", 
       type: "error", 
       showCancelButton: false
     });
@@ -448,7 +450,8 @@ $(".btn-channel").click(function() {
             if(message.result =="fail"){
               swal("fail!", message.result,"error");
             } else {
-              swal("Transfer success!", "","success");
+              $("#nav-btn-channel").click();
+              swal("Add success!", "","success");
             }
           },
           error: function(message) {
@@ -464,7 +467,7 @@ $(".btn-channel").click(function() {
   } 
   });
 });
-//channel end
+//regist channel end
 //channel-info start
 $("#btn_closechannel").click(function() {
   if ($("#info-state").text() == "OPEN") {
@@ -656,7 +659,7 @@ $(".btn-transfer").click(function() {
       data: JSON.stringify({
         "jsonrpc": "2.0",
         "method": "sendertoreceiver",
-        "params": [$("#wallet_add").text(),$("#txonchain-address").val(),"TNC",$("#txonchain-amount").val()],
+        "params": [$(".wallet_add").text(),$("#transfer-address").val(),"TNC",$("#transfer-amount").val()],
         "id": 1
       }),
       contentType: 'application/json',
@@ -680,7 +683,8 @@ $(".btn-transfer").click(function() {
 $(".btn-txonchain").click(function() {
   if($("#txonchain-address").val().length != 34){
     swal({ 
-      title: "Address length check failed.", 
+      title: "Error!", 
+      text:"Address length check failed.",
       type: "error", 
       showCancelButton: false
     });
@@ -688,7 +692,8 @@ $(".btn-txonchain").click(function() {
   }
   if (!$("#txonchain-assets").val()) {
     swal({ 
-      title: "Assets can't be empty.", 
+      title: "Error!", 
+      text: "Assets can't be empty.", 
       type: "error", 
       showCancelButton: false
     });
@@ -696,7 +701,8 @@ $(".btn-txonchain").click(function() {
   }
   if (!$("#txonchain-amount").val()) {
     swal({ 
-      title: "Amount can't be empty.", 
+      title: "Error!", 
+      text: "Amount can't be empty.", 
       type: "error", 
       showCancelButton: false
     });
@@ -704,7 +710,8 @@ $(".btn-txonchain").click(function() {
   }
   if ($("#txonchain-amount").val() > Number($(".total-balance").text())) {
     swal({ 
-      title: "The transfer amount should be less than the balance amount.", 
+      title: "Error!", 
+      text: "The transfer amount should be less than the balance amount.", 
       type: "error", 
       showCancelButton: false
     });

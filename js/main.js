@@ -35,7 +35,9 @@ var contentWayPoint = function() {
 //全局变量申明
 var addr;
 var privateKey;
-var TrinityTestNet = "http://47.88.35.235:21332";
+var pubkey;
+var txRawDataTest;
+var TrinityTestNet = "http://47.254.39.10:20552";
 //nav start
 $(".navbar-nav").find("li").click(function() {
     $(this).siblings().removeAttr("class");
@@ -85,10 +87,10 @@ $("#nav-btn-setting").click(function() {
 var addressfun = function(a){
   privateKey = a; //随机生成私钥
   //console.log('privateKey:'+privateKey);
-  var txRawDataTest = "d101500400e1f505141a3db733023a855ac2077926c60e4c1fb4d5af00147880ddceb5101a29e05ea09da1ad310539dc8e6953c1087472616e7366657267f1dfcf0051ec48ec95c8d0569e0b95075d099d84f1000000000000000002207880ddceb5101a29e05ea09da1ad310539dc8e69f0045a962c980000";
-  var signre = signatureData( txRawDataTest, privateKey); //签名
+  //txRawDataTest = "";
+  //var signre = signatureData( txRawDataTest, privateKey); //签名
   //console.log('signre:'+signre);
-  var pubkey = getPublicKey(privateKey,0); //公钥
+  pubkey = getPublicKey(privateKey,0); //公钥
   //console.log('pubkey:'+ab2hexstring(pubkey));
   var pubKeyEncoded =getPublicKeyEncoded(ab2hexstring(pubkey));
   //console.log('pubKeyEncoded:'+pubKeyEncoded);
@@ -129,7 +131,7 @@ $(".record-chain-a").click(function(){
 });
 var getbalanceonchain = function(){
     $.ajax({
-    url: TrinityTestNet,
+    url: "http://47.88.35.235:21332",
     type: "POST",
     data: JSON.stringify({
       "jsonrpc": "2.0",
@@ -171,7 +173,7 @@ $(".btn-sign-up").click(function(){
     privateKey = ab2hexstring(generatePrivateKey()); //随机生成私钥
     //console.log('privateKey:'+privateKey);
     var privateKeyTest = "5e980ec243c32cbbd2b5addc4f643774a6a6bb7123b49244b6e67cf56122eaa0";//测试密钥
-    var txRawDataTest = "d101500400e1f505141a3db733023a855ac2077926c60e4c1fb4d5af00147880ddceb5101a29e05ea09da1ad310539dc8e6953c1087472616e7366657267f1dfcf0051ec48ec95c8d0569e0b95075d099d84f1000000000000000002207880ddceb5101a29e05ea09da1ad310539dc8e69f0045a962c980000";
+    //txRawDataTest = "d101500400e1f505141a3db733023a855ac2077926c60e4c1fb4d5af00147880ddceb5101a29e05ea09da1ad310539dc8e6953c1087472616e7366657267f1dfcf0051ec48ec95c8d0569e0b95075d099d84f1000000000000000002207880ddceb5101a29e05ea09da1ad310539dc8e69f0045a962c980000";
     //console.log('privateKeyTest:'+privateKeyTest);
     // var password = "11111111";
     // var walletBlob = generateWalletFileBlob(privateKey, password); //keystore
@@ -180,9 +182,9 @@ $(".btn-sign-up").click(function(){
     // console.log('objectURL:'+objectURL);
     // var objectName = objectURL.substring(objectURL.lastIndexOf('/') + 1); //下载名称
     // console.log('objectName:'+objectName);
-    var signre = signatureData( txRawDataTest, privateKey); //签名
+    //var signre = signatureData( txRawDataTest, privateKey); //签名
     //console.log('signre:'+signre);
-    var pubkey = getPublicKey(privateKey,0); //公钥
+    pubkey = getPublicKey(privateKey,0); //公钥
     //console.log('pubkey:'+ab2hexstring(pubkey));
     var pubKeyEncoded =getPublicKeyEncoded(ab2hexstring(pubkey));
     //console.log('pubKeyEncoded:'+pubKeyEncoded);
@@ -276,10 +278,28 @@ var loginfun = function(){
       $("#wallet_add,#wallet-address").html(addr);
       $("#wallet_qr").attr('src','http://qr.liantu.com/api.php?text='+addr);
       getbalanceonchain();
+      registeaddress();
       getchannelstate();
     }, 1);
   });
 };
+var registeaddress = function(){
+  $.ajax({
+    url: TrinityTestNet,
+    type: "POST",
+    data: JSON.stringify({
+      "jsonrpc": "2.0",
+      "method": "registeaddress",
+      "params": [addr,"",ab2hexstring(pubkey)],
+      "id": 1
+    }),
+    contentType: 'application/json',
+    success: function(message) {
+    },
+    error: function(message) {
+    }
+  });
+}
 //login end
 //channel-edit start
 $("#channel-regist").click(function() {
@@ -377,52 +397,46 @@ $(".btn-channel").click(function() {
       title: "Add Channel", 
       text: "You will add a new channel. <br />Receiver address : " + $("#regist-channel-address").val() + "<br>Deposit : " + $("#regist-channel-deposit").val() + $("#regist-channel-assets").val(), 
       type: "info",
-      confirmButtonColor: "#FC6686",
-      confirmButtonText: "Comfirm", 
+      type: "info", 
+      showCancelButton: true, 
       closeOnConfirm: false, 
-      html: true   
+      showLoaderOnConfirm: true, 
+      html:true  
     },function(isConfirm){ 
     if (isConfirm) {
-    registchannle();
-  } 
-  });
-  //transFace('.channel-pay-form');
-  //$("#channel-comfirm-info").html("You will add a new channel. <br />Receiver address : " + $("#regist-channel-address").val() + "<br>Deposit : " + $("#regist-channel-deposit").val() + $("#regist-channel-assets").val());
-});
-var registchannle = function(){
     $.ajax({
     url: TrinityTestNet,
     type: "POST",
     data: JSON.stringify({
       "jsonrpc": "2.0",
-      "method": "registchannle",
+      "method": "registchannel",
       "params": [$("#wallet_add").html(), $("#regist-channel-address").val(), $("#regist-channel-assets").val(), $("#regist-channel-deposit").val(), "1"],
       "id": 1
     }),
     contentType: 'application/json',
     success: function(message) {
-      if (message.result.error) {
-        alert(message.result.error);
-      } else if (message.error) {
-        alert(message.error.message);
+      if (message.error) {
+        swal("error!", message.error.message,"error");
       } else {
-        alert("Regist success!");
-        $.ajax({
+        txRawDataTest = message.result.trad_info;
+        console.log(txRawDataTest);
+        var signre = signatureData( txRawDataTest, privateKey);
+        console.log("signre:" + signre);
+      $.ajax({
           url: TrinityTestNet,
           type: "POST",
           data: JSON.stringify({
             "jsonrpc": "2.0",
             "method": "sendrawtransaction",
-            "params": [$("#wallet_add").html(), message.result.channel_name, message.result.trad_info],
+            "params": [message.result.trad_info, signre, ab2hexstring(pubkey)],
             "id": 1
           }),
           contentType: 'application/json',
           success: function(message) {
-            if(message.result == "SUCCESS"){
-            transFace('.channel-edit-form', true);
-            $("#channel-btn").trigger('click');//refresh channel list
-            }else{
-              alert("something error");
+            if (message.error) {
+              swal("error!", message.error.message,"error");
+            } else {
+              swal("Transfer success!", "","success");
             }
           },
           error: function(message) {
@@ -435,7 +449,11 @@ var registchannle = function(){
       alert("error");
     }
   });
-}
+  } 
+  });
+  //transFace('.channel-pay-form');
+  //$("#channel-comfirm-info").html("You will add a new channel. <br />Receiver address : " + $("#regist-channel-address").val() + "<br>Deposit : " + $("#regist-channel-deposit").val() + $("#regist-channel-assets").val());
+});
 //channel end
 //channel-info start
 $("#btn_closechannel").click(function() {
@@ -443,7 +461,7 @@ $("#btn_closechannel").click(function() {
       $(".channel-info-form").hide();
       $(".curtain").hide();
       swal({ 
-        title: "Comfirm close channle?", 
+        title: "Comfirm close channel?", 
         type: "info", 
         showCancelButton: true, 
         closeOnConfirm: false, 
@@ -462,7 +480,7 @@ $("#btn_closechannel").click(function() {
           contentType: 'application/json',
           success: function(message) {
             if (message.result) {
-              sweetAlert("Channle is in SETTLING state.", "","success");
+              sweetAlert("Channel is in SETTLING state.", "","success");
               $(".channel-info-form").hide();
               $(".curtain").hide();
             }else{
@@ -681,7 +699,7 @@ $(".btn-txonchain").click(function() {
 var assetsfun = function(a){
   $("#assets-private-key").text(a);
 
-  var pubkey = getPublicKey(privateKey,0); //公钥
+  pubkey = getPublicKey(privateKey,0); //公钥
   $("#assets-public-key").text(ab2hexstring(pubkey));
 
   var pubKeyEncoded =getPublicKeyEncoded(ab2hexstring(pubkey));

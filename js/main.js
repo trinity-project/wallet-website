@@ -147,7 +147,6 @@ var getbalanceonchain = function(){
       $("#assets-gasbalance").text(message.result.gasBalance);
     },
     error: function(message) {
-      //alert("Something wrong with your internet suddenly.");
     }
   });
 }
@@ -415,14 +414,18 @@ $(".btn-channel").click(function() {
     }),
     contentType: 'application/json',
     success: function(message) {
-      if (message.error) {
-        swal("error!", message.error.message,"error");
-      } else {
+      if (message.result.error) {
+        swal("error!", message.result.error,"error");
+        return;
+      }
+      if(message.result.channel_name == null){
+        swal("error!", message.result.trad_info,"error");
+        return;
+      }
         txRawDataTest = message.result.trad_info;
         var pubKeyEncoded =getPublicKeyEncoded(ab2hexstring(pubkey));
         var signre = signatureData( txRawDataTest, privateKey);
-
-      $.ajax({
+        $.ajax({
           url: TrinityTestNet,
           type: "POST",
           data: JSON.stringify({
@@ -433,9 +436,10 @@ $(".btn-channel").click(function() {
           }),
           contentType: 'application/json',
           success: function(message) {
-            if (message.error) {
-              swal("error!", message.error.message,"error");
-            } else if(message.result ="fail"){
+            //if (message.error) {
+              //swal("error!", message.error.message,"error");
+            //} else 
+            if(message.result =="fail"){
               swal("fail!", message.result,"error");
             } else {
               swal("Transfer success!", "","success");
@@ -445,7 +449,7 @@ $(".btn-channel").click(function() {
             alert("error");
           }
         });
-      }
+
     },
     error: function(message) {
       alert("error");
@@ -453,8 +457,6 @@ $(".btn-channel").click(function() {
   });
   } 
   });
-  //transFace('.channel-pay-form');
-  //$("#channel-comfirm-info").html("You will add a new channel. <br />Receiver address : " + $("#regist-channel-address").val() + "<br>Deposit : " + $("#regist-channel-deposit").val() + $("#regist-channel-assets").val());
 });
 //channel end
 //channel-info start
@@ -506,7 +508,7 @@ $(".btn-totransfer").click(function() {
   $("#transfer-amount").val("");
   $("#channel-balance").text($("#info-sender-balance").text());
   } else {
-    alert('Channel not in OPEN state.');
+    sweetAlert("Channel not in OPEN state.", "","error");
   }
 });
 //channel-info end
@@ -517,7 +519,7 @@ $("#add-deposit").click(function(){
     $(".channel-info-form").hide();
     $(".add-input").val("");
   }else{
-    alert('Channel not in OPEN state.');
+    sweetAlert("Channel not in OPEN state.", "","error");
   }
 });
 $(".add-deposit-btn").click(function() {
@@ -545,7 +547,7 @@ $(".add-deposit-btn").click(function() {
       //$("#deposit-comfirm-info").text("Add " + $(".add-input").val() + "TNC as deposit");
     }
   } else {
-    alert("Deposit can't be empty.");
+    sweetAlert("Deposit can't be empty.", "","error");
   }
 });
 $("#add-close-btn").click(function() {
@@ -571,30 +573,37 @@ var updatedeposit = function(){
     contentType: 'application/json',
     success: function(message) {
       if (message.result && message.result.error) {
-        alert(message.result.error);
+        sweetAlert(message.result.error, "","error");
       } else if (message.error) {
-        alert(message.error.message);
+        sweetAlert(message.error.message, "","error");
       } else {
-        alert("Add deposit success!");
-        transFace(FACE_BACK);
-        $("#channel-btn").trigger('click');//refresh channel list
-        $.ajax({
-          url: TrinityTestNet,
-          type: "POST",
-          data: JSON.stringify({
-            "jsonrpc": "2.0",
-            "method": "sendrawtransaction",
-            "params": [$("#wallet_add").html(), message.result.channel_name, message.result.trad_info],
-            "id": 1
-          }),
-          contentType: 'application/json',
-          success: function(message) {
-             
-          },
-          error: function(message) {
-            alert("error");
-          }
-        });
+        txRawDataTest = message.result.trad_info;
+        var pubKeyEncoded =getPublicKeyEncoded(ab2hexstring(pubkey));
+        var signre = signatureData( txRawDataTest, privateKey);
+          $.ajax({
+            url: TrinityTestNet,
+            type: "POST",
+            data: JSON.stringify({
+              "jsonrpc": "2.0",
+              "method": "sendrawtransaction",
+              "params": [message.result.trad_info, signre, pubKeyEncoded],
+              "id": 1
+            }),
+            contentType: 'application/json',
+            success: function(message) {
+              //if (message.error) {
+                //swal("error!", message.error.message,"error");
+              //} else 
+              if(message.result =="fail"){
+                swal("fail!", message.result,"error");
+              } else {
+                swal("Transfer success!", "","success");
+              }
+            },
+            error: function(message) {
+              alert("error");
+            }
+          });
       }
     },
     error: function(message) {

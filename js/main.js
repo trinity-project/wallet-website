@@ -557,11 +557,63 @@ $(".add-deposit-btn").click(function() {
           type: "info",
           confirmButtonColor: "#FC6686",
           confirmButtonText: "Comfirm", 
-          closeOnConfirm: false, 
+          showCancelButton: true, 
+          closeOnConfirm: false,
+          showLoaderOnConfirm: true,  
           html: true   
         },function(isConfirm){ 
         if (isConfirm) {
-        updatedeposit();
+          $.ajax({
+          //url: TrinityTestNet + ":5000",
+          url: "http://47.254.39.10:20552",
+          type: "POST",
+          data: JSON.stringify({
+            "jsonrpc": "2.0",
+            "method": "updatedeposit",
+            "params": [$("#wallet_add").text(),$("#info-channel-name").text(),"TNC",$(".add-input").val()],
+            "id": 1
+          }),
+          contentType: 'application/json',
+          success: function(message) {
+            if (message.result && message.result.error) {
+              sweetAlert(message.result.error, "","error");
+            } else if (message.error) {
+              sweetAlert(message.error.message, "","error");
+            } else {
+              txRawDataTest = message.result.trad_info;
+              var pubKeyEncoded =getPublicKeyEncoded(ab2hexstring(pubkey));
+              var signre = signatureData( txRawDataTest, privateKey);
+                $.ajax({
+                  //url: TrinityTestNet + ":5000",
+                  url: "http://47.254.39.10:20552",
+                  type: "POST",
+                  data: JSON.stringify({
+                    "jsonrpc": "2.0",
+                    "method": "sendrawtransaction",
+                    "params": [message.result.trad_info, signre, pubKeyEncoded],
+                    "id": 1
+                  }),
+                  contentType: 'application/json',
+                  success: function(message) {
+                    //if (message.error) {
+                      //swal("error!", message.error.message,"error");
+                    //} else 
+                    if(message.result =="fail"){
+                      swal("fail!", message.result,"error");
+                    } else {
+                      swal("Transfer success!", "","success");
+                    }
+                  },
+                  error: function(message) {
+                    alert("error");
+                  }
+                });
+            }
+          },
+          error: function(message) {
+            alert("error");
+          }
+        });
       } 
       });
       //$("#deposit-comfirm-info").text("Add " + $(".add-input").val() + "TNC as deposit");
@@ -580,59 +632,6 @@ $("#deposit-pay-close-btn").click(function() {
     $(".deposit-pay-form").hide();
     $(".curtain").hide();
 })
-var updatedeposit = function(){
-  $.ajax({
-    //url: TrinityTestNet + ":5000",
-    url: "http://47.254.39.10:20552",
-    type: "POST",
-    data: JSON.stringify({
-      "jsonrpc": "2.0",
-      "method": "updatedeposit",
-      "params": [$("#wallet_add").text(),$("#info-channel-name").text(),"TNC",$(".add-input").val()],
-      "id": 1
-    }),
-    contentType: 'application/json',
-    success: function(message) {
-      if (message.result && message.result.error) {
-        sweetAlert(message.result.error, "","error");
-      } else if (message.error) {
-        sweetAlert(message.error.message, "","error");
-      } else {
-        txRawDataTest = message.result.trad_info;
-        var pubKeyEncoded =getPublicKeyEncoded(ab2hexstring(pubkey));
-        var signre = signatureData( txRawDataTest, privateKey);
-          $.ajax({
-            //url: TrinityTestNet + ":5000",
-            url: "http://47.254.39.10:20552",
-            type: "POST",
-            data: JSON.stringify({
-              "jsonrpc": "2.0",
-              "method": "sendrawtransaction",
-              "params": [message.result.trad_info, signre, pubKeyEncoded],
-              "id": 1
-            }),
-            contentType: 'application/json',
-            success: function(message) {
-              //if (message.error) {
-                //swal("error!", message.error.message,"error");
-              //} else 
-              if(message.result =="fail"){
-                swal("fail!", message.result,"error");
-              } else {
-                swal("Transfer success!", "","success");
-              }
-            },
-            error: function(message) {
-              alert("error");
-            }
-          });
-      }
-    },
-    error: function(message) {
-      alert("error");
-    }
-  });
-}
 //add-comfirm end
 //transfer start
 $(".btn-transfer").click(function() {
@@ -669,7 +668,7 @@ $(".btn-transfer").click(function() {
       data: JSON.stringify({
         "jsonrpc": "2.0",
         "method": "sendertoreceiver",
-        "params": [$(".wallet_add").text(),$("#transfer-address").val(),"TNC",$("#transfer-amount").val()],
+        "params": [$("#wallet_add").text(),$("#transfer-address").val(),"TNC",$("#transfer-amount").val()],
         "id": 1
       }),
       contentType: 'application/json',
@@ -750,9 +749,9 @@ $(".btn-txonchain").click(function() {
       contentType: 'application/json',
       success: function(message) {
         if (message.result && message.result.error) {
-          swal(message.result.error, "","error");
+          swal("Error!",message.result.error,"error");
         } else if (message.error) {
-          swal(message.error.message, "","error");
+          swal("Error!",message.error.message,"error");
         } else {
           txRawDataTest = message.result.trad_info;
           var pubKeyEncoded =getPublicKeyEncoded(ab2hexstring(pubkey));

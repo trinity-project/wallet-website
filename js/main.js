@@ -640,10 +640,40 @@ $(".btn-transfer").click(function() {
     alert("The transfer amount should be less than the balance amount.");
     return;
   }
-  transFace('.pay-form');
-  // $(".curtain").show();
-  // $(".pay-form").show();
-  $("#comfirm-info").html("transfer " + $("#transfer-amount").val() + $("#amount-svg").text() + " to<br/>" + $("#transfer-address").val());
+  swal({ 
+    title: "Payment", 
+    text: "transfer " + $("#transfer-amount").val() + "TNC to<br/>" + $("#transfer-address").val(), 
+    type: "info", 
+    showCancelButton: true, 
+    closeOnConfirm: false, 
+    showLoaderOnConfirm: true, 
+    html:true
+  },
+  function(){
+    $.ajax({
+      url: TrinityTestNet,
+      type: "POST",
+      data: JSON.stringify({
+        "jsonrpc": "2.0",
+        "method": "sendertoreceiver",
+        "params": [$("#wallet_add").text(),$("#txonchain-address").val(),"TNC",$("#txonchain-amount").val()],
+        "id": 1
+      }),
+      contentType: 'application/json',
+      success: function(message) {
+        if (message.result && message.result.error) {
+          swal(message.result.error, "","error");
+        } else if (message.error) {
+          swal(message.error.message, "","error");
+        } else {
+          swal("Transfer success!", "","success");
+        }
+      },
+      error: function(message) {
+        alert("error");
+      }
+    }); 
+  });
 });
 //transfer end
 //transfer on chain start

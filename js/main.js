@@ -753,68 +753,67 @@ $(".btn-txonchain").click(function() {
     });
     return;
   }
-  swal({ 
-    title: "Payment", 
-    text: "transfer " + $("#txonchain-amount").val()  + "TNC to<br/>" + $("#txonchain-address").val(), 
-    type: "info", 
-    showCancelButton: true, 
-    closeOnConfirm: false, 
-    showLoaderOnConfirm: true, 
-    html:true
-  },
-  function(){ 
+    swal({ 
+      title: "Payment", 
+      text: "transfer " + $("#txonchain-amount").val()  + "TNC to<br/>" + $("#txonchain-address").val(), 
+      type: "info",
+      showCancelButton: true, 
+      closeOnConfirm: false, 
+      showLoaderOnConfirm: true, 
+      html:true  
+    },function(isConfirm){ 
+    if (isConfirm) {
     $.ajax({
-      //url: TrinityTestNet + ":5000",
-      url: "http://47.254.39.10:20552",
-      type: "POST",
-      data: JSON.stringify({
-        "jsonrpc": "2.0",
-        "method": "txonchain",
-        "params": [$("#wallet_add").text(),$("#txonchain-address").val(),"TNC",$("#txonchain-amount").val()],
-        "id": 1
-      }),
-      contentType: 'application/json',
-      success: function(message) {
-        // if (message.result && message.result.error) {
-        //   swal("Error!",message.result.error,"error");
-        // } else 
-        if (message.error) {
-          swal("Error!",message.error.message,"error");
-        } else {
-          txRawDataTest = message.result.trad_info;
-          var pubKeyEncoded =getPublicKeyEncoded(ab2hexstring(pubkey));
-          var signre = signatureData( txRawDataTest, privateKey);
-          $.ajax({
-            //url: TrinityTestNet + ":5000",
-            url: "http://47.254.39.10:20552",
-            type: "POST",
-            data: JSON.stringify({
-              "jsonrpc": "2.0",
-              "method": "sendrawtransaction",
-              "params": [txRawDataTest, signre, pubKeyEncoded],
-              "id": 1
-            }),
-            contentType: 'application/json',
-            success: function(message) {
-              //if (message.error) {
-                //swal("error!", message.error.message,"error");
-              //} else 
-              if(message.result =="fail"){
-                swal("fail!", message.result,"error");
-              } else {
-                swal("Transfer success!", message.result.tx_id,"success");
-              }
-            },
-            error: function(message) {
-              alert("error");
-            }
-          });
-        }
-      },
-      error: function(message) {
-        alert("error");
+    //url: TrinityTestNet + ":5000",
+    url: "http://47.254.39.10:20552",
+    type: "POST",
+    data: JSON.stringify({
+      "jsonrpc": "2.0",
+      "method": "txonchain",
+      "params": [$("#wallet_add").text(),$("#txonchain-address").val(),"TNC",$("#txonchain-amount").val()],
+      "id": 1
+    }),
+    contentType: 'application/json',
+    success: function(message) {
+      if (message.result.error) {
+        swal("error1!", message.result.error,"error");
+        return;
       }
-    });
+        txRawDataTest = message.result.tx_id;
+        var pubKeyEncoded =getPublicKeyEncoded(ab2hexstring(pubkey));
+        var signre = signatureData( txRawDataTest, privateKey);
+        $.ajax({
+          //url: TrinityTestNet + ":5000",
+          url: "http://47.254.39.10:20552",
+          type: "POST",
+          data: JSON.stringify({
+            "jsonrpc": "2.0",
+            "method": "sendrawtransaction",
+            "params": [txRawDataTest, signre, pubKeyEncoded],
+            "id": 1
+          }),
+          contentType: 'application/json',
+          success: function(message) {
+            //if (message.error) {
+              //swal("error!", message.error.message,"error");
+            //} else 
+            if(message.result =="fail"){
+              swal("fail!", message.result,"error");
+            } else {
+              swal("Transfer success!", message.result.tx_id,"success");
+            }
+          },
+          error: function(message) {
+            alert("error");
+          }
+        });
+
+    },
+    error: function(message) {
+      alert("error");
+    }
+  });
+  } 
   });
 });
 //transfer on chain end

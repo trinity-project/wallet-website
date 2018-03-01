@@ -779,7 +779,7 @@ $(".btn-txonchain").click(function() {
         swal("error1!", message.result.error,"error");
         return;
       }
-        txRawDataTest = message.result.tx_id;
+        txRawDataTest = message.result.tx_info;
         var pubKeyEncoded =getPublicKeyEncoded(ab2hexstring(pubkey));
         var signre = signatureData( txRawDataTest, privateKey);
         $.ajax({
@@ -797,8 +797,8 @@ $(".btn-txonchain").click(function() {
             //if (message.error) {
               //swal("error!", message.error.message,"error");
             //} else 
-            if(message.result =="fail"){
-              swal("fail!", message.result,"error");
+            if(message.error){
+              swal("Error!", message.error,"error");
             } else {
               swal("Transfer success!", message.result.tx_id,"success");
             }

@@ -37,7 +37,7 @@ var addr;
 var privateKey;
 var pubkey;
 var txRawDataTest;
-var TrinityTestNet = "http://47.254.39.10:20552";
+var TrinityTestNet = "http://192.168.206.55:5000";
 //nav start
 $(".navbar-nav").find("li").click(function() {
     $(this).siblings().removeAttr("class");
@@ -131,7 +131,7 @@ $(".record-chain-a").click(function(){
 });
 var getbalanceonchain = function(){
     $.ajax({
-    url: "http://47.88.35.235:21332",
+    url: "http://192.168.206.55:21332",
     type: "POST",
     data: JSON.stringify({
       "jsonrpc": "2.0",
@@ -300,7 +300,7 @@ var getchannelstate = function(){
         message.result.message.forEach((item) => {
           if (item.tx_info) {
             var aa = item.channel_state.split('.');
-            $(`<tr><td>${item.tx_info[1].address}</td><td>${item.tx_info[0].deposit}TNC</td><td>${item.tx_info[0].balance}TNC</td><td>OPEN</td><td style="color: #FF95AE;cursor: pointer;">Details ></td></tr>`)
+            $(`<tr><td>${item.tx_info[1].address}</td><td>${item.tx_info[0].deposit}TNC</td><td>${item.tx_info[0].balance}TNC</td><td>${aa[1]}</td><td style="color: #FF95AE;cursor: pointer;">Details ></td></tr>`)
               .appendTo('#channels-index').click(() => {
                 transFace('.channel-info-form');  
                 $("#info-channel-name").text(item.channel_name);
@@ -315,7 +315,7 @@ var getchannelstate = function(){
           }
           $("#channels-mes").hide();
         });
-        message.result.forEach((item) => {
+        message.result.message.forEach((item) => {
           // if (item.tx_info && item.channel_state === 'State.OPEN') {
           if (item.tx_info) {
             var aa = item.channel_state.split('.');

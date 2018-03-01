@@ -2357,14 +2357,14 @@ nav {
   background-color: white;
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   width: 478px;
-  height: 540px;
+  height: 460px;
   padding: 17px;
   border-radius: 5px;
   position: fixed;
   left: 50%;
   top: 50%;
   margin-left: -239px;
-  margin-top: -270px;
+  margin-top: -230px;
   overflow: hidden;
   display: none;
   z-index: 99999; }

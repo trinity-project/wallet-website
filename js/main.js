@@ -306,7 +306,7 @@ var getchannelstate = function(){
                 $("#info-channel-name").text(item.channel_name);
                 $("#info-sender-addr").text(item.tx_info[0].address);
                 $("#info-receiver-addr").text(item.tx_info[1].address);
-                $("#info-contract-addr").text(item.tx_info[0].address);
+                //$("#info-contract-addr").text(item.tx_info[0].address);
                 $("#info-time").text(item.open_block);
                 $("#info-sender-deposit").text(item.tx_info[0].deposit);
                 $("#info-sender-balance").text(item.tx_info[0].balance);
@@ -517,6 +517,10 @@ $(".btn-totransfer").click(function() {
     sweetAlert("Channel not in OPEN state.", "","error");
   }
 });
+$("#info-close-btn").click(function() {
+  $(".channel-info-form").hide();
+  $(".curtain").hide();
+})
 //channel-info end
 //add start
 $("#add-deposit").click(function(){

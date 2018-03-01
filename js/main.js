@@ -500,9 +500,36 @@ $("#btn_closechannel").click(function() {
           contentType: 'application/json',
           success: function(message) {
             if (message.result) {
-              sweetAlert("Channel is in SETTLING state.", "","success");
-              $(".channel-info-form").hide();
-              $(".curtain").hide();
+                txRawDataTest = message.result.trad_info;
+                var pubKeyEncoded =getPublicKeyEncoded(ab2hexstring(pubkey));
+                var signre = signatureData( txRawDataTest, privateKey);
+                $.ajax({
+                  //url: TrinityTestNet + ":5000",
+                  url: "http://47.254.39.10:20552",
+                  type: "POST",
+                  data: JSON.stringify({
+                    "jsonrpc": "2.0",
+                    "method": "sendrawtransaction",
+                    "params": [message.result.trad_info, signre, pubKeyEncoded],
+                    "id": 1
+                  }),
+                  contentType: 'application/json',
+                  success: function(message) {
+                    //if (message.error) {
+                      //swal("error!", message.error.message,"error");
+                    //} else 
+                    if(message.result =="fail"){
+                      swal("fail!", message.result,"error");
+                    } else {
+                      sweetAlert("Channel is in SETTLING state.", "","success");
+                      $(".channel-info-form").hide();
+                      $(".curtain").hide();
+                    }
+                  },
+                  error: function(message) {
+                    alert("error");
+                  }
+                });
             }else{
               sweetAlert("something error", "","error");
             }
@@ -601,7 +628,7 @@ $(".add-deposit-btn").click(function() {
                     if(message.result =="fail"){
                       swal("fail!", message.result,"error");
                     } else {
-                      swal("Transfer success!", "","success");
+                      swal("Add success!", "","success");
                     }
                   },
                   error: function(message) {
@@ -774,8 +801,7 @@ $(".btn-txonchain").click(function() {
               if(message.result =="fail"){
                 swal("fail!", message.result,"error");
               } else {
-                $("#nav-btn-channel").click();
-                swal("Add success!", "","success");
+                swal("Transfer success!", "","success");
               }
             },
             error: function(message) {

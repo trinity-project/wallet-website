@@ -140,7 +140,7 @@ var getbalanceonchain = function(){
       "id": 1
     }),
     contentType: 'application/json',
-    success: function(message.result) {
+    success: function(message) {
       $(".total-balance").text(message.result.tncBalance + "TNC");
       $("#assets-neobalance").text(message.result.neoBalance);
       $("#assets-tncbalance").text(message.result.tncBalance);

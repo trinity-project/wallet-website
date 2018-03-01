@@ -140,7 +140,7 @@ var getbalanceonchain = function(){
       "id": 1
     }),
     contentType: 'application/json',
-    success: function(message) {
+    success: function(message.result) {
       $(".total-balance").text(message.result.tncBalance + "TNC");
       $("#assets-neobalance").text(message.result.neoBalance);
       $("#assets-tncbalance").text(message.result.tncBalance);
@@ -296,8 +296,8 @@ var getchannelstate = function(){
       if(message.result.type == "transaction"){
       $('#channels').html('');
       $('#channels-index').html('');
-      if (message.result) {
-        message.result.forEach((item) => {
+      if (message.result.message) {
+        message.result.message.forEach((item) => {
           if (item.tx_info) {
             var aa = item.channel_state.split('.');
             $(`<tr><td>${item.tx_info[1].address}</td><td>${item.tx_info[0].deposit}TNC</td><td>${item.tx_info[0].balance}TNC</td><td>OPEN</td><td style="color: #FF95AE;cursor: pointer;">Details ></td></tr>`)

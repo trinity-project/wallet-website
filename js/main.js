@@ -37,7 +37,7 @@ var addr;
 var privateKey;
 var pubkey;
 var txRawDataTest;
-var TrinityTestNet = "http://47.254.39.10";
+var TrinityTestNet = "http://localhost";
 //nav start
 $(".navbar-nav").find("li").click(function() {
     $(this).siblings().removeAttr("class");
@@ -267,7 +267,7 @@ var registeaddress = function(){
     data: JSON.stringify({
       "jsonrpc": "2.0",
       "method": "registeaddress",
-      "params": [addr,"",ab2hexstring(pubkey)],
+      "params": [addr,"",getPublicKeyEncoded(ab2hexstring(pubkey))],
       "id": 1
     }),
     contentType: 'application/json',
@@ -503,10 +503,10 @@ $("#btn_closechannel").click(function() {
           }),
           contentType: 'application/json',
           success: function(message) {
-            if (!message.result) {
-              sweetAlert(message.result, "","success");
-            }else{
+            if (message.result==""||message.result==null) {
               sweetAlert("something error", "","error");
+            }else{
+              sweetAlert(message.result, "","success");
             }
           },
           error: function(message) {

@@ -695,7 +695,7 @@ $(".btn-transfer").click(function() {
       data: JSON.stringify({
         "jsonrpc": "2.0",
         "method": "sendertoreceiver",
-        "params": [$("#wallet_add").text(),$("#transfer-address").val(),"TNC",$("#transfer-amount").val()],
+        "params": [$("#wallet_add").text(),$("#transfer-address").val(),$("#transfer-channel-name").val(),"TNC",$("#transfer-amount").val()],
         "id": 1
       }),
       contentType: 'application/json',
@@ -775,9 +775,10 @@ $(".btn-txonchain").click(function() {
       }),
       contentType: 'application/json',
       success: function(message) {
-        if (message.result && message.result.error) {
-          swal("Error!",message.result.error,"error");
-        } else if (message.error) {
+        // if (message.result && message.result.error) {
+        //   swal("Error!",message.result.error,"error");
+        // } else 
+        if (message.error) {
           swal("Error!",message.error.message,"error");
         } else {
           txRawDataTest = message.result.trad_info;
@@ -790,7 +791,7 @@ $(".btn-txonchain").click(function() {
             data: JSON.stringify({
               "jsonrpc": "2.0",
               "method": "sendrawtransaction",
-              "params": [message.result.trad_info, signre, pubKeyEncoded],
+              "params": [txRawDataTest, signre, pubKeyEncoded],
               "id": 1
             }),
             contentType: 'application/json',
@@ -801,7 +802,7 @@ $(".btn-txonchain").click(function() {
               if(message.result =="fail"){
                 swal("fail!", message.result,"error");
               } else {
-                swal("Transfer success!", "","success");
+                swal("Transfer success!", message.result.tx_id,"success");
               }
             },
             error: function(message) {

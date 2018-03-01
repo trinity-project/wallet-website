@@ -419,22 +419,24 @@ $(".btn-channel").click(function() {
         swal("error!", message.error.message,"error");
       } else {
         txRawDataTest = message.result.trad_info;
-        console.log(txRawDataTest);
+        var pubKeyEncoded =getPublicKeyEncoded(ab2hexstring(pubkey));
         var signre = signatureData( txRawDataTest, privateKey);
-        console.log("signre:" + signre);
+
       $.ajax({
           url: TrinityTestNet,
           type: "POST",
           data: JSON.stringify({
             "jsonrpc": "2.0",
             "method": "sendrawtransaction",
-            "params": [message.result.trad_info, signre, ab2hexstring(pubkey)],
+            "params": [message.result.trad_info, signre, pubKeyEncoded],
             "id": 1
           }),
           contentType: 'application/json',
           success: function(message) {
             if (message.error) {
               swal("error!", message.error.message,"error");
+            } else if(message.result ="fail"){
+              swal("fail!", message.result,"error");
             } else {
               swal("Transfer success!", "","success");
             }

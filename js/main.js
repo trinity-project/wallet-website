@@ -82,14 +82,14 @@ $("#nav-btn-setting").click(function() {
   hideall();
   $(".setting-form").show();
 });
+$("#nav-logo").click(function() {
+  getchannelstate();
+})
 //nav end
 //index start
 var addressfun = function(a){
-  privateKey = a; //随机生成私钥
+  privateKey = a; //私钥
   //console.log('privateKey:'+privateKey);
-  //txRawDataTest = "";
-  //var signre = signatureData( txRawDataTest, privateKey); //签名
-  //console.log('signre:'+signre);
   pubkey = getPublicKey(privateKey,0); //公钥
   //console.log('pubkey:'+ab2hexstring(pubkey));
   var pubKeyEncoded =getPublicKeyEncoded(ab2hexstring(pubkey));
@@ -168,33 +168,7 @@ $(".btn-sign-up").click(function(){
     $("#sign-up-danger").slideDown("slow");
     return;
   }
-  var walletfun = function(){
-    privateKey = ab2hexstring(generatePrivateKey()); //随机生成私钥
-    //console.log('privateKey:'+privateKey);
-    var privateKeyTest = "5e980ec243c32cbbd2b5addc4f643774a6a6bb7123b49244b6e67cf56122eaa0";//测试密钥
-    //txRawDataTest = "d101500400e1f505141a3db733023a855ac2077926c60e4c1fb4d5af00147880ddceb5101a29e05ea09da1ad310539dc8e6953c1087472616e7366657267f1dfcf0051ec48ec95c8d0569e0b95075d099d84f1000000000000000002207880ddceb5101a29e05ea09da1ad310539dc8e69f0045a962c980000";
-    //console.log('privateKeyTest:'+privateKeyTest);
-    // var password = "11111111";
-    // var walletBlob = generateWalletFileBlob(privateKey, password); //keystore
-    // console.log('walletBlob:'+walletBlob);
-    // var objectURL = window.URL.createObjectURL(new Blob([walletBlob], { type: 'application/octet-stream' })); //下载链接
-    // console.log('objectURL:'+objectURL);
-    // var objectName = objectURL.substring(objectURL.lastIndexOf('/') + 1); //下载名称
-    // console.log('objectName:'+objectName);
-    //var signre = signatureData( txRawDataTest, privateKey); //签名
-    //console.log('signre:'+signre);
-    pubkey = getPublicKey(privateKey,0); //公钥
-    //console.log('pubkey:'+ab2hexstring(pubkey));
-    var pubKeyEncoded =getPublicKeyEncoded(ab2hexstring(pubkey));
-    //console.log('pubKeyEncoded:'+pubKeyEncoded);
-    var pubKeySignatureScript =createSignatureScript(pubKeyEncoded);
-    //console.log('pubKeySignatureScript:'+pubKeySignatureScript);
-    var pubKeyHash = getHash(pubKeySignatureScript);
-    //console.log('pubKeyHash:'+pubKeyHash);
-    addr = ToAddress(pubKeyHash); //钱包地址
-    //console.log('addr:'+addr);
-  }
-  walletfun();
+  privateKey = ab2hexstring(generatePrivateKey()); //随机生成私钥
   $(".sign-up-box").hide();
   $("#curtain").hide(); 
   swal({ 
@@ -319,13 +293,14 @@ var getchannelstate = function(){
     }),
     contentType: 'application/json',
     success: function(message) {
+      if(message.result.type == "transaction"){
       $('#channels').html('');
       $('#channels-index').html('');
       if (message.result) {
         message.result.forEach((item) => {
           if (item.tx_info) {
             var aa = item.channel_state.split('.');
-            $(`<tr><td>2018.01.31</td><td>${item.tx_info[1].address}</td><td>${item.tx_info[0].deposit}TNC</td><td>${item.tx_info[0].balance}TNC</td><td>OPEN</td><td style="color: #FF95AE;cursor: pointer;">Details ></td></tr>`)
+            $(`<tr><td>${item.tx_info[1].address}</td><td>${item.tx_info[0].deposit}TNC</td><td>${item.tx_info[0].balance}TNC</td><td>OPEN</td><td style="color: #FF95AE;cursor: pointer;">Details ></td></tr>`)
               .appendTo('#channels-index').click(() => {
                 transFace('.channel-info-form');  
                 $("#info-channel-name").text(item.channel_name);
@@ -356,6 +331,37 @@ var getchannelstate = function(){
                 $("#info-sender-balance").text(item.tx_info[0].balance);
                 $("#info-state").text(aa[1]);
               });
+          }
+        });
+      }
+      return;
+      }
+      if(message.result.type == "signature"){
+        txRawDataTest = message.result.message.raw_tx;
+        var pubKeyEncoded =getPublicKeyEncoded(ab2hexstring(pubkey));
+        var signre = signatureData( txRawDataTest, privateKey);
+        $.ajax({
+          url: TrinityTestNet,
+          type: "POST",
+          data: JSON.stringify({
+            "jsonrpc": "2.0",
+            "method": "settlerawtx",
+            "params": [message.result.message.channel_name, txRawDataTest, signre],
+            "id": 1
+          }),
+          contentType: 'application/json',
+          success: function(message) {
+            //if (message.error) {
+              //swal("error!", message.error.message,"error");
+            //} else 
+            if(message.result =="fail"){
+              swal("fail!", message.result,"error");
+            } else {
+              swal("Transfer success!", "","success");
+            }
+          },
+          error: function(message) {
+            alert("error");
           }
         });
       }

@@ -133,8 +133,7 @@ $(".record-chain-a").click(function(){
 });
 var getbalanceonchain = function(){
     $.ajax({
-    //url: TrinityTestNet + ":21332",
-    url: "http://47.88.35.235:21332",
+    url: TrinityTestNet + ":21332",
     type: "POST",
     data: JSON.stringify({
       "jsonrpc": "2.0",
@@ -261,8 +260,7 @@ var loginfun = function(){
 };
 var registeaddress = function(){
   $.ajax({
-    //url: TrinityTestNet + ":5000",
-    url: "http://47.254.39.10:20552",
+    url: TrinityTestNet + ":5000",
     type: "POST",
     data: JSON.stringify({
       "jsonrpc": "2.0",
@@ -287,8 +285,7 @@ $("#channel-regist").click(function() {
  });
 var getchannelstate = function(){
   $.ajax({
-    //url: TrinityTestNet + ":5000",
-    url: "http://47.254.39.10:20552",
+    url: TrinityTestNet + ":5000",
     type: "POST",
     data: JSON.stringify({
       "jsonrpc": "2.0",
@@ -347,8 +344,7 @@ var getchannelstate = function(){
         var pubKeyEncoded =getPublicKeyEncoded(ab2hexstring(pubkey));
         var signre = signatureData( txRawDataTest, privateKey);
         $.ajax({
-          //url: TrinityTestNet + ":5000",
-          url: "http://47.254.39.10:20552",
+          url: TrinityTestNet + ":5000",
           type: "POST",
           data: JSON.stringify({
             "jsonrpc": "2.0",
@@ -421,8 +417,7 @@ $(".btn-channel").click(function() {
     },function(isConfirm){ 
     if (isConfirm) {
     $.ajax({
-    //url: TrinityTestNet + ":5000",
-    url: "http://47.254.39.10:20552",
+    url: TrinityTestNet + ":5000",
     type: "POST",
     data: JSON.stringify({
       "jsonrpc": "2.0",
@@ -444,8 +439,7 @@ $(".btn-channel").click(function() {
         var pubKeyEncoded =getPublicKeyEncoded(ab2hexstring(pubkey));
         var signre = signatureData( txRawDataTest, privateKey);
         $.ajax({
-          //url: TrinityTestNet + ":5000",
-          url: "http://47.254.39.10:20552",
+          url: TrinityTestNet + ":5000",
           type: "POST",
           data: JSON.stringify({
             "jsonrpc": "2.0",
@@ -493,8 +487,7 @@ $("#btn_closechannel").click(function() {
       },
       function(){ 
           $.ajax({
-          //url: TrinityTestNet + ":5000",
-          url: "http://47.254.39.10:20552",
+          url: TrinityTestNet + ":5000",
           type: "POST",
           data: JSON.stringify({
             "jsonrpc": "2.0",
@@ -565,8 +558,7 @@ $(".add-deposit-btn").click(function() {
     },function(isConfirm){ 
     if (isConfirm) {
     $.ajax({
-    //url: TrinityTestNet + ":5000",
-    url: "http://47.254.39.10:20552",
+    url: TrinityTestNet + ":5000",
     type: "POST",
     data: JSON.stringify({
       "jsonrpc": "2.0",
@@ -588,8 +580,7 @@ $(".add-deposit-btn").click(function() {
       var pubKeyEncoded =getPublicKeyEncoded(ab2hexstring(pubkey));
       var signre = signatureData( txRawDataTest, privateKey);
         $.ajax({
-          //url: TrinityTestNet + ":5000",
-          url: "http://47.254.39.10:20552",
+          url: TrinityTestNet + ":5000",
           type: "POST",
           data: JSON.stringify({
             "jsonrpc": "2.0",
@@ -665,8 +656,7 @@ $(".btn-transfer").click(function() {
   },
   function(){
     $.ajax({
-      //url: TrinityTestNet + ":5000",
-      url: "http://47.254.39.10:20552",
+      url: TrinityTestNet + ":5000",
       type: "POST",
       data: JSON.stringify({
         "jsonrpc": "2.0",
@@ -741,8 +731,7 @@ $(".btn-txonchain").click(function() {
     },function(isConfirm){ 
     if (isConfirm) {
     $.ajax({
-    //url: TrinityTestNet + ":5000",
-    url: "http://47.254.39.10:20552",
+    url: TrinityTestNet + ":5000",
     type: "POST",
     data: JSON.stringify({
       "jsonrpc": "2.0",
@@ -760,8 +749,7 @@ $(".btn-txonchain").click(function() {
         var pubKeyEncoded =getPublicKeyEncoded(ab2hexstring(pubkey));
         var signre = signatureData( txRawDataTest, privateKey);
         $.ajax({
-          //url: TrinityTestNet + ":5000",
-          url: "http://47.254.39.10:20552",
+          url: TrinityTestNet + ":5000",
           type: "POST",
           data: JSON.stringify({
             "jsonrpc": "2.0",
@@ -822,8 +810,7 @@ $("#private-key-show").click(function() {
 $('.btn-pay').click(function() {  
   if ($("#comfirm-password").val() == "123456") {
     $.ajax({
-      //url: TrinityTestNet + ":5000",
-      url: "http://47.254.39.10:20552",
+      url: TrinityTestNet + ":5000",
       type: "POST",
       data: JSON.stringify({
         "jsonrpc": "2.0",
@@ -859,8 +846,7 @@ $('.btn-pay').click(function() {
 var recordfun = function(){
   transFace('.record-form');
   $.ajax({
-    //url: TrinityTestNet + ":5000",
-    url: "http://47.254.39.10:20552",
+    url: TrinityTestNet + ":5000",
     type: "POST",
     data: JSON.stringify({
       "jsonrpc": "2.0",
@@ -879,7 +865,7 @@ var recordfun = function(){
           $('#records').html('');
           message.result.forEach((item) => {
               if (item.tx_detail) {
-               $(`<div class='record-box' style='position: relative;'><h2>${item.tx_detail[1].address}</h2><h4 style="text-align:right">Deposit:${item.tx_detail[0].balance}TNC</h4></div>`)
+               $(`<div class='record-box' style='position: relative;'><h2>${item.tx_detail[1].address}</h2><span style="text-align:right">${item.tx_detail[0].trans}TNC</span><h3>${item.tx_detail[0].time}</h3><span style="line-height: 32px;">Deposit:${item.tx_detail[0].balance}TNC</span></div>`)
               .appendTo('#records');
               }
         });

@@ -697,6 +697,7 @@ nav {
   word-break: break-all; }
 
 .record-box h2 {
+  display: inline;
   font-size: 21px;
   margin-top: 10px; }
 
@@ -706,6 +707,19 @@ nav {
   margin-top: 4%;
   color: #000000;
   text-align: center; }
+
+.record-form h3 {
+  font-size: 20px;
+  margin: 5px 0;
+  display: inline-block; }
+
+.record-form span {
+  float: right;
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 23px;
+  color: inherit;
+  font-size: 18px; }
 
 .record-form .icon-left {
   width: 24px;

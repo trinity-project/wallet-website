@@ -256,7 +256,7 @@
     <!-- channel-info form start-->
     <form action="#" class="channel-info-form animate-box" data-animate-effect="fadeInBottom">
       <a class="close-btn" id="info-close-btn">×</a>
-      <h4 id="info-remark">Channel Info</h4>
+      <h1 id="info-remark">Channel Info</h1>
       <label style="display: none;">Channel Name:
         <br><span id="info-channel-name"></span></label>
       <br>
@@ -266,9 +266,9 @@
       <label>Remote Address:
         <br><span id="info-receiver-addr"></span></label>
       <br>
-<!--       <label>Contract Address:
+      <label>Contract Address:
         <br><span id="info-contract-addr"></span></label>
-      <br> -->
+      <br>
       <label>Deposit:<span id="info-sender-deposit"></span>TNC</label><a id="add-deposit">Add</a>
       <br>
       <label>Balance:<span id="info-sender-balance"></span>TNC</label>
@@ -276,9 +276,10 @@
       <label style="display: none;">Channel Life(day):<span id="info-time"></span></label>
       <label>Channel State:<span id="info-state"></span></label>
       <br>
+      <h3 onclick="recordfun()" style="">Transaction Record</h3>
       <div style="text-align: center;margin-top: 10%">
         <input type="button" value="Transfer" class="btn btn-totransfer">
-        <br><a id="btn_closechannel" style="color: red;font-size: 14px;cursor: pointer;">Close Channel</a>
+        <br><a id="btn_closechannel" style="color: #FC6686;font-size: 14px;cursor: pointer;">Close Channel</a>
       </div>
     </form>
     <!-- channel-info form end-->
@@ -524,14 +525,11 @@
         <div class="record-box">
             <h1 style="margin-top: 10px;float: left;">Record List</h1>
         </div>
-        <div class="record-box">
-          <h3>Record1</h3>
+        <div id="records" class="record-body">
+          <div class="record-box">
+            <h2>Not yet have any record.</h2>
+          </div>
         </div>
-        <div class="record-box">
-          <h3>Record2</h3>
-        </div>
-      </div>
-      <div class="record-body">
       </div>
     </form>
     <!-- record form end-->

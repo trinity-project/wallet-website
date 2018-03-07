@@ -664,6 +664,7 @@ nav {
   right: 0;
   z-index: 1;
   display: none;
+  position: absolute !important;
   -webkit-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
   -o-box-shadow: -4px 7px 46px 2px rgba(0, 0, 0, 0.1);
@@ -695,6 +696,10 @@ nav {
   margin-right: 5%;
   word-break: break-all; }
 
+.record-box h2 {
+  font-size: 21px;
+  margin-top: 10px; }
+
 .record-form h1 {
   font-family: "yu gothic ui semibold";
   font-size: 29px;
@@ -723,18 +728,6 @@ nav {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap; }
-
-.record-box {
-  padding-left: 5px;
-  border-bottom: solid 1px #d8d8d8;
-  margin-bottom: 6px;
-  padding-bottom: 6px; }
-
-.record-box h5 {
-  display: inline;
-  color: #FD5E7E;
-  padding: 0 5px 0 1px;
-  font-size: 13px; }
 
 /*  record end  */
 /*  setting start  */
@@ -2358,21 +2351,21 @@ nav {
   background-color: white;
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   width: 478px;
-  height: 460px;
+  height: 550px;
   padding: 17px;
   border-radius: 5px;
   position: fixed;
   left: 50%;
   top: 50%;
-  margin-left: -239px;
-  margin-top: -230px;
+  margin-left: -256px;
+  margin-top: -275px;
   overflow: hidden;
   display: none;
   z-index: 99999; }
 
 .channel-info-form span {
   color: #000000;
-  font-size: 14px; }
+  font-size: 16px; }
 
 .channel-info-form .close-btn {
   content: '×';
@@ -2387,13 +2380,20 @@ nav {
 .channel-info-form .close-btn:hover {
   color: #aaaaaa; }
 
-.channel-info-form h4 {
+.channel-info-form h1 {
   width: 100%;
   text-align: center;
   font-family: "yu gothic ui semibold";
   letter-spacing: 0px;
   font-size: 23px;
   color: #000000; }
+
+.channel-info-form h3 {
+  font-size: 19px;
+  margin: 5px 0;
+  font-weight: 500;
+  color: #FC6686;
+  cursor: pointer; }
 
 .channel-info-form #add-deposit {
   margin-left: 20px;

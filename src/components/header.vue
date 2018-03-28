@@ -15,7 +15,7 @@
             <option>http://localhost</option>
             <option>http://TrinityTestNet</option>
         </select>
-        <button type="button" name="gatewayButton" v-on:click="threadPoxi()">连接</button>
+        <button type="button" name="gatewayButton" v-on:click="navthreadPoxi()">连接</button>
       </div>
     </div>
     <div class="collapse navbar-collapse" id="example-navbar-collapse">
@@ -42,31 +42,32 @@ export default {
     }
   },
   methods: {
-  threadPoxi:function(){  // 实际调用的方法
-    if ("WebSocket" in window)
-      {
-         alert("您的浏览器支持 WebSocket!");        // 打开一个 web socket
-         var ws = new WebSocket("ws://192.168.204.207:8765");
-         ws.onopen = function()           // Web Socket 已连接上，使用 send() 方法发送数据
-         {
-            ws.send("发送数据");
-            console.log("数据发送中...");
-         };
-         ws.onmessage = function (evt)
-         {
-            var received_msg = evt.data;
-            console.log(received_msg);
-            console.log("数据已接收...");
-         };
-         ws.onclose = function()          // 关闭 websocket
-         {
-            console.log("连接已关闭...");
-         };
-      }
-      else
-      {
-         alert("您的浏览器不支持 WebSocket!");       // 浏览器不支持 WebSocket
-      }
+  navthreadPoxi:function(){  // 实际调用的方法
+    this.$emit('threadPoxi');
+    // if ("WebSocket" in window)
+    //   {
+    //      alert("您的浏览器支持 WebSocket!");        // 打开一个 web socket
+    //      var ws = new WebSocket("ws://192.168.204.207:8765");
+    //      ws.onopen = function()           // Web Socket 已连接上，使用 send() 方法发送数据
+    //      {
+    //         ws.send("发送数据");
+    //         console.log("数据发送中...");
+    //      };
+    //      ws.onmessage = function (evt)
+    //      {
+    //         var received_msg = evt.data;
+    //         console.log(received_msg);
+    //         console.log("数据已接收...");
+    //      };
+    //      ws.onclose = function()          // 关闭 websocket
+    //      {
+    //         console.log("连接已关闭...");
+    //      };
+    //   }
+    //   else
+    //   {
+    //      alert("您的浏览器不支持 WebSocket!");       // 浏览器不支持 WebSocket
+    //   }
     },
     showFormFun:function(index){
       this.$options.methods.hideall.bind(this)();

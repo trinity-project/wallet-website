@@ -2,10 +2,18 @@
   <form action="#" class="txonchain-form">
       <div class="row">
       <img src="../assets/trinity_HD.png" style="width: 500px;height: 500px;position: fixed;left: -52px;z-index: -1;bottom: 2px;opacity: 0.3;">
-      <div class="txonchain-box txonchain-box-left" style="position: relative;">
-        <h1>Transfer on chain</h1>
-        <h3>Transfer on chain is normal digital currency transfer.Transfer is the process of transferring data currency from one address to another. If you want to transfer to others, you need to enter your wallet address, recipient address, transfer amount. </h3>
-      </div>
+        <div class="txonchain-box txonchain-box-left" style="position: relative;">
+          <ul class="ca-menu">
+              <li>
+                  <a href="#">
+                      <span class="ca-icon">Transfer</span>
+                          <h2 class="ca-main">on chain</h2>
+                  </a>
+              </li>
+          </ul>
+          <h3>Transfer on chain is normal digital currency transfer.Transfer is the process of transferring data currency from one address to another. If you want to transfer to others, you need to enter your wallet address, recipient address, transfer amount. </h3>
+        </div>
+
       <div class="txonchain-box" style="position: relative;">
         <div class="form-group">
           <label for="txonchain-address" style="font-size: 20px;">Address : </label>
@@ -197,7 +205,7 @@ export default {
   text-align: center; }
 
 .txonchain-form h3 {
-  font-size: 27px;
+  font-size: 22px;
   line-height: 49px;
   margin: 10px 0;
   word-wrap: break-word; }
@@ -332,4 +340,100 @@ export default {
   margin-bottom: 0px;
   font-weight: 500; }
 
+.clearfix:after{
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.ca-menu{
+    padding:0;
+    margin:20px auto;
+    width: 1020px;
+}
+.ca-menu li{
+    width: 230px;
+    height: 230px;
+    border: 10px solid #FC6686;
+    overflow: hidden;
+    position: relative;
+    float:left;
+    background: #fff;
+    margin-right: 4px;
+    -webkit-box-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    -moz-box-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    box-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    -webkit-border-radius: 125px;
+    -moz-border-radius: 125px;
+    border-radius: 125px;
+    -webkit-transition: all 400ms linear;
+    -moz-transition: all 400ms linear;
+    -o-transition: all 400ms linear;
+    -ms-transition: all 400ms linear;
+    transition: all 400ms linear;
+}
+.ca-menu li:last-child{
+    margin-right: 20px;
+}
+.ca-menu li a{
+    text-align: left;
+    width: 100%;
+    height: 100%;
+    display: block;
+    color: #333;
+    position: relative;
+}
+.ca-icon{
+    font-family: 'WebSymbolsRegular', cursive;
+    font-size: 40px;
+    color: #FC6686;
+    line-height: 60px;
+    position: absolute;
+    width: 100%;
+    height: 60px;
+    left: 0px;
+    top: 50px;
+    text-align: center;
+    -webkit-transition: all 400ms linear;
+    -moz-transition: all 400ms linear;
+    -o-transition: all 400ms linear;
+    -ms-transition: all 400ms linear;
+    transition: all 400ms linear;
+}
+.ca-main{
+    font-family: 'WebSymbolsRegular', cursive;
+    font-size: 24px;
+    color: #FC6686;
+    position: absolute;
+    top: 110px;
+    height: 80px;
+    width: 170px;
+    left: 50%;
+    margin-left: -85px;
+    text-align: center;
+    -webkit-transition: all 400ms linear;
+    -moz-transition: all 400ms linear;
+    -o-transition: all 400ms linear;
+    -ms-transition: all 400ms linear;
+    transition: all 400ms linear;
+    opacity: 0.8;
+}
+.ca-menu li:hover{
+    background: #f7f7f7;
+    border-color: #fff;
+    width: 250px;
+    height: 250px;
+    -webkit-transform: rotate(-30deg);
+    -moz-transform: rotate(-30deg);
+    -o-transform: rotate(-30deg);
+    -ms-transform: rotate(-30deg);
+    transform: rotate(-30deg);
+}
+.ca-menu li:hover .ca-icon{
+    color: #555;
+    font-size: 46px;
+}
+.ca-menu li:hover .ca-main{
+  color: #555;
+}
 </style>

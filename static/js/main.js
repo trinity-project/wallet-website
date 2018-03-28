@@ -779,7 +779,7 @@ $(function() {
 let hideShowPsw = (domId, imgId) => {
   let toType = $('#' + domId).attr('type') === 'text' ? 'password' : 'text';
   $('#' + domId).attr('type', toType);
-  $('#' + imgId).attr('src', toType  === 'text' ? 'images/invisible.png' : 'images/visible.png');
+  $('#' + imgId).attr('src', toType  === 'text' ? '../assets/invisible.png' : '../assets/visible.png');
 }
 
 // 自定转换 html: face-button data-action="[close|back]" / data-go="<dom selector>"

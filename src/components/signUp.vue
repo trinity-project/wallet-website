@@ -36,6 +36,7 @@ export default {
       $(".login-box").show();
     },
     Create:function(){
+      var _this = this;
       if (!$("#sign-up-password").val()) {
         $("#sign-up-danger").text("Password can't be empty.");
         $("#sign-up-danger").slideDown("slow");
@@ -66,7 +67,7 @@ export default {
         html: true
       },function(isConfirm){
       if (isConfirm) {
-      this.$emit(loginfun());
+      _this.$emit('loginfun');
     }
     });
     }

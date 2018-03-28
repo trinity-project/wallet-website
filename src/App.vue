@@ -1,11 +1,12 @@
 <template>
   <div id="app">
+    <!-- <h1 @click="websocketsend(1)">1111111</h1> -->
     <trinity-nav/>
-    <sign-up-form/>
-    <login-form v-on:loginToApp="AppGetlogin" :Address="Address" :PublicKeyEncode="PublicKeyEncode"/>
+    <sign-up-form @loginfun="loginfun()"/>
+    <login-form @websocketsend="websocketsend(1)" @AddChannel="AddChannel" v-on:loginToApp="AppGetlogin" v-on:walletJsonToApp="getWalletJson" :Address="Address" :PublicKeyEncode="PublicKeyEncode"/>
     <index-from :Address="Address" :PublicKeyEncode="PublicKeyEncode" :PrivateKey="PrivateKey" :PublicKey="PublicKey" :Script="Script" :ScriptHash="ScriptHash" :AddressQRCode="AddressQRCode" :gasBalance="gasBalance" :neoBalance="neoBalance" :tncBalance="tncBalance"/>
     <channel-list-form/>
-    <channel-info-form/>
+    <channel-info-form :tncBalance="tncBalance"/>
     <add-channel-form :Address="Address" :tncBalance="tncBalance" :PrivateKey="PrivateKey" :PublicKeyEncode="PublicKeyEncode"/>
     <transfer-on-channel-form/>
     <transfer-on-chain-form/>
@@ -17,6 +18,7 @@
 </template>
 
 <script>
+import Store from './store'
 import trinityNav from './components/header'
 import signUpForm from './components/signUp'
 import loginForm from './components/login'
@@ -44,7 +46,9 @@ export default {
       AddressQRCode:'',
       gasBalance:0,
       neoBalance:0,
-      tncBalance:0
+      tncBalance:0,
+      WalletJson:{},
+      websock: null
     }
   },
   components: {
@@ -65,48 +69,110 @@ export default {
   mounted:function(){
     //需要用$nextTick来保证所有节点挂载后才执行方法
     this.$nextTick(function(){
-
+      //this.threadPoxi();
     })
   },
   methods:{
-    loginfun:function(){
-      $(".login-box").show();
-      $(".curtain").show();
+    threadPoxi(){  // 实际调用的方法
+     //参数
+     const agentData = "mymessage";
+     //若是ws开启状态
+     if (this.websock.readyState === this.websock.OPEN) {
+         this.websocketsend(agentData)
+     }
+     // 若是 正在开启状态，则等待300毫秒
+     else if (this.websock.readyState === this.websock.CONNECTING) {
+         let that = this;//保存当前对象this
+         setTimeout(function () {
+             that.websocketsend(agentData)
+         }, 300);
+     }
+     // 若未开启 ，则等待500毫秒
+     else {
+         this.initWebSocket();
+         let that = this;//保存当前对象this
+         setTimeout(function () {
+             that.websocketsend(agentData)
+         }, 500);
+     }
     },
-    AppGetlogin:function(data){
-      this.$options.methods.getAddressInfo.bind(this)(data);
-      this.$options.methods.getAssetsBalance.bind(this)();
+    initWebSocket(){ //初始化weosocket
+     //ws地址
+     const wsuri = "ws://192.168.200.17:8765";
+     this.websock = new WebSocket(wsuri);
+     this.websock.onmessage = this.websocketonmessage;
+     this.websock.onclose = this.websocketclose;
     },
-    getAddressInfo:function(a){
-      this.PrivateKey = a; //私钥
-      this.PublicKey = ab2hexstring(getPublicKey(this.PrivateKey,0)); //公钥
-      this.PublicKeyEncode =getPublicKeyEncoded(this.PublicKey); //压缩
-      this.Script =createSignatureScript(this.PublicKeyEncode);     //脚本
-      this.ScriptHash = getHash(this.Script).toString();    //脚本哈希
-      this.Address = ToAddress(this.ScriptHash); //钱包地址
-      this.AddressQRCode = "http://qr.liantu.com/api.php?text=" + this.Address;
+    websocketonmessage(e){ //数据接收
+     const redata = JSON.parse(e.data);
+     console.log(redata.value);
     },
-    getAssetsBalance:function(){
-      var _this = this;
-      axios({
-        method: 'post',
-        url: 'http://47.88.35.235:21332',
-        headers: {
-          'Content-Type': 'application/json;charset=UTF-8'
-        },
-        data: JSON.stringify({
-          "jsonrpc": "2.0",
-          "method": "getBalance",
-          "params": [this.Address],
-          "id": 1
-        })
-      }).then(function(res){
-        _this.gasBalance = res.data.result.gasBalance;
-        _this.neoBalance = res.data.result.neoBalance;
-        _this.tncBalance = res.data.result.tncBalance;
-      });
-    }
-  }
+    websocketsend:function(agentData){//数据发送
+     console.log(agentData);
+     this.websock.send(agentData);
+     //console.log("11");
+    },
+    websocketclose(e){  //关闭
+     console.log("connection closed (" + e.code + ")");
+   },
+      AddChannel:function(){
+        var a = {
+          MessageType:'',
+          Sender:'',
+          Receiver:'',
+          MessageBody:{
+            url1:'',
+            url2:'',
+            Deposit:'',
+            Assets:''
+          }
+        }
+        return a;
+      },
+      loginfun:function(){
+        $(".login-box").show();
+        $(".curtain").show();
+      },
+      AppGetlogin:function(data){
+        this.$options.methods.getAddressInfo.bind(this)(data);
+        this.$options.methods.getAssetsBalance.bind(this)();
+      },
+      getWalletJson:function(data){
+        this.WalletJson = data;
+      },
+      getAddressInfo:function(a){
+        this.PrivateKey = a; //私钥
+        this.PublicKey = ab2hexstring(getPublicKey(this.PrivateKey,0)); //公钥
+        this.PublicKeyEncode =getPublicKeyEncoded(this.PublicKey); //压缩
+        this.Script =createSignatureScript(this.PublicKeyEncode);     //脚本
+        this.ScriptHash = getHash(this.Script).toString();    //脚本哈希
+        this.Address = ToAddress(this.ScriptHash); //钱包地址
+        this.AddressQRCode = "http://qr.liantu.com/api.php?text=" + this.Address;
+      },
+      getAssetsBalance:function(){
+        var _this = this;
+        axios({
+          method: 'post',
+          url: 'http://47.88.35.235:21332',
+          headers: {
+            'Content-Type': 'application/json;charset=UTF-8'
+          },
+          data: JSON.stringify({
+            "jsonrpc": "2.0",
+            "method": "getBalance",
+            "params": [this.Address],
+            "id": 1
+          })
+        }).then(function(res){
+          _this.gasBalance = res.data.result.gasBalance;
+          _this.neoBalance = res.data.result.neoBalance;
+          _this.tncBalance = res.data.result.tncBalance;
+        });
+      }
+  },
+  created(){
+    this.initWebSocket()
+}
 }
 </script>
 

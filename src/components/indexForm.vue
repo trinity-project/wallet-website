@@ -83,7 +83,7 @@ export default {
         this.privateKeyShowBtn = 'Show';
         this.privateKeyShow = false;
       }
-    }
+    },
   }
 }
 </script>

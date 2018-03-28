@@ -37,6 +37,7 @@ export default {
 
     }
   },
+  props:["tncBalance"],
   methods:{
     openRecord:function(){
       transFace('.record-form');
@@ -115,12 +116,64 @@ export default {
     },
     addDeposit:function(){
       if ($("#info-state").text() == "OPEN") {
-        transFace('.add-form');
-        $(".channel-info-form").hide();
-        $(".add-input").val("");
-      }else{
-        sweetAlert("Channel not in OPEN state.", "","error");
-      }
+          $(".channel-info-form").hide();
+          $(".curtain").hide();
+        } else {
+          sweetAlert("Channel not in OPEN state.", "","error");
+          return false;
+        }
+        swal({
+          title: "Add Deposit",
+          text: "(Balance on chain:aaa" +"TNC)",
+          type: "number",
+          showCancelButton: true,
+          closeOnConfirm: false,
+          inputPlaceholder: "Deposit"
+        },
+        function(inputValue){
+          if (inputValue === false)
+            return false;
+          if (inputValue === "") {
+            swal("Error", "Deposit can't be null","error");
+            return false;
+          }
+          if (inputValue > Number(this.tncBalance)) {
+            swal.showInputError("Deposit amount should be less than the balance on chain.");
+            return;
+          }
+          swal({
+            title: "Payment",
+            text: "transfer " + inputValue + "TNC to this channel",
+            type: "info",
+            showCancelButton: true,
+            closeOnConfirm: false,
+            showLoaderOnConfirm: true
+          },
+          function(){
+              $.ajax({
+              //url: TrinityTestNet + ":5000",
+              url: "http://47.254.39.10:20552",
+              type: "POST",
+              data: JSON.stringify({
+                "jsonrpc": "2.0",
+                "method": "closechannel",
+                "params": [$("#wallet_add").html(), $("#info-receiver-addr").text(), $("#info-channel-name").text()],
+                "id": 1
+              }),
+              contentType: 'application/json',
+              success: function(message) {
+                if (message.result==""||message.result==null) {
+                  sweetAlert("something error", "","error");
+                }else{
+                  sweetAlert(message.result, "","success");
+                }
+              },
+              error: function(message) {
+                alert("error");
+              }
+            });
+          });
+        });
     },
     toTransfer:function(){
       if ($("#info-state").text() == "OPEN") {

@@ -1,6 +1,6 @@
 <template>
   <div action="#" class="login-box">
-    <h2>{{ title }}</h2>
+    <h2 @click="testfun()">{{ title }}</h2>
     <div class="clearfloat">
       <div class="radio">
         <label>
@@ -36,6 +36,8 @@
 </template>
 
 <script>
+import Store from '../store'
+
 export default {
   name: 'loginForm',
   data () {
@@ -44,16 +46,29 @@ export default {
       isCheck:true,
       isLogin:false,
       loginPrivateKey:'',
-      loginPassword:''
+      loginPassword:'',
+      loginWalletJson:{},
+      items: {}
     }
   },
   watch: {
       Address(newValue, oldValue) {
           this.$options.methods.registeaddress.bind(this)(newValue,this.PublicKeyEncode);
-      }
+//          this.items = Store.fetch(newValue + "_ChannelList");
+      },
+      // items:{
+      //   handler:function(items){
+      //     Store.save(this.Address + "_ChannelList",items);
+      //   },
+      //   deep:true
+      // }
   },
   props:["Address","PublicKeyEncode"],
   methods:{
+    testfun:function(){
+      console.log("click");
+      this.$emit('websocketsend');
+    },
     toggleCheck:function(flag){
       $("#login-danger").val('');
       $("#login-danger").hide();
@@ -109,6 +124,13 @@ export default {
       $("#login-danger").val('');
       $("#login-danger").hide();
     },
+    // addNew:function(){
+    //   this.items.push({
+    //     aaa:"aaaa",
+    //     bbb:100
+    //   });
+    //   Store.save(this.Address + "_ChannelList",this.items);
+    // },
     registeaddress:function(a,b){
       var _this = this;
       axios({
@@ -136,6 +158,8 @@ export default {
       reader.onload = function(){
           console.log(this.result);
           var result = $.parseJSON(this.result);
+          _this.loginWalletJson = result;
+          _this.$emit("walletJsonToApp",_this.loginWalletJson);
           var WalletScript = result.accounts[0].key;
           var address = result.accounts[0].address;
           var req = scrypt_module_factory(DecryptWalletByPassword, {}, {'WalletScript':WalletScript,'password':_this.loginPassword,'address':address});

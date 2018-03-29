@@ -767,6 +767,7 @@ $(function() {
   placeholderFunction();
   contentWayPoint();
   //loginfun();
+  $(function () { $("[data-toggle='tooltip']").tooltip(); });
   $('#channel-button input').bootstrapSwitch();
 
 // setInterval(function(){

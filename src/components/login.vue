@@ -1,6 +1,6 @@
 <template>
   <div action="#" class="login-box">
-    <h2 @click="testfun()">{{ title }}</h2>
+    <h2>{{ title }}</h2>
     <div class="clearfloat">
       <div class="radio">
         <label>
@@ -48,7 +48,7 @@ export default {
       loginPrivateKey:'',
       loginPassword:'',
       loginWalletJson:{},
-      items: {}
+      items: []
     }
   },
   watch: {
@@ -65,10 +65,10 @@ export default {
   },
   props:["Address","PublicKeyEncode"],
   methods:{
-    testfun:function(){
-      console.log("click");
-      this.$emit('websocketsend');
-    },
+    // testfun:function(){
+    //   console.log("click");
+    //   this.$emit('websocketsend');
+    // },
     toggleCheck:function(flag){
       $("#login-danger").val('');
       $("#login-danger").hide();

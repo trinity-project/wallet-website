@@ -7,27 +7,20 @@
           <h1>{{ explainTitle }}</h1>
           <h3>{{ explain }}</h3>
       </div>
-      <div class="channel-edit-box">
+      <!-- <div class="channel-edit-box">
           <h1 style="margin-top: 10px;float: left;">{{ title }}</h1>
           <a id="channel-regist">Add Channel</a>
           <label class="iosCheck"><input type="checkbox" v-model="isCheck"><i @click="toggleCheck()"></i></label>
-      </div>
-      <div class="channel-edit-box">
-        <button type="button" class="btn btn-default" style="margin-left:0" @click="paymentFun()">付款</button>
-        <button type="button" class="btn btn-default" style="margin-right:0" @click="receiptFun()">收款</button>
-      </div>
-      <ul class="nav nav-tabs nav-justified">
-        <li :class="{active:isActive}" @click="toggleActive(1)">待付款</li>
-        <li :class="{active:!isActive}" @click="toggleActive(-1)">待收款</li>
-      </ul>
-      <div class="transfer-msg-box" v-show="isActive">
-        <a>1</a>
-      </div>
-      <div class="transfer-msg-box" v-show="!isActive">
-        <a>2</a>
-      </div>
-      <div id="channels" class="channel-body">
-
+      </div> -->
+      <div id="channels" class="channel-edit-box">
+          <h1 style="margin-top: 10px;display: inline-block;">{{ title }}</h1>
+          <a id="channel-regist" @click="toAddChannel()">Add Channel</a>
+          <hr>
+          <div class="">
+            <h2>channelchannelchannelchannelchannelchannelchannel</h2>
+            <label>state:state</label><label>state:state</label><label>state:state</label>
+            <hr>
+          </div>
       </div>
     </div>
   </form>
@@ -58,12 +51,12 @@ export default {
     }
   },
   methods:{
-    toggleActive:function(flag){
-      if(flag>0){
-        this.isActive = true;
-      } else {
-        this.isActive = false;
-      }
+    toAddChannel:function(){
+      $('.channel-form').show();
+      $(".channel-edit-form").hide();
+      $("#regist-channel-address").val("");
+      $("#regist-channel-deposit").val("");
+      $("#regist-channel-time").val("");
     },
     toggleCheck:function(){
       if(this.isCheck){
@@ -77,35 +70,35 @@ export default {
         $("#regist-channel-deposit").val("");
         $("#regist-channel-time").val("");
       }
-    },
-    paymentFun:function(){
-      if (this.isCheck == true) {
-      transFace('.transfer-form');
-      $("#transfer-channel-name").val("");
-      $("#transfer-address").val("");
-      $("#transfer-amount").val("");
-      $("#channel-balance").text("");
-      } else {
-        sweetAlert("Channel not in OPEN state.", "","error");
-      }
-    },
-    receiptFun:function(){
-      if (this.isCheck == true) {
-        var R = getR();
-        var hashR = getHashR(R);
-        swal({
-          title: "Receipt Code",
-          text: "<div style='word-break:break-all;font-size: 17px;'>This is your receipt code, share it with each other for receipt.<br><br><div class='alert alert-info' role='alert' style='font-size: 20px;margin:0'>" + hashR + "</div></div>",
-          imageUrl: "http://qr.liantu.com/api.php?text=" + hashR,
-          imageSize:  "200x200",
-          confirmButtonText:"Close",
-          allowOutsideClick:"ture",
-          html: true
-        });
-      } else {
-        sweetAlert("Channel not in OPEN state.", "","error");
-      }
     }
+    // paymentFun:function(){
+    //   if (this.isCheck == true) {
+    //   transFace('.transfer-form');
+    //   $("#transfer-channel-name").val("");
+    //   $("#transfer-address").val("");
+    //   $("#transfer-amount").val("");
+    //   $("#channel-balance").text("");
+    //   } else {
+    //     sweetAlert("Channel not in OPEN state.", "","error");
+    //   }
+    // },
+    // receiptFun:function(){
+    //   if (this.isCheck == true) {
+    //     var R = getR();
+    //     var hashR = getHashR(R);
+    //     swal({
+    //       title: "Receipt Code",
+    //       text: "<div style='word-break:break-all;font-size: 17px;'>This is your receipt code, share it with each other for receipt.<br><br><div class='alert alert-info' role='alert' style='font-size: 20px;margin:0'>" + hashR + "</div></div>",
+    //       imageUrl: "http://qr.liantu.com/api.php?text=" + hashR,
+    //       imageSize:  "200x200",
+    //       confirmButtonText:"Close",
+    //       allowOutsideClick:"ture",
+    //       html: true
+    //     });
+    //   } else {
+    //     sweetAlert("Channel not in OPEN state.", "","error");
+    //   }
+    // }
   }
 }
 
@@ -154,7 +147,7 @@ export default {
   word-break: break-all; }
 
 .channel-edit-form #channel-regist {
-  /* float: right; */
+  float: right;
   font-size: 18px;
   line-height: 50px;
   color: #FD6E7E;
@@ -203,8 +196,10 @@ export default {
   text-align: center; }
 
 .channel-edit-form h2 {
-  margin: 10px 0;
-  font-size: 22px; }
+  font-size: 22px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; }
 
 .channel-edit-form h3 {
   font-size: 26px;
@@ -212,9 +207,10 @@ export default {
   margin: 10px 0;
   word-wrap: break-word; }
 
-.channel-edit-form h4 {
-  display: inline;
-  margin-right: 40px; }
+label {
+  font-weight: normal;
+  width: 23%;
+  margin: 0;}
 
 img{
   display: flex;

@@ -1,13 +1,15 @@
 <template>
   <div id="app">
-    <!-- <h1 @click="websocketsend(1)">1111111</h1> -->
+    <!-- <h1 @click="StoreChannel()">1111111</h1>
+    <h1 @click="ChangeStoreFlag()">2222222</h1> -->
     <trinity-nav/>
     <sign-up-form @loginfun="loginfun()"/>
-    <login-form @websocketsend="websocketsend(1)" @AddChannel="AddChannel" v-on:loginToApp="AppGetlogin" v-on:walletJsonToApp="getWalletJson" :Address="Address" :PublicKeyEncode="PublicKeyEncode"/>
+    <login-form @websocketsend="websocketsend(1)" v-on:loginToApp="AppGetlogin" v-on:walletJsonToApp="getWalletJson" :Address="Address" :PublicKeyEncode="PublicKeyEncode"/>
     <index-from :Address="Address" :PublicKeyEncode="PublicKeyEncode" :PrivateKey="PrivateKey" :PublicKey="PublicKey" :Script="Script" :ScriptHash="ScriptHash" :AddressQRCode="AddressQRCode" :gasBalance="gasBalance" :neoBalance="neoBalance" :tncBalance="tncBalance"/>
     <channel-list-form/>
+    <channel-list1-form/>
     <channel-info-form :tncBalance="tncBalance"/>
-    <add-channel-form :Address="Address" :tncBalance="tncBalance" :PrivateKey="PrivateKey" :PublicKeyEncode="PublicKeyEncode"/>
+    <add-channel-form @initWebSocket="initWebSocket" :Address="Address" :tncBalance="tncBalance" :PrivateKey="PrivateKey" :PublicKeyEncode="PublicKeyEncode"/>
     <transfer-on-channel-form/>
     <transfer-on-chain-form/>
     <setting-form/>
@@ -24,6 +26,7 @@ import signUpForm from './components/signUp'
 import loginForm from './components/login'
 import indexFrom from './components/indexForm'
 import channelListForm from './components/channelList'
+import channelList1Form from './components/channelList1'
 import channelInfoForm from './components/channelInfo'
 import addChannelForm from './components/addChannel'
 import transferOnChannelForm from './components/transferOnChannel'
@@ -48,7 +51,10 @@ export default {
       neoBalance:0,
       tncBalance:0,
       WalletJson:{},
-      websock: null
+      websock: null,
+      ChannelItems:[],
+      url1:'',
+      url2:''
     }
   },
   components: {
@@ -57,6 +63,7 @@ export default {
     loginForm,
     indexFrom,
     channelListForm,
+    channelList1Form,
     channelInfoForm,
     addChannelForm,
     transferOnChannelForm,
@@ -72,18 +79,32 @@ export default {
       //this.threadPoxi();
     })
   },
+  watch: {
+      Address(newValue, oldValue) {
+//          this.$options.methods.registeaddress.bind(this)(newValue,this.PublicKeyEncode);
+//          this.items = Store.fetch(newValue + "_ChannelList");
+      },
+      ChannelItems:{
+        handler:function(ChannelItems){
+          Store.save(this.Address + "@ChannelList",this.ChannelItems);
+        },
+        deep:true
+      }
+  },
   methods:{
     threadPoxi(){  // 实际调用的方法
      //参数
      const agentData = "mymessage";
      //若是ws开启状态
      if (this.websock.readyState === this.websock.OPEN) {
-         this.websocketsend(agentData)
+        console.log("readyState1");
+        this.websocketsend(agentData)
      }
      // 若是 正在开启状态，则等待300毫秒
      else if (this.websock.readyState === this.websock.CONNECTING) {
          let that = this;//保存当前对象this
          setTimeout(function () {
+            console.log("readyState2");
              that.websocketsend(agentData)
          }, 300);
      }
@@ -92,43 +113,94 @@ export default {
          this.initWebSocket();
          let that = this;//保存当前对象this
          setTimeout(function () {
+           console.log("readyState3");
              that.websocketsend(agentData)
          }, 500);
      }
     },
-    initWebSocket(){ //初始化weosocket
+    initWebSocket(ip,url1,url2,asstes,deposit,date){ //初始化weosocket
      //ws地址
-     const wsuri = "ws://192.168.200.17:8765";
+     const wsuri = "ws://" + ip;
      this.websock = new WebSocket(wsuri);
      this.websock.onmessage = this.websocketonmessage;
      this.websock.onclose = this.websocketclose;
+
+     var _this = this;
+     setTimeout(function (){
+          _this.AddChannel(url1,url2,asstes,deposit,date);
+      }, 5000);
     },
     websocketonmessage(e){ //数据接收
      const redata = JSON.parse(e.data);
-     console.log(redata.value);
+     const type = redata.type;
+     if(type == "block_info"){
+       this.websocketsend2(redata);
+       //this.$options.methods.StoreChannel.bind(this)();
+     }
+     //console.log(redata);
     },
-    websocketsend:function(agentData){//数据发送
-     console.log(agentData);
+    websocketsend:function(agentData){//数据发送模板
+     console.log("发送信息：" + agentData);
      this.websock.send(agentData);
      //console.log("11");
+    },
+    AddChannel:function(url1,url2,asstes,deposit,date){//添加通道请求
+      // console.log(url1);
+      // console.log(url2);
+      // console.log(asstes);
+      // console.log(deposit);
+      // console.log(date);
+     var a = {
+      "MessageType":"AddChannel",
+      "Sender": url1,
+      "Receiver":url2,
+      "MessageBody": {
+              "Asstes" : asstes,
+              "Deposit": deposit,
+              "Flag":"0",
+              "Date":date
+          }
+      }
+      console.log(JSON.stringify(a));
+      this.StoreChannel(a);
+      this.websock.send(JSON.stringify(a));
+    },
+    websocketsend2:function(agentData){//数据接收后调用
+      console.log(agentData);
+      console.log("发送信息：已收到消息,blance为" + agentData.body.blance);
+      this.websock.send("已收到消息,blance为" + agentData.body.blance);
+      // var Message = {
+      //  "MessageType":"RequestSignatureData",
+      //  "Sender": url1,
+      //  "Receiver":url2,
+      //  "MessageBody": {
+      //          "Asstes" : asstes,
+      //          "Deposit": deposit,
+      //          "Flag":"0",
+      //          "Date":date
+      //      }
+      //  }
+      //  console.log(JSON.stringify(Message));
+      //  //this.StoreChannel(Message);
+      //  this.websock.send(JSON.stringify(Message);
     },
     websocketclose(e){  //关闭
      console.log("connection closed (" + e.code + ")");
    },
-      AddChannel:function(){
-        var a = {
-          MessageType:'',
-          Sender:'',
-          Receiver:'',
-          MessageBody:{
-            url1:'',
-            url2:'',
-            Deposit:'',
-            Assets:''
-          }
-        }
-        return a;
-      },
+   StoreChannel:function(a){
+     this.ChannelItems.push(a);
+     console.log(this.ChannelItems);
+     Store.save(this.Address + "@ChannelList",this.ChannelItems);
+   },
+   ChangeStoreFlag:function(statu){
+     var _this = this;
+     //forEach()，val为数据的每一项，index为每一项的索引
+     this.ChannelItems.forEach(function(val,index){
+       if(val.aaa === 'aaaa1'){
+         _this.$set(val,'bbb',111);
+       }
+     });
+   },
       loginfun:function(){
         $(".login-box").show();
         $(".curtain").show();
@@ -171,7 +243,7 @@ export default {
       }
   },
   created(){
-    this.initWebSocket()
+    //this.initWebSocket()
 }
 }
 </script>

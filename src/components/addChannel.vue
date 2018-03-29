@@ -8,8 +8,9 @@
       </div>
       <div class="channel-box" style="position: relative;">
       <div class="form-group">
-        <label for="regist-channel-address">Address : </label>
-        <input type="text" class="form-control" id="regist-channel-address" v-model="registChannelAddress" placeholder="Address">
+        <label for="regist-channel-address">URL : </label><span id="test1" data-toggle="tooltip" data-placement="right"
+        title="对URL的注释">?</span>
+        <input type="text" class="form-control" id="regist-channel-address" v-model="registChannelUrl" placeholder="Address">
       </div>
       <div class="form-group">
         <label for="regist-channel-assets">Assets : </label>
@@ -22,10 +23,6 @@
       <div class="form-group">
         <label for="regist-channel-deposit">Deposit : </label>
         <input type="text" class="form-control" id="regist-channel-deposit" v-model="registChannelDeposit" placeholder="Deposit">
-      </div>
-      <div class="form-group" style="display: none;">
-        <label for="regist-channel-time">Channel Life : </label>
-        <input type="text" class="form-control" id="regist-channel-time" placeholder="Channel Life(day)">
       </div>
       <div class="form-group">
           <p class="total-amount">&nbsp;(Balance on chain: <span class="total-balance">{{ tncBalance }}</span>TNC)</p>
@@ -43,7 +40,7 @@ export default {
   name: 'addChannelForm',
   data () {
     return {
-      registChannelAddress:"",
+      registChannelUrl:"",
       registChannelAssets:"TNC",
       registChannelDeposit:"",
       txRawDataTest:""
@@ -58,10 +55,13 @@ export default {
   methods:{
     addChannelFun:function(){
       var _this = this;
-      if(_this.registChannelAddress.length != 34){
+      var registePublicKeyEncod = _this.registChannelUrl.split("@")[0];
+      var registeIP =  _this.registChannelUrl.split("@")[1];
+      var registeLocalUrl = _this.PublicKeyEncode + "@" + registeIP;
+      if(registePublicKeyEncod.length != 66){
         swal({
           title: "Error!",
-          text: "Address length check failed.",
+          text: "URL length check failed.",
           type: "error",
           showCancelButton: false
         });
@@ -87,48 +87,17 @@ export default {
       }
       swal({
           title: "Add Channel",
-          text: "You will add a new channel. <br />Receiver address : " + _this.registChannelAddress + "<br>Deposit : " + _this.registChannelDeposit + _this.registChannelAssets,
+          text: "You will add a new channel. <br />Receiver address : " + _this.registChannelUrl + "<br>Deposit : " + _this.registChannelDeposit + _this.registChannelAssets,
           type: "info",
           showCancelButton: true,
-          closeOnConfirm: false,
-          showLoaderOnConfirm: true,
+          closeOnConfirm: true,
+          //showLoaderOnConfirm: true,
           html:true
         },function(isConfirm){
         if (isConfirm) {
-          axios({
-            method: 'post',
-            url: 'http://47.254.39.10:20552',
-            headers: {
-              'Content-Type': 'application/json;charset=UTF-8'
-            },
-            data: JSON.stringify({
-              "jsonrpc": "2.0",
-              "method": "registchannel",
-              "params": [_this.Address, _this.registChannelAddress, _this.registChannelAssets, _this.registChannelDeposit, "1"],
-              "id": 1
-            })
-          }).then(function(res){
-            console.log(res);
-            if (res.data.result.error) {
-              swal({
-                title: "Error!",
-                text: res.data.result.error,
-                type: "error",
-                showCancelButton: false
-              });
-              return;
-            }
-            if(res.data.result.channel_name == null){
-              swal({
-                title: "Error!",
-                text: "Remote Address has never been registered on the Trinity network",
-                type: "error",
-                showCancelButton: false
-              });
-              return;
-            }
-            _this.txRawDataTest = res.data.result.trad_info;
-          });
+            var data = new Date().getTime();
+            _this.$emit('initWebSocket',registeIP,registeLocalUrl, _this.registChannelUrl, _this.registChannelAssets, _this.registChannelDeposit,data)
+            //_this.$emit('websocketsend1',registeLocalUrl, _this.registChannelUrl, _this.registChannelAssets, _this.registChannelDeposit,data);
         }
       });
     },
@@ -228,6 +197,18 @@ export default {
 .channel-form label {
   font-size: 20px;
   font-weight: 300; }
+
+#test1{
+  margin-left: 6px;
+  background: #848484;
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  color: #FFFFFF;
+  text-align: center;
+  line-height: 21px;
+  border-radius: 50%;
+}
 
 .channel-form .icon-left {
   width: 20px;

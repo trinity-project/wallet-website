@@ -3,14 +3,18 @@
     <div class="row">
       <img src="../assets/trinity_HD.png" style="width: 550px;height: 550px;position: fixed;left: 200px;bottom: -147px;opacity: 0.3;">
       <div class="channel-box channel-box-left" style="position: relative;">
-        <h1>Add Channel</h1>
-        <h3>The transaction is settled through a smart contract on the chain and real-time transactions are performed in the channel under the chain, so as to realize the instant payment of assets, low transaction cost, scalability and privacy protection.If you want to use the status channel, you need to add a channel by entering your address, asset type and deposit.</h3>
+        <h1>{{ explainTitle }}</h1>
+        <h3>{{ explain }}</h3>
       </div>
       <div class="channel-box" style="position: relative;">
       <div class="form-group">
-        <label for="regist-channel-address">URL : </label><span id="test1" data-toggle="tooltip" data-placement="right"
+        <label for="regist-channel-address">URL : </label><span class="commentary" data-toggle="tooltip" data-placement="right"
         title="对URL的注释">?</span>
-        <input type="text" class="form-control" id="regist-channel-address" v-model="registChannelUrl" placeholder="Address">
+        <input type="text" class="form-control" id="regist-channel-address" v-model="registChannelUrl" placeholder="URL">
+      </div>
+      <div class="form-group">
+        <label>Name : </label><span class="commentary" data-toggle="tooltip" data-placement="right" title="对name的注释">?</span>
+        <input type="text" class="form-control" v-model="registChannelName" placeholder="Name">
       </div>
       <div class="form-group">
         <label for="regist-channel-assets">Assets : </label>
@@ -26,7 +30,10 @@
       </div>
       <div class="form-group">
           <p class="total-amount">&nbsp;(Balance on chain: <span class="total-balance">{{ tncBalance }}</span>TNC)</p>
-        </div>
+      </div>
+      <div class="form-group">
+          <div class="alert alert-info" role="alert">You will pay an additional 1TNC as a processing fee for this transaction.Detail:..........</div>
+      </div>
       <div class="form-group form-btn">
         <input type="button" value="Add" @click="addChannelFun()" class="btn btn-channel">
       </div>
@@ -40,10 +47,14 @@ export default {
   name: 'addChannelForm',
   data () {
     return {
+      explainTitle:'Add Channel',
+      explain:'The transaction is settled through a smart contract on the chain and real-time transactions are performed in the channel under the chain, so as to realize the instant payment of assets, low transaction cost, scalability and privacy protection.If you want to use the status channel, you need to add a channel by entering your address, asset type and deposit.',
       registChannelUrl:"",
+      registChannelName:"",
       registChannelAssets:"TNC",
       registChannelDeposit:"",
-      txRawDataTest:""
+      txRawDataTest:"",
+
     }
   },
   props:["tncBalance","Address","PrivateKey","PublicKeyEncode"],
@@ -96,7 +107,7 @@ export default {
         },function(isConfirm){
         if (isConfirm) {
             var data = new Date().getTime();
-            _this.$emit('initWebSocket',registeIP,registeLocalUrl, _this.registChannelUrl, _this.registChannelAssets, _this.registChannelDeposit,data)
+            _this.$emit('initWebSocket',registeIP,registeLocalUrl, _this.registChannelUrl, _this.registChannelName, _this.registChannelAssets, _this.registChannelDeposit,data)
             //_this.$emit('websocketsend1',registeLocalUrl, _this.registChannelUrl, _this.registChannelAssets, _this.registChannelDeposit,data);
         }
       });
@@ -198,7 +209,7 @@ export default {
   font-size: 20px;
   font-weight: 300; }
 
-#test1{
+.commentary{
   margin-left: 6px;
   background: #848484;
   width: 20px;
@@ -208,6 +219,7 @@ export default {
   text-align: center;
   line-height: 21px;
   border-radius: 50%;
+  cursor: help;
 }
 
 .channel-form .icon-left {
@@ -222,7 +234,7 @@ export default {
   cursor: pointer; }
 
 .channel-form .form-group {
-  margin: 27px 0; }
+  margin: 17px 0; }
 
 .channel-form .form-group p {
   font-size: 14px;
@@ -235,7 +247,7 @@ export default {
 .channel-form .form-control {
   font-size: 18px;
   font-weight: 300;
-  height: 66px;
+  height: 56px;
   line-height: 66px;
   padding-left: 0;
   padding-right: 40px;

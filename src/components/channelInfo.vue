@@ -2,25 +2,17 @@
   <form action="#" class="channel-info-form animate-box" data-animate-effect="fadeInBottom">
     <a class="close-btn" id="info-close-btn" @click="closeChannelInfo()">×</a>
     <h1 id="info-remark">Channel Info</h1>
-    <label style="display: none;">Channel Name:
-      <br><span id="info-channel-name"></span></label>
-    <br>
-    <label>Local Address:
-      <br><span id="info-sender-addr"></span></label>
-    <br>
-    <label>Remote Address:
-      <br><span id="info-receiver-addr"></span></label>
-    <br>
-    <label>Contract Address:
-      <br><span id="info-contract-addr"></span></label>
-    <br>
-    <label>Deposit:<span id="info-sender-deposit"></span>TNC</label><a id="add-deposit" @click="addDeposit()">Add</a>
-    <br>
-    <label>Balance:<span id="info-sender-balance"></span>TNC</label>
-    <br>
-    <label style="display: none;">Channel Life(day):<span id="info-time"></span></label>
-    <label>Channel State:<span id="info-state"></span></label>
-    <br>
+    <label>Channel Name:</label><br>
+      <p>{{ ChannelInfo.Receiver }}</p>
+    <label>Local Address:</label><br>
+      <p>{{ ChannelInfo }}</p>
+    <label>Remote Address:</label><br>
+      <p></p>
+    <label>Contract Address:</label><br>
+      <p></p></label>
+    <label>Deposit:</label><span></span>TNC<a id="add-deposit" @click="addDeposit()">Add</a><br>
+    <label>Balance:<span></span>TNC</label><br>
+    <label>Channel State:<span id="info-state"></span></label><br>
     <h3 @click="openRecord()" style="">Transaction Record</h3>
     <div style="text-align: center;margin-top: 10%">
       <input type="button" value="Transfer" class="btn btn-totransfer" @click="toTransfer()">
@@ -37,7 +29,7 @@ export default {
 
     }
   },
-  props:["tncBalance"],
+  props:["tncBalance","ChannelInfo"],
   methods:{
     openRecord:function(){
       transFace('.record-form');
@@ -212,9 +204,9 @@ export default {
   display: none;
   z-index: 99999; }
 
-.channel-info-form span {
+.channel-info-form p {
   color: #000000;
-  font-size: 16px; }
+  word-break: break-word;}
 
 .channel-info-form .close-btn {
   content: '×';

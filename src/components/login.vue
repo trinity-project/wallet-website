@@ -224,7 +224,7 @@ h2 {
   color: #575757;
   font-size: 30px;
   text-align: center;
-  font-weight: 600;
+  font-weight: 500;
   text-transform: none;
   position: relative;
   margin: 25px 0 10px;
@@ -290,7 +290,6 @@ h2 {
   border: none;
   box-shadow: none;
   font-size: 17px;
-  font-weight: 500;
   -webkit-border-radius: 4px;
   border-radius: 5px;
   padding: 10px 32px;
@@ -303,7 +302,6 @@ h2 {
   border: none;
   box-shadow: none;
   font-size: 17px;
-  font-weight: 500;
   -webkit-border-radius: 4px;
   border-radius: 5px;
   padding: 10px 32px;

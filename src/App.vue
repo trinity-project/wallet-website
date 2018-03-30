@@ -4,11 +4,11 @@
     <h1 @click="ChangeStoreFlag()">2222222</h1> -->
     <trinity-nav/>
     <sign-up-form @loginfun="loginfun()"/>
-    <login-form @websocketsend="websocketsend(1)" v-on:loginToApp="AppGetlogin" v-on:walletJsonToApp="getWalletJson" :Address="Address" :PublicKeyEncode="PublicKeyEncode"/>
+    <login-form @websocketsend="websocketsend(1)" @loginToApp="AppGetlogin" @walletJsonToApp="getWalletJson" :Address="Address" :PublicKeyEncode="PublicKeyEncode"/>
     <index-from :Address="Address" :PublicKeyEncode="PublicKeyEncode" :PrivateKey="PrivateKey" :PublicKey="PublicKey" :Script="Script" :ScriptHash="ScriptHash" :AddressQRCode="AddressQRCode" :gasBalance="gasBalance" :neoBalance="neoBalance" :tncBalance="tncBalance"/>
-    <channel-list-form/>
+    <channel-list-form @channelListToApp="AppGetchannelList" :ChannelItems="ChannelItems"/>
     <channel-list1-form/>
-    <channel-info-form :tncBalance="tncBalance"/>
+    <channel-info-form :tncBalance="tncBalance" :ChannelInfo="ChannelInfo"/>
     <add-channel-form @initWebSocket="initWebSocket" :Address="Address" :tncBalance="tncBalance" :PrivateKey="PrivateKey" :PublicKeyEncode="PublicKeyEncode"/>
     <transfer-on-channel-form/>
     <transfer-on-chain-form/>
@@ -52,9 +52,10 @@ export default {
       tncBalance:0,
       WalletJson:{},
       websock: null,
-      ChannelItems:[],
+      ChannelItems:Store.fetch(this.Address),
       url1:'',
-      url2:''
+      url2:'',
+      ChannelInfo:{}
     }
   },
   components: {
@@ -81,8 +82,8 @@ export default {
   },
   watch: {
       Address(newValue, oldValue) {
-//          this.$options.methods.registeaddress.bind(this)(newValue,this.PublicKeyEncode);
-//          this.items = Store.fetch(newValue + "_ChannelList");
+           //this.$options.methods.registeaddress.bind(this)(newValue,this.PublicKeyEncode);
+           this.ChannelItems = Store.fetch(newValue + "@ChannelList");
       },
       ChannelItems:{
         handler:function(ChannelItems){
@@ -118,7 +119,7 @@ export default {
          }, 500);
      }
     },
-    initWebSocket(ip,url1,url2,asstes,deposit,date){ //初始化weosocket
+    initWebSocket(ip,url1,url2,name,asstes,deposit,date){ //初始化weosocket
      //ws地址
      const wsuri = "ws://" + ip;
      this.websock = new WebSocket(wsuri);
@@ -127,7 +128,7 @@ export default {
 
      var _this = this;
      setTimeout(function (){
-          _this.AddChannel(url1,url2,asstes,deposit,date);
+          _this.AddChannel(url1,url2,name,asstes,deposit,date);
       }, 5000);
     },
     websocketonmessage(e){ //数据接收
@@ -144,26 +145,27 @@ export default {
      this.websock.send(agentData);
      //console.log("11");
     },
-    AddChannel:function(url1,url2,asstes,deposit,date){//添加通道请求
+    AddChannel:function(url1,url2,name,asstes,deposit,date){//添加通道请求
       // console.log(url1);
       // console.log(url2);
       // console.log(asstes);
       // console.log(deposit);
       // console.log(date);
-     var a = {
+     var Message = {
       "MessageType":"AddChannel",
       "Sender": url1,
       "Receiver":url2,
       "MessageBody": {
+              "Name" : name,
               "Asstes" : asstes,
               "Deposit": deposit,
               "Flag":"0",
               "Date":date
           }
       }
-      console.log(JSON.stringify(a));
-      this.StoreChannel(a);
-      this.websock.send(JSON.stringify(a));
+      console.log(JSON.stringify(Message));
+      this.StoreChannel(Message);
+      this.websock.send(JSON.stringify(Message));
     },
     websocketsend2:function(agentData){//数据接收后调用
       console.log(agentData);
@@ -187,8 +189,8 @@ export default {
     websocketclose(e){  //关闭
      console.log("connection closed (" + e.code + ")");
    },
-   StoreChannel:function(a){
-     this.ChannelItems.push(a);
+   StoreChannel:function(Message){
+     this.ChannelItems.push(Message);
      console.log(this.ChannelItems);
      Store.save(this.Address + "@ChannelList",this.ChannelItems);
    },
@@ -208,6 +210,9 @@ export default {
       AppGetlogin:function(data){
         this.$options.methods.getAddressInfo.bind(this)(data);
         this.$options.methods.getAssetsBalance.bind(this)();
+      },
+      AppGetchannelList:function(data){
+        this.ChannelInfo = data;
       },
       getWalletJson:function(data){
         this.WalletJson = data;

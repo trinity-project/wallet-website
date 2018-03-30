@@ -3,7 +3,7 @@
     <div class="row">
       <img src="../assets/trinity_HD.png">
 
-      <div class="channel-edit-box channel-edit-box-left">
+      <div class="channel-edit-box-left">
           <h1>{{ explainTitle }}</h1>
           <h3>{{ explain }}</h3>
       </div>
@@ -12,14 +12,16 @@
           <a id="channel-regist">Add Channel</a>
           <label class="iosCheck"><input type="checkbox" v-model="isCheck"><i @click="toggleCheck()"></i></label>
       </div> -->
-      <div id="channels" class="channel-edit-box">
+      <div class="channel-edit-box">
           <h1 style="margin-top: 10px;display: inline-block;">{{ title }}</h1>
           <a id="channel-regist" @click="toAddChannel()">Add Channel</a>
-          <hr>
-          <div class="">
-            <h2>channelchannelchannelchannelchannelchannelchannel</h2>
-            <label>state:state</label><label>state:state</label><label>state:state</label>
-            <hr>
+          <hr style="margin-bottom: 0px;">
+          <div id="channels">
+            <div class="channelBody" v-for="(item,index) in ChannelItems" @click="clickfun(item,index)">
+              <h2>{{ item.MessageBody.Name }}</h2>
+              <label>Deposit:{{ item.MessageBody.Deposit }}</label><label>Date:{{ item.MessageBody.Date }}</label><label>Assets:{{ item.MessageBody.Asstes }}</label>
+              <hr>
+            </div>
           </div>
       </div>
     </div>
@@ -35,7 +37,8 @@ export default {
       isCheck:false,
       isActive:true,
       explainTitle:'Channel',
-      explain:'The status channel is a technical realization of a chain expansion solution. Click on the channel, you can view the channel details, add a deposit, channel transfer and closing channels and other functions.'
+      explain:'The status channel is a technical realization of a chain expansion solution. Click on the channel, you can view the channel details, add a deposit, channel transfer and closing channels and other functions.',
+      ChannelInfo:{}
     }
   },
   watch: {//深度 watcher
@@ -48,8 +51,15 @@ export default {
         }
       },
       deep: true
+    },
+    'ChannelInfo': {
+      handler: function (val, oldVal) {
+        this.$emit("channelListToApp",val);
+      },
+      deep: true
     }
   },
+  props:["ChannelItems"],
   methods:{
     toAddChannel:function(){
       $('.channel-form').show();
@@ -70,35 +80,12 @@ export default {
         $("#regist-channel-deposit").val("");
         $("#regist-channel-time").val("");
       }
+    },
+    clickfun:function(item,index){
+      this.ChannelInfo = item;
+      $(".channel-info-form").show();
+      $(".curtain").show();
     }
-    // paymentFun:function(){
-    //   if (this.isCheck == true) {
-    //   transFace('.transfer-form');
-    //   $("#transfer-channel-name").val("");
-    //   $("#transfer-address").val("");
-    //   $("#transfer-amount").val("");
-    //   $("#channel-balance").text("");
-    //   } else {
-    //     sweetAlert("Channel not in OPEN state.", "","error");
-    //   }
-    // },
-    // receiptFun:function(){
-    //   if (this.isCheck == true) {
-    //     var R = getR();
-    //     var hashR = getHashR(R);
-    //     swal({
-    //       title: "Receipt Code",
-    //       text: "<div style='word-break:break-all;font-size: 17px;'>This is your receipt code, share it with each other for receipt.<br><br><div class='alert alert-info' role='alert' style='font-size: 20px;margin:0'>" + hashR + "</div></div>",
-    //       imageUrl: "http://qr.liantu.com/api.php?text=" + hashR,
-    //       imageSize:  "200x200",
-    //       confirmButtonText:"Close",
-    //       allowOutsideClick:"ture",
-    //       html: true
-    //     });
-    //   } else {
-    //     sweetAlert("Channel not in OPEN state.", "","error");
-    //   }
-    // }
   }
 }
 
@@ -130,6 +117,7 @@ export default {
   border-radius: 10px;
   margin: 0 0 20px 0;
   overflow: hidden;
+  height: 82%;
   position: relative;}
 
 .channel-edit-box:hover {
@@ -140,11 +128,26 @@ export default {
   box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1); }
 
 .channel-edit-box-left {
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid #e1e1e1;
+  border-radius: 10px;
+  margin: 0 0 20px 0;
+  overflow: hidden;
+  position: relative;
   float: left;
   height: 82%;
   width: 40%;
   margin-right: 5%;
   word-break: break-all; }
+
+.channel-edit-box-left:hover {
+  background: white;
+  -webkit-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1); }
+
 
 .channel-edit-form #channel-regist {
   float: right;
@@ -188,6 +191,12 @@ export default {
   width: 45.5%;
   margin: 0 20px;
 }
+
+#channels{
+  height: calc(100% - 102px);
+  overflow: auto;
+}
+
 .channel-edit-form h1 {
   font-family: "yu gothic ui semibold";
   font-size: 33px;
@@ -209,8 +218,7 @@ export default {
 
 label {
   font-weight: normal;
-  width: 23%;
-  margin: 0;}
+  margin: 0 20px 0 0;}
 
 img{
   display: flex;

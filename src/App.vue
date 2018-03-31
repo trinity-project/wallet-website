@@ -52,7 +52,7 @@ export default {
       tncBalance:0,
       WalletJson:{},
       websock: null,
-      ChannelItems:Store.fetch(this.Address),
+      ChannelItems:Store.fetch(this.Address + "@ChannelList"),
       url1:'',
       url2:'',
       ChannelInfo:{}
@@ -281,7 +281,7 @@ input {
   white-space: nowrap; }
 
 a {
-  color: #000000;
+  color: inherit;
   -moz-transition: all 0.3s ease;
   -o-transition: all 0.3s ease;
   -webkit-transition: all 0.3s ease;
@@ -289,7 +289,7 @@ a {
   transition: all 0.3s ease; }
 
 a:hover {
-  color: #000000; }
+  color: inherit; }
 
 .icon {
   width: 30px;

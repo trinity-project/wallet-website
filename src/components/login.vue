@@ -53,7 +53,7 @@ export default {
   },
   watch: {
       Address(newValue, oldValue) {
-          this.$options.methods.registeaddress.bind(this)(newValue,this.PublicKeyEncode);
+          //this.$options.methods.registeaddress.bind(this)(newValue,this.PublicKeyEncode);
 //          this.items = Store.fetch(newValue + "_ChannelList");
       },
       // items:{
@@ -131,24 +131,6 @@ export default {
     //   });
     //   Store.save(this.Address + "_ChannelList",this.items);
     // },
-    registeaddress:function(a,b){
-      var _this = this;
-      axios({
-        method: 'post',
-        url: 'http://47.254.39.10:20552',
-        headers: {
-          'Content-Type': 'application/json;charset=UTF-8'
-        },
-        data: JSON.stringify({
-          "jsonrpc": "2.0",
-          "method": "registeaddress",
-          "params": [a,"",b],
-          "id": 1
-        })
-      }).then(function(res){
-
-      });
-    },
     LoginByKeystore:function(){
       var _this = this;
       var selectedFile = document.getElementById("keystoreFile").files[0];

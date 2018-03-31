@@ -7,10 +7,10 @@
 
       <!-- <h2>Name : Wallet</h2> -->
       <h2>Wallet Address : <a id="wallet_add">{{ Address }}</a></h2>
-      <h2>Script Hash : <label>{{ ScriptHash }}</label></h2><br>
-      <h2>Public Key : </h2><label>{{ PublicKeyEncode }}</label><br/>
-      <h2>Private Key : </h2><label id="private-key-show" @click="privateKeyShowFun()">{{ privateKeyShowBtn }}</label><label v-show="privateKeyShow">{{ PrivateKey }}</label><br/>
-      <h2>Download Wallet File: </h2><label id="assets-wallet-file"><a href="javascript:;" id="testa">download</a></label>
+      <h2>Script Hash : <span>{{ ScriptHash }}</span></h2><br>
+      <h2>Public Key : </h2><span>{{ PublicKeyEncode }}</span><br/>
+      <h2>Private Key : </h2><span id="private-key-show" @click="privateKeyShowFun()">{{ privateKeyShowBtn }}</span><span v-show="privateKeyShow">{{ PrivateKey }}</span><br/>
+      <h2>Download Wallet File: </h2><span id="assets-wallet-file"><a href="javascript:;" id="testa">download</a></span>
       <img :src="AddressQRCode" id="wallet_qr" @click="walletQr()"/>
     </div>
     <div class="index-title"><span>Assets</span></div>
@@ -167,7 +167,7 @@ export default {
 }
 
 h1 {
-  font-family: "yu gothic ui semibold";
+  /* font-family: "yu gothic ui semibold"; */
   text-align: left;
   font-size: 26px;
   color: #000000;
@@ -175,7 +175,7 @@ h1 {
   margin-top: 0; }
 
 h2 {
-  font-family: "yu gothic ui semibold";
+  /* font-family: "yu gothic ui semibold"; */
   text-align: left;
   font-size: 20px;
   margin: 0 0 13px 0;
@@ -184,15 +184,26 @@ h2 {
   cursor:default}
 
 h2 span {
-  font-size: 27px;
   margin-left: 6px; }
 
 h3 {
-  font-family: "yu gothic ui semibold";
+  /* font-family: "yu gothic ui semibold"; */
   font-size: 20px;
   margin: 10px 0;
   color: #000000;
   text-align: center; }
+
+a {
+  color: inherit;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  transition: all 0.3s ease; }
+
+a:hover {
+  color: inherit;
+  text-decoration: none;}
 
 label{
   margin-left: 12px;

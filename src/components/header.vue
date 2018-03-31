@@ -9,14 +9,16 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <img src="../assets/logo.png" id="nav-logo" @click="showFormFun(1)">
-      <div id="gatewaySetting" style="float:left">
+      <!-- <img src="../assets/logo.png" id="nav-logo" @click="showFormFun(0)"> -->
+      <img src="../assets/logo.png" id="nav-logo">
+      <h1 class="nav-title">Trinity</h1>
+      <!-- <div id="gatewaySetting" style="float:left">
         <select>
             <option>http://localhost</option>
             <option>http://TrinityTestNet</option>
         </select>
         <button type="button" name="gatewayButton" v-on:click="navthreadPoxi()">连接</button>
-      </div>
+      </div> -->
     </div>
     <div class="collapse navbar-collapse" id="example-navbar-collapse">
       <ul class="nav navbar-nav">
@@ -37,7 +39,7 @@ export default {
         {select:'Home'},
         {select:'Transfer'},
         {select:'Channel'},
-        {select:'Setting'}
+        // {select:'Setting'}
      ]
     }
   },
@@ -132,11 +134,26 @@ export default {
   filter: blur(5px);
 }
 #nav-logo {
-  width: 140px;
+  width: 58px;
   padding: 8px;
   float: left;
+  transform: rotate(0);
+  animation: rotating 9s linear infinite;
+  transform-origin: 50% 54%;
 }
-#gatewaySetting select {
+
+.nav-title{
+  display: block;
+  margin: 0 0 0 10px;
+  padding: 1px 0 0 0;
+  font-size: 29px;
+  line-height: 58px;
+  float: left;
+  color: #000000;
+  font-weight: 400;
+}
+
+/* #gatewaySetting select {
   border: solid 0px #000;
   appearance:none;
   -moz-appearance:none;
@@ -148,26 +165,47 @@ export default {
 }
 #gatewaySetting select::-ms-expand {
   display: none;
-}
+} */
 .navbar-nav {
-  float: right;
+  height: 40px;
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  margin-top: -20px;
 }
+
+.nav>li {
+  height: 40px;
+  margin: 0 0 0 20px;
+}
+
 .navbar-nav > li > a {
-  padding: 0 10px;
+  padding: 10px;
   font-weight: 600;
-  line-height: 54px;
+  line-height: 20px;
   background-color: transparent; }
 
 .navbar-default .navbar-nav > .active > a,
 .navbar-default .navbar-nav > .active > a:focus,
 .navbar-default .navbar-nav > .active > a:hover {
   color: #FF95AE;
-  background-color: #e7e7e7;
-  border-bottom: 2px #FF95AE solid; }
+  background-color: transparent;
+  border: 2px #FF95AE solid;
+  padding: 9px;
+  border-radius: 5px;}
 
 @media screen and (max-width: 768px) {
   .navbar-nav > li > a {
     padding-top: 22px;
     padding-bottom: 22px; } }
 
+  @keyframes rotating{
+  0%   {transform:rotate(0);}
+  16%  {transform:rotate(120deg);}
+  33%  {transform:rotate(120deg);}
+  49%  {transform:rotate(240deg);}
+  66%  {transform:rotate(240deg);}
+  83%  {transform:rotate(360deg);}
+  100% {transform:rotate(360deg);}
+  }
 </style>

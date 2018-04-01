@@ -32,7 +32,7 @@
           <input type="number" class="form-control form-amount" id="txonchain-amount" placeholder="Amount" autocomplete="off">
         </div>
         <div class="form-group">
-          <p class="total-amount">&nbsp;(Balance on chain: <span class="total-balance"></span>)</p>
+          <p class="total-amount">&nbsp;(Balance on chain: <span>{{ tncBalance }}</span>TNC)</p>
         </div>
         <div class="form-group" style="text-align: center;">
           <input type="button" value="Next" class="btn btn-txonchain" @click="transferOnChain()">
@@ -50,6 +50,7 @@ export default {
 
     }
   },
+  props:["tncBalance"],
   methods:{
     transferOnChain:function(){
       if($("#txonchain-address").val().length != 34){
@@ -180,21 +181,22 @@ export default {
   background: rgba(255, 255, 255, 0.8);
   border: 1px solid #e1e1e1;
   border-radius: 10px;
-  margin: 0 0 20px 0;
-  overflow: hidden; }
+  margin: 2% 2% 20px;
+  overflow: hidden;
+  transition: all .3s;}
 
 .txonchain-form .txonchain-box:hover {
-  background: white;
-  -webkit-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
-  -o-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
-  box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1); }
+  box-shadow: 0px 4px 20px rgba(0,0,0,.3);
+  border-radius: 10px;
+  transform: scale(1.05);
+  -webkit-transform: scale(1.05);
+  border: none;
+  background: #fff;}
 
 .txonchain-form .txonchain-box-left {
   float: left;
   height: 82%;
   width: 40%;
-  margin-right: 5%;
   word-break: break-all; }
 
 .txonchain-form h1 {

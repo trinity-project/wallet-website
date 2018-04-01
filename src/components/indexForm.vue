@@ -1,13 +1,13 @@
 <template>
   <form action="#" class="index-form">
-    <div class="row">
+    <div class="row" style="overflow:visible">
     <img src="../assets/trinity_HD.png" style="width: 600px;position: fixed;z-index: -1;right: -216px;bottom: 20px;opacity: 0.3;">
     <div class="index-title"><span>My Wallet</span></div>
     <div class="index-box" style="position: relative;">
 
       <!-- <h2>Name : Wallet</h2> -->
-      <h2>Wallet Address : <a id="wallet_add">{{ Address }}</a></h2>
-      <h2>Script Hash : <span>{{ ScriptHash }}</span></h2><br>
+      <h2>Wallet Address : <a id="wallet_add">{{ Address }}</a></h2><br>
+      <h2>Script Hash : </h2><span>{{ ScriptHash }}</span><br>
       <h2>Public Key : </h2><span>{{ PublicKeyEncode }}</span><br/>
       <h2>Private Key : </h2><span id="private-key-show" @click="privateKeyShowFun()">{{ privateKeyShowBtn }}</span><span v-show="privateKeyShow">{{ PrivateKey }}</span><br/>
       <h2>Download Wallet File: </h2><span id="assets-wallet-file"><a href="javascript:;" id="testa">download</a></span>

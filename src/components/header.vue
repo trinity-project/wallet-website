@@ -9,9 +9,8 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <!-- <img src="../assets/logo.png" id="nav-logo" @click="showFormFun(0)"> -->
-      <img src="../assets/logo.png" id="nav-logo">
-      <h1 class="nav-title">Trinity</h1>
+      <img src="../assets/logo.png" id="nav-logo" @click="showFormFun(0)">
+      <h1 class="nav-title" @click="showFormFun(0)">Trinity</h1>
       <!-- <div id="gatewaySetting" style="float:left">
         <select>
             <option>http://localhost</option>
@@ -140,6 +139,7 @@ export default {
   transform: rotate(0);
   animation: rotating 9s linear infinite;
   transform-origin: 50% 54%;
+  cursor: pointer;
 }
 
 .nav-title{
@@ -151,6 +151,7 @@ export default {
   float: left;
   color: #000000;
   font-weight: 400;
+  cursor: pointer;
 }
 
 /* #gatewaySetting select {
@@ -184,6 +185,11 @@ export default {
   font-weight: 600;
   line-height: 20px;
   background-color: transparent; }
+
+.navbar-default{
+  background-color: transparent;
+  border: 0;
+}
 
 .navbar-default .navbar-nav > .active > a,
 .navbar-default .navbar-nav > .active > a:focus,

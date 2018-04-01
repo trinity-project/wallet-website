@@ -1,22 +1,21 @@
 <template>
-  <form action="#" class="channel-info-form animate-box" data-animate-effect="fadeInBottom">
+  <form action="#" class="channel-info-form animate-box">
     <a class="close-btn" id="info-close-btn" @click="closeChannelInfo()">×</a>
     <h1 id="info-remark">Channel Info</h1>
-    <label>Channel Name:</label><br>
-      <p>{{ ChannelInfo.Receiver }}</p>
-    <label>Local Address:</label><br>
-      <p>{{ ChannelInfo }}</p>
+    <label>Alias:</label><p style="display:inline">{{ Alias }}</p><br>
+    <label>NodeID:</label><br>
+      <p>{{ ChannelInfo}}</p>
     <label>Remote Address:</label><br>
       <p></p>
     <label>Contract Address:</label><br>
-      <p></p></label>
-    <label>Deposit:</label><span></span>TNC<a id="add-deposit" @click="addDeposit()">Add</a><br>
-    <label>Balance:<span></span>TNC</label><br>
-    <label>Channel State:<span id="info-state"></span></label><br>
+      <p></p>
+    <label>Deposit:</label><p style="display:inline">{{ Deposit}}TNC</p><a id="add-deposit" @click="addDeposit()">Add</a><br>
+    <label>Balance:</label><p style="display:inline">{{ Balance }}TNC</p><br>
+    <label>Channel State:<span id="info-state">{{ ChannelState }}</span></label><br>
     <h3 @click="openRecord()" style="">Transaction Record</h3>
     <div style="text-align: center;margin-top: 10%">
       <input type="button" value="Transfer" class="btn btn-totransfer" @click="toTransfer()">
-      <br><a id="btn_closechannel" @click="closeChannel()" style="color: #FC6686;font-size: 14px;cursor: pointer;">Close Channel</a>
+      <br><a id="btn_closechannel" style="color: #FC6686;font-size: 14px;cursor: pointer;">Close Channel</a>
     </div>
   </form>
 </template>
@@ -26,85 +25,68 @@ export default {
   name: 'channelInfo',
   data () {
     return {
-
+      Alias:'',
+      NodeID:'',
+      Deposit:'',
+      Balance:'',
+      ChannelState:''
     }
   },
   props:["tncBalance","ChannelInfo"],
+  computed: {
+    // reversedMessage: function () {
+    //   return this.ChannelInfo.MessageBody
+    // }
+  },
+  watch: {
+    ChannelInfo:{
+      handler:function(ChannelInfo){
+        this.Alias = ChannelInfo.Name;
+        this.NodeID = ChannelInfo.Receiver;
+        this.Deposit = ChannelInfo.Deposit;
+        this.Balance = ChannelInfo.Balance;
+        this.ChannelState = ChannelInfo.Flag;
+      },
+      deep:true
+    }
+  },
   methods:{
     openRecord:function(){
       transFace('.record-form');
-      $.ajax({
-        //url: TrinityTestNet + ":5000",
-        url: "http://47.254.39.10:20552",
-        type: "POST",
-        data: JSON.stringify({
-          "jsonrpc": "2.0",
-          "method": "gethistory",
-          "params": [$("#info-channel-name").text(), index=0, count=100],
-          "id": 1
-        }),
-        contentType: 'application/json',
-        success: function(message) {
-          //if (message.error) {
-            //swal("error!", message.error.message,"error");
-          //} else
-          if(message.error){
-            swal("Error!", message.error,"error");
-          } else {
-              $('#records').html('');
-              message.result.forEach((item) => {
-                  if (item.tx_detail) {
-                   $(`<div class='record-box' style='position: relative;'><h2>${item.tx_detail[1].address}</h2><span style="text-align:right">${item.tx_detail[0].trans}TNC</span><h3>${item.tx_detail[0].time}</h3><span style="line-height: 32px;">Deposit:${item.tx_detail[0].balance}TNC</span></div>`)
-                  .appendTo('#records');
-                  }
-            });
-          }
-        },
-        error: function(message) {
-          alert("error");
-        }
-      });
-      event.stopPropagation();
-      return false;
-    },
-    closeChannel:function(){
-      if ($("#info-state").text() == "OPEN") {
-          $(".channel-info-form").hide();
-          $(".curtain").hide();
-          swal({
-            title: "Comfirm close channel?",
-            type: "info",
-            showCancelButton: true,
-            closeOnConfirm: false,
-            showLoaderOnConfirm: true,
-          },
-          function(){
-              $.ajax({
-              //url: TrinityTestNet + ":5000",
-              url: "http://47.254.39.10:20552",
-              type: "POST",
-              data: JSON.stringify({
-                "jsonrpc": "2.0",
-                "method": "closechannel",
-                "params": [$("#wallet_add").html(), $("#info-receiver-addr").text(), $("#info-channel-name").text()],
-                "id": 1
-              }),
-              contentType: 'application/json',
-              success: function(message) {
-                if (message.result==""||message.result==null) {
-                  sweetAlert("something error", "","error");
-                }else{
-                  sweetAlert(message.result, "","success");
-                }
-              },
-              error: function(message) {
-                alert("error");
-              }
-            });
-            });
-      } else {
-        sweetAlert("Channel not in OPEN state.", "","error");
-      }
+      $(".curtain").hide();
+      // $.ajax({
+      //   //url: TrinityTestNet + ":5000",
+      //   url: "http://47.254.39.10:20552",
+      //   type: "POST",
+      //   data: JSON.stringify({
+      //     "jsonrpc": "2.0",
+      //     "method": "gethistory",
+      //     "params": [$("#info-channel-name").text(), index=0, count=100],
+      //     "id": 1
+      //   }),
+      //   contentType: 'application/json',
+      //   success: function(message) {
+      //     //if (message.error) {
+      //       //swal("error!", message.error.message,"error");
+      //     //} else
+      //     if(message.error){
+      //       swal("Error!", message.error,"error");
+      //     } else {
+      //         $('#records').html('');
+      //         message.result.forEach((item) => {
+      //             if (item.tx_detail) {
+      //              $(`<div class='record-box' style='position: relative;'><h2>${item.tx_detail[1].address}</h2><span style="text-align:right">${item.tx_detail[0].trans}TNC</span><h3>${item.tx_detail[0].time}</h3><span style="line-height: 32px;">Deposit:${item.tx_detail[0].balance}TNC</span></div>`)
+      //             .appendTo('#records');
+      //             }
+      //       });
+      //     }
+      //   },
+      //   error: function(message) {
+      //     alert("error");
+      //   }
+      // });
+      // event.stopPropagation();
+      //return false;
     },
     addDeposit:function(){
       if ($("#info-state").text() == "OPEN") {
@@ -142,41 +124,21 @@ export default {
             showLoaderOnConfirm: true
           },
           function(){
-              $.ajax({
-              //url: TrinityTestNet + ":5000",
-              url: "http://47.254.39.10:20552",
-              type: "POST",
-              data: JSON.stringify({
-                "jsonrpc": "2.0",
-                "method": "closechannel",
-                "params": [$("#wallet_add").html(), $("#info-receiver-addr").text(), $("#info-channel-name").text()],
-                "id": 1
-              }),
-              contentType: 'application/json',
-              success: function(message) {
-                if (message.result==""||message.result==null) {
-                  sweetAlert("something error", "","error");
-                }else{
-                  sweetAlert(message.result, "","success");
-                }
-              },
-              error: function(message) {
-                alert("error");
-              }
-            });
+            this.$emit("addDeposit",this.ChannelInfo);
           });
         });
     },
     toTransfer:function(){
-      if ($("#info-state").text() == "OPEN") {
+      //if ($("#info-state").text() == "OPEN") {
       transFace('.transfer-form');
+      $(".curtain").hide();
       $("#transfer-channel-name").val($("#info-channel-name").text());
       $("#transfer-address").val($("#info-receiver-addr").text());
       $("#transfer-amount").val("");
       $("#channel-balance").text($("#info-sender-balance").text());
-      } else {
-        sweetAlert("Channel not in OPEN state.", "","error");
-      }
+      // } else {
+      //   sweetAlert("Channel not in OPEN state.", "","error");
+      // }
     },
     closeChannelInfo:function(){
       $(".channel-info-form").hide();

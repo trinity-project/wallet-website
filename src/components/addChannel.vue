@@ -3,18 +3,20 @@
     <div class="row">
       <img src="../assets/trinity_HD.png" style="width: 550px;height: 550px;position: fixed;left: 200px;bottom: -147px;opacity: 0.3;">
       <div class="channel-box channel-box-left" style="position: relative;">
-        <h1>{{ explainTitle }}</h1>
+        <section class="p7">
+          <a href="#">{{ explainTitle }}</a>
+        </section>
         <h3>{{ explain }}</h3>
       </div>
       <div class="channel-box" style="position: relative;">
       <div class="form-group">
-        <label for="regist-channel-address">URL : </label><span class="commentary" data-toggle="tooltip" data-placement="right"
-        title="对URL的注释">?</span>
-        <input type="text" class="form-control" id="regist-channel-address" v-model="registChannelUrl" placeholder="URL">
+        <label for="regist-channel-address">NodeID : </label><span class="commentary" data-toggle="tooltip" data-placement="right"
+        title="对NodeID的注释">?</span>
+        <input type="text" class="form-control" id="regist-channel-address" v-model="registChannelUrl" placeholder="NodeID">
       </div>
       <div class="form-group">
-        <label>Name : </label><span class="commentary" data-toggle="tooltip" data-placement="right" title="对name的注释">?</span>
-        <input type="text" class="form-control" v-model="registChannelName" placeholder="Name">
+        <label>Alias : </label><span class="commentary" data-toggle="tooltip" data-placement="right" title="对Alias的注释">?</span>
+        <input type="text" class="form-control" id="regist-channel-name" v-model="registChannelName" placeholder="Alias">
       </div>
       <div class="form-group">
         <label for="regist-channel-assets">Assets : </label>
@@ -72,7 +74,7 @@ export default {
       if(registePublicKeyEncod.length != 66){
         swal({
           title: "Error!",
-          text: "URL length check failed.",
+          text: "NodeID length check failed.",
           type: "error",
           showCancelButton: false
         });
@@ -165,26 +167,27 @@ export default {
   background: rgba(255, 255, 255, 0.8);
   border: 1px solid #e1e1e1;
   border-radius: 10px;
-  margin: 0 0 20px 0;
-  overflow: hidden; }
+  margin: 2% 2% 20px;
+  overflow: hidden;
+  transition: all .3s;}
 
 .assets-form .assets-box .record-a {
   color: #FF95AE;
   padding: 8px 20px 8px 8px; }
 
 .channel-form .channel-box:hover {
-  background: white;
-  -webkit-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
-  -o-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
-  box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1); }
+  box-shadow: 0px 4px 20px rgba(0,0,0,.3);
+  border-radius: 10px;
+  transform: scale(1.05);
+  -webkit-transform: scale(1.05);
+  border: none;
+  background: #fff;}
 
 .channel-form .channel-box-left {
   float: left;
   height: 82%;
   width: 40%;
-  margin-right: 5%;
-  word-break: break-all; }
+  margin-right: 5%; }
 
 .channel-form h2 {
   font-family: "yu gothic ui semibold";
@@ -193,9 +196,9 @@ export default {
   margin-top: 0; }
 
 .channel-form h3 {
-  font-size: 26px;
+  font-size: 22px;
   line-height: 43px;
-  margin: 10px 0;
+  margin: 43% 0 0 0;
   word-wrap: break-word; }
 
 .channel-form h1 {
@@ -324,5 +327,86 @@ export default {
   width: 100%;
   text-align: center;
   margin-top: 4%; }
+
+section a {
+  text-transform: uppercase;
+  font-weight: 800;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  font-size: 41px;
+}
+
+section.p7 a {
+  width: 307px;
+  height: 94px;
+  line-height: 94px;
+  position: absolute;
+  top: 16%;
+  left: 50%;
+  margin-left: -153.5px;
+  -webkit-transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  -ms-transition: all 0.2s;
+  -o-transition: all 0.2s;
+  transition: all 0.2s;
+}
+section.p7 a:before,
+section.p7 a:after {
+  content: '';
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  width: 250px;
+  height: 250px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -125px;
+  margin-top: -125px;
+}
+section.p7 a:before {
+  -webkit-box-shadow: inset 0px 0px 0px 6px #747474;
+  -moz-box-shadow: inset 0px 0px 0px 6px #747474;
+  box-shadow: inset 0px 0px 0px 6px #747474;
+  -webkit-clip-path: polygon(0 0, 0 80px, 0% 80px, 0% 0);
+  clip-path: polygon(0 0, 0 80px, 0% 80px, 0% 0);
+  -webkit-transition: all 0.4s 0.25s;
+  -moz-transition: all 0.4s 0.25s;
+  -ms-transition: all 0.4s 0.25s;
+  -o-transition: all 0.4s 0.25s;
+  transition: all 0.4s 0.25s;
+}
+section.p7 a:after {
+  background-image:url(data:image/png;base64,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);
+  background-size: cover;
+  background-position: center center;
+  -webkit-clip-path: polygon(0 0, 0 0px, 100% 0px, 100% 0);
+  clip-path: polygon(0 0, 0 0px, 100% 0px, 100% 0);
+  -webkit-transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  -ms-transition: all 0.2s;
+  -o-transition: all 0.2s;
+  transition: all 0.2s;
+}
+.channel-box-left:hover section.p7 a:before {
+  -webkit-clip-path: polygon(0 0, 0 80px, 100% 80px, 100% 0);
+  clip-path: polygon(0 0, 0 80px, 100% 80px, 100% 0);
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+.channel-box-left:hover section.p7 a:after {
+  -webkit-clip-path: polygon(0 0, 0 80px, 100% 80px, 100% 0);
+  clip-path: polygon(0 0, 0 80px, 100% 80px, 100% 0);
+  -webkit-transition: all 0.5s 0.2s;
+  -moz-transition: all 0.5s 0.2s;
+  -ms-transition: all 0.5s 0.2s;
+  -o-transition: all 0.5s 0.2s;
+  transition: all 0.5s 0.2s;
+}
 
 </style>

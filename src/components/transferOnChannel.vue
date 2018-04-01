@@ -3,8 +3,8 @@
     <div class="row">
       <img src="../assets/trinity_HD.png" style="width: 600px;height: 600px;position: fixed;left: -106px;bottom: 2px;opacity: 0.3;">
       <div class="transfer-box transfer-box-left" style="position: relative;">
-        <h1>Transfer on channel</h1>
-        <h3>Channel transaction is settled through a smart contract on the chain and real-time transactions are performed in the channel under the chain, so as to realize the instant payment of assets, low transaction cost, scalability and privacy protection and other advantages.</h3>
+        <h1>{{ explainTitle }}</h1>
+        <h3>{{ explain }}</h3>
       </div>
       <div class="transfer-box" style="position: relative;">
         <div class="form-group" style="display: none;">
@@ -15,8 +15,8 @@
           <input type="text" class="form-control" id="transfer-channel-name" placeholder="Channel Name" readonly="true">
         </div>
         <div class="form-group">
-          <label for="transfer-address" style="font-size: 20px;">Address : </label>
-          <input type="text" class="form-control" id="transfer-address" placeholder="Address" disabled="disabled">
+          <label for="transfer-address" style="font-size: 20px;">WalletID : </label>
+          <input type="text" class="form-control" id="transfer-address" placeholder="WalletID">
         </div>
         <div class="form-group">
           <label for="transfer-assets" style="font-size: 20px;">Assets : </label>
@@ -30,12 +30,12 @@
           <label for="transfer-amount" style="font-size: 20px;">Amount : </label>
           <input type="number" class="form-control form-amount" id="transfer-amount" placeholder="Amount" autocomplete="off">
         </div>
-        <div class="form-group">
+        <div class="form-group" style="display: none;">
           <label for="transferReceiptCode" style="font-size: 20px;">Remote Receipt Code : </label>
           <input type="text" class="form-control form-amount" id="transferReceiptCode" placeholder="Remote Receipt Code" autocomplete="off">
         </div>
         <div class="form-group">
-          <p class="total-amount">&nbsp;(Balance amount: <span id="channel-balance"></span>)</p>
+          <p class="total-amount">&nbsp;(Balance amount: <span>{{ tncBalance }}</span>TNC)</p>
         </div>
         <div class="form-group form-btn">
           <input type="button" value="Next" class="btn btn-transfer">
@@ -50,9 +50,11 @@ export default {
   name: 'transOnChannelForm',
   data () {
     return {
-
+      explainTitle:'Transfer on channel',
+      explain:'Channel transaction is settled through a smart contract on the chain and real-time transactions are performed in the channel under the chain, so as to realize the instant payment of assets, low transaction cost, scalability and privacy protection and other advantages.'
     }
   },
+  props:["tncBalance"],
   methods:{
     transferOnChannel:function(){
         if (!$("#transfer-address").val()) {
@@ -137,21 +139,22 @@ export default {
   background: rgba(255, 255, 255, 0.8);
   border: 1px solid #e1e1e1;
   border-radius: 10px;
-  margin: 0 0 20px 0;
-  overflow: hidden; }
+  margin: 2% 2% 20px;
+  overflow: hidden;
+  transition: all .3s;}
 
 .transfer-box:hover {
-  background: white;
-  -webkit-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
-  -o-box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1);
-  box-shadow: 10px 6px 46px 2px rgba(0, 0, 0, 0.1); }
+  box-shadow: 0px 4px 20px rgba(0,0,0,.3);
+  border-radius: 10px;
+  transform: scale(1.05);
+  -webkit-transform: scale(1.05);
+  border: none;
+  background: #fff;}
 
 .transfer-box-left {
   float: left;
   height: 82%;
   width: 40%;
-  margin-right: 5%;
   word-break: break-all; }
 
 h1 {
@@ -185,7 +188,7 @@ label {
 .form-control {
   font-size: 18px;
   font-weight: 300;
-  height: 46px;
+  height: 66px;
   width: 100%;
   padding-right: 40px;
   border: none;

@@ -5,8 +5,8 @@
     <trinity-nav/>
     <sign-up-form @loginfun="loginfun()"/>
     <login-form @websocketsend="websocketsend(1)" @loginToApp="AppGetlogin" @walletJsonToApp="getWalletJson" :Address="Address" :PublicKeyEncode="PublicKeyEncode"/>
-    <index-from :Address="Address" :PublicKeyEncode="PublicKeyEncode" :PrivateKey="PrivateKey" :PublicKey="PublicKey" :Script="Script" :ScriptHash="ScriptHash" :AddressQRCode="AddressQRCode" :gasBalance="gasBalance" :neoBalance="neoBalance" :tncBalance="tncBalance"/>
-    <channel-list-form @channelListToApp="AppGetchannelList" @closeChannel="closeChannel" :ChannelItems="ChannelItems"/>
+    <index-from :ChannelItems="ChannelItems" :Address="Address" :PublicKeyEncode="PublicKeyEncode" :PrivateKey="PrivateKey" :PublicKey="PublicKey" :Script="Script" :ScriptHash="ScriptHash" :AddressQRCode="AddressQRCode" :gasBalance="gasBalance" :neoBalance="neoBalance" :tncBalance="tncBalance"/>
+    <channel-list-form @channelListToApp="AppGetchannelList" @closeChannel="closeChannel" @Reconnect="Reconnect" :ChannelItems="ChannelItems"/>
     <channel-list1-form/>
     <channel-info-form @addDeposit="addDeposit" :tncBalance="tncBalance" :ChannelInfo="ChannelInfo"/>
     <add-channel-form @initWebSocket="initWebSocket" :Address="Address" :tncBalance="tncBalance" :PrivateKey="PrivateKey" :PublicKeyEncode="PublicKeyEncode"/>
@@ -52,7 +52,10 @@ export default {
       tncBalance:0,
       WalletJson:{},
       websock: null,
+      WebsockForTxid: null,
       ChannelItems:Store.fetch(this.Address + "@ChannelList"),
+      RecordItems:[],
+      TxidItems:[],
       url1:'',
       url2:'',
       ChannelInfo:{}
@@ -95,7 +98,7 @@ export default {
   methods:{
     threadPoxi(){  // 实际调用的方法
      //参数
-     const agentData = "mymessage";
+     //const agentData = "mymessage";
      //若是ws开启状态
      if (this.websock.readyState === this.websock.OPEN) {
         console.log("readyState1");
@@ -190,22 +193,31 @@ export default {
     websocketclose(e){  //关闭
      console.log("connection closed (" + e.code + ")");
     },
-    StoreChannel:function(Message){
+    StoreChannel:function(Message){     //localstorage储存Channel信息
      Message.Balance = Message.Deposit;
      this.ChannelItems.push(Message);
      console.log(this.ChannelItems);
      Store.save(this.Address + "@ChannelList",this.ChannelItems);
     },
-    ChangeStoreFlag:function(statu){
+    StoreRecord:function(Message){     //localstorage储存record
+     this.RecordItems.push(Message);
+     console.log(this.RecordItems);
+     Store.save(this.Address + "@Record",this.RecordItems);
+    },
+    StoreTxid:function(Message){     //localstorage储存Txid
+     this.TxidItems.push(Message);
+     console.log(this.TxidItems);
+     Store.save(this.Address + "@Txid",this.TxidItems);
+    },
+    ChangeStoreFlag:function(statu){    //改变localstorage数据模板
      var _this = this;
-     //forEach()，val为数据的每一项，index为每一项的索引
-     this.ChannelItems.forEach(function(val,index){
+     this.ChannelItems.forEach(function(val,index){   //遍历
        if(val.aaa === 'aaaa1'){
          _this.$set(val,'bbb',111);
        }
      });
     },
-    closeChannel:function(val){
+    closeChannel:function(val){       //关闭通道
      console.log("已收到关闭通道数据");
      console.log(val);
      console.log(val.Date);
@@ -218,7 +230,7 @@ export default {
        }
      });
     },
-    addDeposit:function(val){
+    addDeposit:function(val){       //增加押金
      console.log("已收到增加押金数据");
      console.log(val);
      console.log(val.Date);
@@ -231,7 +243,7 @@ export default {
        }
      });
     },
-    Reconnect(ip){ //初始化weosocket
+    Reconnect(ip){      //重连websock
      //ws地址
      const wsuri = "ws://" + ip;
      this.websock = new WebSocket(wsuri);
@@ -243,11 +255,11 @@ export default {
      //      _this.AddChannel(url1,url2,name,asstes,deposit,date);
      //  }, 5000);
     },
-    loginfun:function(){
+    loginfun:function(){    //登录界面
       $(".login-box").show();
       $(".curtain").show();
     },
-    AppGetlogin:function(data){
+    AppGetlogin:function(data){     //获取login传来的数据
       this.$options.methods.getAddressInfo.bind(this)(data);
       this.$options.methods.getAssetsBalance.bind(this)();
     },
@@ -285,10 +297,64 @@ export default {
         _this.neoBalance = res.data.result.neoBalance;
         _this.tncBalance = res.data.result.tncBalance;
       });
-    }
+    },
+    //WebSocket for txid start
+    threadPoxiForTxid(){  // 实际调用的方法
+     //参数
+     const agentData = "mymessage";
+     //若是ws开启状态
+     if (this.WebsockForTxid.readyState === this.WebsockForTxid.OPEN) {
+       var _this = this;
+        _this.WebsocketSendForTxid(agentData)
+     }
+     // 若是 正在开启状态，则等待300毫秒
+     else if (this.WebsockForTxid.readyState === this.WebsockForTxid.CONNECTING) {
+         var _this = this;//保存当前对象this
+         setTimeout(function () {
+             _this.WebsocketSendForTxid(agentData)
+         }, 300);
+     }
+     // 若未开启 ，则等待500毫秒
+     else {
+         this.initWebSocketForTxid();
+         var _this = this;//保存当前对象this
+         setTimeout(function () {
+             _this.WebsocketSendForTxid(agentData)
+         }, 500);
+     }
+    },
+    initWebSocketForTxid(){ //初始化weosocket
+     //ws地址
+     const wsuri = "ws://118.89.44.106:8766";
+     this.WebsockForTxid = new WebSocket(wsuri);
+     this.WebsockForTxid.onmessage = this.WebsocketOnmessageForTxid;
+     this.WebsockForTxid.onclose = this.WebsocketCloseForTxid;
+
+     var _this = this;
+     setTimeout(function (){
+          _this.WebsocketSendForTxid();
+      }, 3000);
+    },
+    WebsocketOnmessageForTxid(e){ //数据接收
+     const redata = JSON.parse(e.data);
+     const type = redata.type;
+     if(type == "block_info"){
+       this.websocketsend2(redata);
+       //this.$options.methods.StoreChannel.bind(this)();
+     }
+     //console.log(redata);
+    },
+    WebsocketSendForTxid:function(){//数据发送模板
+     //console.log("发送信息：" + "1");
+     //this.WebsockForTxid.send("1");
+    },
+    WebsocketCloseForTxid(e){  //关闭
+     console.log("connection closed (" + e.code + ")");
+    },
+    //WebSocket for txid end
   },
   created(){
-    //this.initWebSocket()
+    this.initWebSocketForTxid();
 }
 }
 </script>

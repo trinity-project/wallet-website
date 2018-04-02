@@ -27,7 +27,7 @@
             <div class="channelBody" v-for="(item,index) in formatChannelList(ChannelItems)" @click="clickfun(item,index)" style="position:relative">
               <h2>{{ item.Name }}</h2>
               <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default" @click="closeChannel(item)">
+                <button type="button" class="btn btn-default" @click="Reconnect(item)">
                   <span class="glyphicon glyphicon-refresh"></span> Reconnect
                 </button>
                 <button type="button" class="btn btn-default" @click="closeChannel(item)">
@@ -140,6 +140,13 @@ export default {
             }
           });
           return l
+    },
+    Reconnect:function(item){
+      var ip = item.NodeID.split('@')[1];
+      console.log(ip);
+      this.$emit("Reconnect",ip);
+      event.stopPropagation();
+      return false;
     },
     closeChannel:function(item){
       // if ($("#info-state").text() == "OPEN") {

@@ -10,7 +10,7 @@
       <h2>Script Hash : </h2><span>{{ ScriptHash }}</span><br>
       <h2>Public Key : </h2><span>{{ PublicKeyEncode }}</span><br/>
       <h2>Private Key : </h2><span id="private-key-show" @click="privateKeyShowFun()">{{ privateKeyShowBtn }}</span><span v-show="privateKeyShow">{{ PrivateKey }}</span><br/>
-      <h2>Download Wallet File: </h2><span id="assets-wallet-file"><a href="javascript:;" id="testa">download</a></span>
+      <!-- <h2>Download Wallet File: </h2><span id="assets-wallet-file"><a href="javascript:;" id="testa">download</a></span> -->
       <img :src="AddressQRCode" id="wallet_qr" @click="walletQr()"/>
     </div>
     <div class="index-title"><span>Assets</span></div>
@@ -36,19 +36,25 @@
     </div>
     <div class="index-title"><span>Channel</span></div>
     <div class="index-box">
-      <table class="table table-hover">
+      <table class="table table-hover" style="margin-bottom: 0;" v-if="tableShow">
         <thead>
           <tr>
-            <th>Address</th>
+            <th>Channel Alias</th>
             <th>Deposit</th>
             <th>Balance</th>
             <th>State</th>
-            <th></th>
           </tr>
         </thead>
-        <tbody id="channels-index"></tbody>
+        <tbody>
+            <tr v-for="(item,index) in formatChannelList(ChannelItems)">
+        			<td>{{ item.Name }}</td>
+        			<td>{{ item.Deposit }}TNC</td>
+              <td>{{ item.Balance }}TNC</td>
+        			<td>Open</td>
+        		</tr>
+        </tbody>
       </table>
-      <h4 id="channels-mes">Not yet have a channel.</h4>
+      <h4 v-else>Not yet have a channel.</h4>
     </div>
     </div>
   </form>
@@ -60,10 +66,21 @@ export default {
   data () {
     return {
       privateKeyShowBtn:'Show',
-      privateKeyShow:false
+      privateKeyShow:false,
+      tableShow:false
     }
   },
-  props:["PrivateKey","PublicKey","PublicKeyEncode","Script","ScriptHash","Address","AddressQRCode","gasBalance","neoBalance","tncBalance"],
+  props:["ChannelItems","PrivateKey","PublicKey","PublicKeyEncode","Script","ScriptHash","Address","AddressQRCode","gasBalance","neoBalance","tncBalance"],
+  watch: {
+    'ChannelItems': {   //ChannelItems有值时
+      handler: function (val, oldVal) {
+        if(val.length !== 0){
+          this.tableShow = true;
+        }
+      },
+      deep: true
+    }
+  },
   methods:{
     walletQr:function(){
       swal({
@@ -83,6 +100,15 @@ export default {
         this.privateKeyShowBtn = 'Show';
         this.privateKeyShow = false;
       }
+    },
+    formatChannelList:function(item){
+      var l = [];
+      this.ChannelItems.forEach(function(data,index){
+        if(data.Flag > 0){
+          l.push(data);
+        }
+      });
+      return l.slice(0,2);
     },
   }
 }
@@ -193,6 +219,10 @@ h3 {
   color: #000000;
   text-align: center; }
 
+h4{
+  text-align: center;
+}
+
 a {
   color: inherit;
   -moz-transition: all 0.3s ease;
@@ -208,6 +238,12 @@ a:hover {
 label{
   margin-left: 12px;
 }
+
+#private-key-show{
+  cursor: pointer;
+  margin: 0 10px;
+}
+
 .index-box #wallet_qr {
   position: absolute;
   width: 80px;

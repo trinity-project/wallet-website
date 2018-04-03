@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <!-- <h1 @click="StoreChannel()">1111111</h1>
-    <h1 @click="ChangeStoreFlag()">2222222</h1> -->
+    <h1 @click="threadPoxi()">1111111</h1>
+    <!-- <h1 @click="ChangeStoreFlag()">2222222</h1> -->
     <trinity-nav/>
     <sign-up-form @loginfun="loginfun()"/>
     <login-form @websocketsend="websocketsend(1)" @loginToApp="AppGetlogin" @walletJsonToApp="getWalletJson" :Address="Address" :PublicKeyEncode="PublicKeyEncode"/>
@@ -51,7 +51,7 @@ export default {
       neoBalance:0,
       tncBalance:0,
       WalletJson:{},
-      websock: null,
+      websock: [],
       WebsockForTxid: null,
       ChannelItems:Store.fetch(this.Address + "@ChannelList"),
       RecordItems:[],
@@ -97,37 +97,58 @@ export default {
   },
   methods:{
     threadPoxi(){  // 实际调用的方法
-     //参数
-     //const agentData = "mymessage";
-     //若是ws开启状态
-     if (this.websock.readyState === this.websock.OPEN) {
-        console.log("readyState1");
-        this.websocketsend(agentData)
-     }
-     // 若是 正在开启状态，则等待300毫秒
-     else if (this.websock.readyState === this.websock.CONNECTING) {
-         let that = this;//保存当前对象this
-         setTimeout(function () {
-            console.log("readyState2");
-             that.websocketsend(agentData)
-         }, 300);
-     }
-     // 若未开启 ，则等待500毫秒
-     else {
-         this.initWebSocket();
-         let that = this;//保存当前对象this
-         setTimeout(function () {
-           console.log("readyState3");
-             that.websocketsend(agentData)
-         }, 500);
-     }
+      var _this = this;
+      _this.ChannelItems.forEach(function(data,index){   //遍历
+        if(data.Flag > 0){
+          var ip = data.NodeID.split("@")[1];
+          var i = _this.$options.methods.Reconnect.bind(_this)(ip,data.NodeID);
+
+          //var __this = this;
+          setTimeout(function () {
+            if (_this.websock[i].data.readyState === _this.websock[i].data.OPEN) {
+              console.log("webstock已打开");
+              _this.$set(data,'Flag',3);
+              }
+            }, 2000);
+         }
+      })
+        // if(val.aaa === 'aaaa1'){
+        //   _this.$set(val,'bbb',111);
+        // }
+      //});
+     // if (this.websock.readyState === this.websock.OPEN) {
+     //    console.log("readyState1");
+     //    this.websocketsend(agentData)
+     // }
+     // // 若是 正在开启状态，则等待300毫秒
+     // else if (this.websock.readyState === this.websock.CONNECTING) {
+     //     let that = this;//保存当前对象this
+     //     setTimeout(function () {
+     //        console.log("readyState2");
+     //         that.websocketsend(agentData)
+     //     }, 300);
+     // }
+     // // 若未开启 ，则等待500毫秒
+     // else {
+     //     // this.initWebSocket();
+     //     // let that = this;//保存当前对象this
+     //     // setTimeout(function () {
+     //     //   console.log("readyState3");
+     //     //     that.websocketsend(agentData)
+     //     // }, 500);
+     // }
     },
     initWebSocket(ip,url1,url2,name,asstes,deposit,date){ //初始化weosocket
-     //ws地址
      const wsuri = "ws://" + ip;
-     this.websock = new WebSocket(wsuri);
-     this.websock.onmessage = this.websocketonmessage;
-     this.websock.onclose = this.websocketclose;
+     var i = this.websock.length;
+     console.log(i);
+     var j = {
+       "url":url2,
+       "data":new WebSocket(wsuri)
+     }
+     this.websock.push(j);
+     this.websock[i].data.onmessage = this.websocketonmessage;
+     this.websock[i].data.onclose = this.websocketclose;
 
      var _this = this;
      setTimeout(function (){
@@ -143,9 +164,9 @@ export default {
      }
      //console.log(redata);
     },
-    websocketsend:function(agentData){//数据发送模板
+    websocketsend:function(agentData,i){//数据发送模板
      console.log("发送信息：" + agentData);
-     this.websock.send(agentData);
+     this.websock[i].data.send(agentData);
      //console.log("11");
     },
     AddChannel:function(url1,url2,name,asstes,deposit,date){//添加通道请求
@@ -191,7 +212,16 @@ export default {
       //  this.websock.send(JSON.stringify(Message);
     },
     websocketclose(e){  //关闭
-     console.log("connection closed (" + e.code + ")");
+     console.log("连接关闭:" + e.currentTarget.url);
+     var _this = this;
+     _this.ChannelItems.forEach(function(data,index){   //遍历
+       var ip = "ws://"+data.NodeID.split("@")[1]+"/";
+       //console.log(ip);
+       if(ip === e.currentTarget.url){
+         console.log("关闭效果触发成功");
+          _this.$set(data,'Flag',4);
+        }
+     })
     },
     StoreChannel:function(Message){     //localstorage储存Channel信息
      Message.Balance = Message.Deposit;
@@ -243,17 +273,33 @@ export default {
        }
      });
     },
-    Reconnect(ip){      //重连websock
-     //ws地址
-     const wsuri = "ws://" + ip;
-     this.websock = new WebSocket(wsuri);
-     this.websock.onmessage = this.websocketonmessage;
-     this.websock.onclose = this.websocketclose;
+    Reconnect(ip,NodeID){      //手动重连websock
+      const wsuri = "ws://" + ip;
+      var i = this.websock.length;
+      console.log(i);
+      var j = {
+        "url":NodeID,
+        "data":new WebSocket(wsuri)
+      }
+      this.websock.push(j);
+      this.websock[i].data.onmessage = this.websocketonmessage;
+      this.websock[i].data.onclose = this.websocketclose;
 
-     // var _this = this;
-     // setTimeout(function (){
-     //      _this.AddChannel(url1,url2,name,asstes,deposit,date);
-     //  }, 5000);
+      var _this = this;
+      setTimeout(function (){
+        _this.websocketsend("1",i);
+       }, 3000);
+
+       _this.ChannelItems.forEach(function(data,index){   //遍历
+         var ListIp = data.NodeID.split("@")[1];
+         //console.log(ip);
+         if(ListIp === ip){
+           console.log("连接效果触发成功");
+            _this.$set(data,'Flag',3);
+          }
+       })
+
+       return i;
     },
     loginfun:function(){    //登录界面
       $(".login-box").show();
@@ -355,7 +401,7 @@ export default {
   },
   created(){
     this.initWebSocketForTxid();
-}
+  }
 }
 </script>
 

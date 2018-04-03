@@ -30,7 +30,7 @@
         <p>Balance On Chain : <span>{{ gasBalance }}</span> GAS</p>
         <img src="../assets/GAS.png" id="gas">
       </div>
-      <div class="assets-box">
+      <div class="assets-box" style="display:none">
         <h3 style="line-height: 156px;">Add New</h3>
       </div>
     </div>
@@ -174,7 +174,8 @@ export default {
   background: #fff;}
 
 .index-box .assets-box{
-  width: 25%;
+  width: 33%;
+  /* width: 25%; */
   float: left;
   text-align: center;
 }

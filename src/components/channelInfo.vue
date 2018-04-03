@@ -2,20 +2,17 @@
   <form action="#" class="channel-info-form animate-box">
     <a class="close-btn" id="info-close-btn" @click="closeChannelInfo()">×</a>
     <h1 id="info-remark">Channel Info</h1>
-    <label>Alias:</label><p style="display:inline">{{ Alias }}</p><br>
+    <label>Alias:</label><p>{{ Alias }}</p><br>
     <label>NodeID:</label><br>
-      <p>{{ ChannelInfo}}</p>
-    <label>Remote Address:</label><br>
-      <p></p>
-    <label>Contract Address:</label><br>
-      <p></p>
-    <label>Deposit:</label><p style="display:inline">{{ Deposit}}TNC</p><a id="add-deposit" @click="addDeposit()">Add</a><br>
-    <label>Balance:</label><p style="display:inline">{{ Balance }}TNC</p><br>
-    <label>Channel State:<span id="info-state">{{ ChannelState }}</span></label><br>
+      <p style="margin: 0;">{{ NodeID }}</p><br>
+    <label>Contract Address:</label>
+      <p></p><br>
+    <label>Deposit:</label><p>{{ Deposit}}TNC</p><a id="add-deposit" @click="addDeposit()">Add</a><br>
+    <label>Balance:</label><p>{{ Balance }}TNC</p><br>
+    <label>Channel State:</label><p>{{ ChannelState | formatStatus}}</p><br>
     <h3 @click="openRecord()" style="">Transaction Record</h3>
     <div style="text-align: center;margin-top: 10%">
       <input type="button" value="Transfer" class="btn btn-totransfer" @click="toTransfer()">
-      <br><a id="btn_closechannel" style="color: #FC6686;font-size: 14px;cursor: pointer;">Close Channel</a>
     </div>
   </form>
 </template>
@@ -38,11 +35,37 @@ export default {
     //   return this.ChannelInfo.MessageBody
     // }
   },
+  filters:{
+    formatStatus:function(val){
+      var x;
+      switch (val)
+      {
+      case -1:
+        x="Close";
+        break;
+      case 1:
+        x="Closing";
+        break;
+      case 2:
+        x="Opening";
+        break;
+      case 3:
+        x="Open";
+        break;
+      case 4:
+        x="Not connected";
+        break;
+      default:
+        x="Error";
+      }
+      return x;
+    }
+  },
   watch: {
     ChannelInfo:{
       handler:function(ChannelInfo){
         this.Alias = ChannelInfo.Name;
-        this.NodeID = ChannelInfo.Receiver;
+        this.NodeID = ChannelInfo.NodeID;
         this.Deposit = ChannelInfo.Deposit;
         this.Balance = ChannelInfo.Balance;
         this.ChannelState = ChannelInfo.Flag;
@@ -89,7 +112,7 @@ export default {
       //return false;
     },
     addDeposit:function(){
-      if ($("#info-state").text() == "OPEN") {
+      if (this.ChannelState == 3) {
           $(".channel-info-form").hide();
           $(".curtain").hide();
         } else {
@@ -129,16 +152,16 @@ export default {
         });
     },
     toTransfer:function(){
-      //if ($("#info-state").text() == "OPEN") {
+      if (this.ChannelState == 3) {
       transFace('.transfer-form');
       $(".curtain").hide();
       $("#transfer-channel-name").val($("#info-channel-name").text());
       $("#transfer-address").val($("#info-receiver-addr").text());
       $("#transfer-amount").val("");
       $("#channel-balance").text($("#info-sender-balance").text());
-      // } else {
-      //   sweetAlert("Channel not in OPEN state.", "","error");
-      // }
+      } else {
+        sweetAlert("Channel not in OPEN state.", "","error");
+      }
     },
     closeChannelInfo:function(){
       $(".channel-info-form").hide();
@@ -154,21 +177,23 @@ export default {
   background-color: white;
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   width: 478px;
-  height: 550px;
+  height: 480px;
   padding: 17px;
   border-radius: 5px;
   position: fixed;
   left: 50%;
   top: 50%;
   margin-left: -256px;
-  margin-top: -275px;
+  margin-top: -223px;
   overflow: hidden;
   display: none;
   z-index: 99999; }
 
 .channel-info-form p {
   color: #000000;
-  word-break: break-word;}
+  word-break: break-word;
+  margin: 0 10px;
+  display:inline}
 
 .channel-info-form .close-btn {
   content: '×';
@@ -176,7 +201,7 @@ export default {
   color: #000000;
   display: block;
   position: absolute;
-  right: 8px;
+  right: 18px;
   top: 0px;
   cursor: pointer; }
 

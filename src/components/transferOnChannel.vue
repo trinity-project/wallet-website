@@ -3,7 +3,9 @@
     <div class="row">
       <img src="../assets/trinity_HD.png" style="width: 600px;height: 600px;position: fixed;left: -106px;bottom: 2px;opacity: 0.3;">
       <div class="transfer-box transfer-box-left" style="position: relative;">
-        <h1>{{ explainTitle }}</h1>
+        <section class="p10">
+          <a>{{ explainTitle }}</a>
+        </section>
         <h3>{{ explain }}</h3>
       </div>
       <div class="transfer-box" style="position: relative;">
@@ -50,7 +52,7 @@ export default {
   name: 'transOnChannelForm',
   data () {
     return {
-      explainTitle:'Transfer on channel',
+      explainTitle:'  Transfer   on channel',
       explain:'Channel transaction is settled through a smart contract on the chain and real-time transactions are performed in the channel under the chain, so as to realize the instant payment of assets, low transaction cost, scalability and privacy protection and other advantages.'
     }
   },
@@ -167,7 +169,7 @@ h1 {
 h3 {
   font-size: 27px;
   line-height: 49px;
-  margin: 10px 0;
+  margin: 39% 0;
   word-wrap: break-word; }
 
 .form-group {
@@ -253,5 +255,79 @@ label {
 .form-btn {
   width: 100%;
   text-align: center;
+}
+section a {
+  text-transform: uppercase;
+  text-align: center;
+  text-decoration: none;
+  font-size: 48px;
+  font-weight: 900;
+  color: inherit;
+}
+section a:after, section a:before {
+  content: '';
+}
+section.p10 a {
+  width: 353px;
+  height: 94px;
+  line-height: 47px;
+  position: absolute;
+  top: 6%;
+  left: 50%;
+  margin-left: -176.5px;
+}
+section.p10 a:before, section.p10 a:after {
+  content: '';
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-color: #FD6E7E;
+  border-style: solid;
+  border-width: 0;
+  -webkit-transition: all 0.5s cubic-bezier(1, 0.2, 0.26, 0.7);
+  -moz-transition: all 0.5s cubic-bezier(1, 0.2, 0.26, 0.7);
+  transition: all 0.5s cubic-bezier(1, 0.2, 0.26, 0.7);
+  -webkit-transform: translate(0px, 0px) scale(0.8);
+  -moz-transform: translate(0px, 0px) scale(0.8);
+  -ms-transform: translate(0px, 0px) scale(0.8);
+  -o-transform: translate(0px, 0px) scale(0.8);
+  transform: translate(0px, 0px) scale(0.8);
+  opacity: 0;
+}
+section.p10 a:before {
+  left: 0;
+  bottom: 0;
+  border-bottom-width: 1px;
+  border-left-width: 1px;
+}
+section.p10 a:after {
+  top: 0;
+  right: 0;
+  border-top-width: 1px;
+  border-right-width: 1px;
+}
+.transfer-box-left:hover section.p10 a:before, .transfer-box-left:hover section.p10 a:after {
+  -webkit-transition: all 2s cubic-bezier(0.14, 1.13, 0, 0.91);
+  -moz-transition: all 2s cubic-bezier(0.14, 1.13, 0, 0.91);
+  transition: all 2s cubic-bezier(0.14, 1.13, 0, 0.91);
+  opacity: 1;
+}
+.transfer-box-left:hover section.p10 a:before {
+  -webkit-transform: translate(-30px, 20px) scale(1);
+  -moz-transform: translate(-30px, 20px) scale(1);
+  -ms-transform: translate(-30px, 20px) scale(1);
+  -o-transform: translate(-30px, 20px) scale(1);
+  transform: translate(-30px, 20px) scale(1);
+  border-bottom-width: 12px;
+  border-left-width: 12px;
+}
+.transfer-box-left:hover section.p10 a:after {
+  -webkit-transform: translate(30px, -20px) scale(1);
+  -moz-transform: translate(30px, -20px) scale(1);
+  -ms-transform: translate(30px, -20px) scale(1);
+  -o-transform: translate(30px, -20px) scale(1);
+  transform: translate(30px, -20px) scale(1);
+  border-top-width: 12px;
+  border-right-width: 12px;
 }
 </style>

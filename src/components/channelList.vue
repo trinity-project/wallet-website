@@ -301,20 +301,20 @@ export default {
   overflow: auto;
 }
 
-.channel-edit-form h1 {
+h1 {
   font-family: "yu gothic ui semibold";
   font-size: 33px;
   margin-top: 4%;
   color: inherit;
   text-align: center; }
 
-.channel-edit-form h2 {
+h2 {
   font-size: 22px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap; }
 
-.channel-edit-form h3 {
+h3 {
     margin: 36% 0;
     font-size: 22px;
     line-height: 49px;
@@ -333,6 +333,14 @@ img{
   right:-400px;
   bottom: 0px;
   opacity: 0.3;
+}
+.btn-primary{
+  border: 1px solid rgb(173, 173, 173);
+  background: #FF95AE;
+}
+
+.btn-primary:hover{
+  background: #FD6E7E;
 }
 
 .channel-edit-form div p {

@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <h1 @click="threadPoxi()">1111111</h1>
-    <!-- <h1 @click="ChangeStoreFlag()">2222222</h1> -->
+    <!-- <h1 @click="threadPoxi()">1111111</h1>
+    <h1 @click="ChangeStoreFlag()">2222222</h1> -->
     <trinity-nav/>
     <sign-up-form @loginfun="loginfun()"/>
     <login-form @websocketsend="websocketsend(1)" @loginToApp="AppGetlogin" @walletJsonToApp="getWalletJson" :Address="Address" :PublicKeyEncode="PublicKeyEncode"/>
@@ -308,6 +308,11 @@ export default {
     AppGetlogin:function(data){     //获取login传来的数据
       this.$options.methods.getAddressInfo.bind(this)(data);
       this.$options.methods.getAssetsBalance.bind(this)();
+
+      var _this = this;
+      setTimeout(function (){
+           _this.threadPoxi();
+       }, 5000);
     },
     AppGetchannelList:function(data){
       this.ChannelInfo = data;

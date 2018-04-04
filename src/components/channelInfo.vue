@@ -7,10 +7,10 @@
       <p style="margin: 0;">{{ NodeID }}</p><br>
     <label>Contract Address:</label>
       <p></p><br>
-    <label>Deposit:</label><p>{{ Deposit}}TNC</p><a id="add-deposit" @click="addDeposit()">Add</a><br>
+    <label>Deposit:</label><p>{{ Deposit}}TNC</p><button @click="addDeposit()" id="add-deposit" type="button" class="btn btn-default btn-xs">Add</button><br>
     <label>Balance:</label><p>{{ Balance }}TNC</p><br>
     <label>Channel State:</label><p>{{ ChannelState | formatStatus}}</p><br>
-    <h3 @click="openRecord()" style="">Transaction Record</h3>
+    <h3 @click="openRecord()" style=""><span class="glyphicon glyphicon-hand-right" aria-hidden="true"></span>&nbsp;&nbsp;Transaction Record</h3>
     <div style="text-align: center;margin-top: 10%">
       <input type="button" value="Transfer" class="btn btn-totransfer" @click="toTransfer()">
     </div>
@@ -189,13 +189,13 @@ export default {
   display: none;
   z-index: 99999; }
 
-.channel-info-form p {
+p {
   color: #000000;
   word-break: break-word;
   margin: 0 10px;
   display:inline}
 
-.channel-info-form .close-btn {
+.close-btn {
   content: '×';
   font-size: 34px;
   color: #000000;
@@ -205,10 +205,10 @@ export default {
   top: 0px;
   cursor: pointer; }
 
-.channel-info-form .close-btn:hover {
+.close-btn:hover {
   color: #aaaaaa; }
 
-.channel-info-form h1 {
+h1 {
   width: 100%;
   text-align: center;
   font-family: "yu gothic ui semibold";
@@ -216,28 +216,19 @@ export default {
   font-size: 23px;
   color: #000000; }
 
-.channel-info-form h3 {
+h3 {
   font-size: 19px;
   margin: 5px 0;
   font-weight: 500;
   color: #FC6686;
   cursor: pointer; }
 
-.channel-info-form #add-deposit {
-  margin-left: 20px;
-  padding: 3px 11px;
-  border: none;
-  font-size: 16px;
+#add-deposit {
+  padding: 2px 9px;
   background: #FC6686;
-  color: #ffffff;
-  margin: 4px 0 30px 20px;
-  -webkit-border-radius: 30px;
-  -moz-border-radius: 30px;
-  -o-border-radius: 30px;
-  border-radius: 30px;
-  cursor: pointer; }
+  color: #ffffff; }
 
-.channel-info-form .btn-totransfer {
+.btn-totransfer {
   height: 58px;
   width: 300px;
   padding-right: 20px;
@@ -246,6 +237,7 @@ export default {
   font-size: 18px;
   background: #FC6686;
   color: #ffffff;
+  Letter-spacing:2px;
   margin: 4px 0 30px;
   -webkit-border-radius: 30px;
   -moz-border-radius: 30px;

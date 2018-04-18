@@ -1,6 +1,6 @@
-# trinity-vue
+# demo
 
-> app
+> A Vue.js project
 
 ## Build Setup
 

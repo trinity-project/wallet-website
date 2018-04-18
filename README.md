@@ -1,6 +1,6 @@
-# trinity-vue
+# demo-wallet
 
-> app
+> A Vue.js project
 
 ## Build Setup
 

@@ -3,13 +3,13 @@
     <div class="row mt-5">
         <div class="col-md-1 col-lg-2 col-xl-3"></div>
         <div class="col-md-10 col-lg-8 col-xl-6 main-column">
-          <div class="panel panel-primary">
+          <!-- <div class="panel panel-primary">
             <div class="panel-heading text-left">{{ MarketWallet }}</div>
             <div class="panel-body">
               <p>Balance on chain:{{ MarketBalance | FormatPrice }}</p>
               <p>Balance on channel:{{ MarketBalance | FormatPrice }}</p>
             </div>
-          </div>
+          </div> -->
           <div class="page-header text-left">
             <h1>Commodity List</h1>
           </div>
@@ -47,7 +47,10 @@
                 </tr>
               </tbody>
             </table>
-            <div v-if="Amount !== 0" class="text-right">Amount: {{ Amount | FormatPrice }}&nbsp;&nbsp;&nbsp;<button @click="CreatePaymentLink()" data-toggle="modal" data-target="#PaymentLinkForm" type="button" class="btn btn-primary">Payment</button></div>
+            <div class="col-md-8 col-lg-7 col-xl-12">
+              <input type="text" class="form-control" placeholder="Description">
+            </div>
+            <div v-if="Amount !== 0" class="text-right col-md-8 col-lg-5 col-xl-12">Amount: {{ Amount | FormatPrice }}&nbsp;&nbsp;&nbsp;<button @click="CreatePaymentLink()" data-toggle="modal" data-target="#PaymentLinkForm" type="button" class="btn btn-primary">Payment</button></div>
           </div>
         </div>
         <div class="col-md-1 col-lg-2 col-xl-3"></div>
@@ -97,6 +100,7 @@ export default {
   name: 'index',
   data () {
     return {
+      IpPort:"47.98.228.81:8766",
       CommodityItem:[
         {
           "name": "Cucumber",
@@ -132,8 +136,7 @@ export default {
         "Address": "Login in to transfer",
         "Balance": 0
       },
-      MarketWallet:"AKauFqeT7ZGanD2p5LuSMUn3HpqsWdEdp9",
-      MarketBalance:0,
+      InstantKey:"",
       PaymentLink:"",
       PaymentQRCode:"",
       Websock: null,
@@ -174,20 +177,10 @@ export default {
     this.$nextTick(function(){
         var _this = this;
         setTimeout(function (){
-             _this.GetMarketBalance();
+             _this.CreateKey();
+             _this.initWebSocket();
          }, 1000);
-  	}),
-    Bus.$on('SignOutFlag', (e) => {
-         if(e){
-           this.WalletInfo = {
-             "PrivateKey": "",
-             "PublicKey": "",
-             "ScriptHash": "",
-             "Address": "Login in to transfer",
-             "Balance": 0
-           }
-         }
-     })
+  	})
   },
   methods:{
     CommodityDetails:function(item){
@@ -201,6 +194,11 @@ export default {
         }
       });
       return l
+    },
+    CreateKey:function(){
+      let a = ab2hexstring(generatePrivateKey());
+      let b = ab2hexstring(getPublicKey(a,0));
+      this.InstantKey = getPublicKeyEncoded(b);
     },
     ChangeQuantity:function(item,type){
       if (type>0) {
@@ -232,24 +230,24 @@ export default {
 				_this.Amount += data.price * data.quantity;
 			});
 		},
-    GetMarketBalance:function(){
-      var _this = this;
-      axios({
-        method: 'post',
-        url: 'http://47.88.35.235:21332',
-        headers: {
-          'Content-Type': 'application/json;charset=UTF-8'
-        },
-        data: JSON.stringify({
-          "jsonrpc": "2.0",
-          "method": "getBalance",
-          "params": [this.MarketWallet],
-          "id": 1
-        })
-      }).then(function(res){
-        _this.MarketBalance = res.data.result.tncBalance;
-      });
-    },
+    // GetMarketBalance:function(){
+    //   var _this = this;
+    //   axios({
+    //     method: 'post',
+    //     url: 'http://47.88.35.235:21332',
+    //     headers: {
+    //       'Content-Type': 'application/json;charset=UTF-8'
+    //     },
+    //     data: JSON.stringify({
+    //       "jsonrpc": "2.0",
+    //       "method": "getBalance",
+    //       "params": [this.MarketWallet],
+    //       "id": 1
+    //     })
+    //   }).then(function(res){
+    //     _this.MarketBalance = res.data.result.tncBalance;
+    //   });
+    // },
     copyfun:function(){
       var clipboard = new ClipboardJS('.btncopy');
       //成功回调
@@ -263,8 +261,6 @@ export default {
       });
     },
     threadPoxiForTxid(){  // 实际调用的方法
-     //参数
-     const agentData = "mymessage";
      //若是ws开启状态
      if (this.WebsockForTxid.readyState === this.WebsockForTxid.OPEN) {
        var _this = this;
@@ -282,42 +278,52 @@ export default {
          this.initWebSocketForTxid();
          var _this = this;//保存当前对象this
          setTimeout(function () {
-             _this.WebsocketSendForTxid(agentData)
+             _this.WebsocketSend(agentData)
          }, 500);
      }
     },
     initWebSocket(){ //初始化weosocket
      //ws地址
-     const wsuri = "ws://118.89.44.106:8766";
-     this.WebsockForTxid = new WebSocket(wsuri);
-     this.WebsockForTxid.onmessage = this.WebsocketOnmessageForTxid;
-     this.WebsockForTxid.onclose = this.WebsocketCloseForTxid;
+     const wsuri = "ws://" + this.IpPort;
+     this.Websock = new WebSocket(wsuri);
+     this.Websock.onmessage = this.WebsocketOnmessage;
+     this.Websock.onclose = this.WebsocketClose;
 
      var _this = this;
      setTimeout(function (){
-          _this.WebsocketSendForTxid();
+          _this.WebsocketSend();
       }, 3000);
     },
     WebsocketOnmessage(e){ //数据接收
      const redata = JSON.parse(e.data);
-     const type = redata.type;
-     // if(type == "block_info"){
-     //   this.websocketsend2(redata);
-     //   //this.$options.methods.StoreChannel.bind(this)();
-     // }
+     const type = redata.MessageType;
      console.log(redata);
+     if(type == "PaymentLinkAck"){
+       let f = base58decode("abc");
+       console.log("f:" + f);
+     }
     },
     WebsocketSend:function(){//数据发送模板
-     //console.log("发送信息：" + "1");
-     //this.WebsockForTxid.send("1");
+     console.log("发送信息：" + "1");
+     this.Websock.send("testmsg");
+    },
+    CreatePaymentLink:function(){//数据发送模板
+      var Message = {
+         "MessageType":"PaymentLink",
+         "Sender": this.InstantKey + "@" + this.IpPort,
+         "MessageBody": {
+          "Parameter": {
+           "Amount": this.Amount,
+           "Assets": "TNC",
+           "Description": "Description"
+           }
+         }
+       }
+       console.log(JSON.stringify(Message));
+       this.Websock.send(JSON.stringify(Message));
     },
     WebsocketClose(e){  //关闭
-     console.log("connection closed (" + e.code + ")");
-    },
-    CreatePaymentLink:function(){
-      this.PaymentLink = "";
-      this.PaymentLink += this.MarketWallet+"/";
-      this.PaymentLink += this.Amount;
+     console.log("连接关闭:" + e.code);
     },
   }
 }
@@ -344,6 +350,7 @@ h3{
 h4{
   font-size: 16px;
   line-height: 24px;
+  text-align: left;
 }
 p .btn{
   width: 48%;

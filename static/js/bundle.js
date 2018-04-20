@@ -23,10 +23,10 @@ global.getPublicKeyEncoded = getPublicKeyEncoded;
 global.createSignatureScript = createSignatureScript;
 global.getHash = getHash;
 global.ToAddress = ToAddress;
+global.base58decode = base58decode;
 global.generateWalletFileBlob = generateWalletFileBlob;
-global.generateWalletFileBlob1 = generateWalletFileBlob1;
 global.DecryptWalletByPassword = DecryptWalletByPassword;
-global.decryptWallet = decryptWallet;
+//global.decryptWallet = decryptWallet;
 global.Wallet = Wallet;
 
 function ab2hexstring(arr) {
@@ -129,111 +129,6 @@ function ToAddress(AddressString) {
 	return base58.encode(hexstring2ab(address));
 };
 
-//生成下载链接
-function generateWalletFileBlob(privateKey, password) {
-	//console.log( "privateKey: ", $privateKey );
-	//console.log( "password: ", $password );
-
-	var publicKey = getPublicKey(privateKey, false);
-	//console.log( "publicKey: ", publicKey.toString('hex') );
-
-	var publicKeyEncoded = getPublicKey(privateKey, true);
-	//console.log( "publicKeyEncoded: ", publicKeyEncoded.toString('hex') );
-
-	var scriptCode = createSignatureScript(publicKeyEncoded);
-	//console.log( "scriptCode: ", scriptCode );
-
-	var scriptHash = getHash(scriptCode);
-	//console.log( "scriptHash: ", scriptHash.toString() );
-
-	var publicKeyHash = getHash(publicKeyEncoded.toString('hex'));
-	//console.log( "publicKeyHash: ", publicKeyHash.toString() );
-
-	var passwordKey = CryptoJS.SHA256(CryptoJS.SHA256(password));
-	var passwordHash = CryptoJS.SHA256(passwordKey);
-	//console.log( "passwordHash: ", passwordHash.toString() );
-
-	var iv = generateRandomArray(16);
-	//console.log( "iv: ", ab2hexstring(iv) );
-
-	var masterKey = generateRandomArray(32);
-	//console.log( "masterKey: ", ab2hexstring(masterKey) );
-
-	// Encrypt MasterKey
-	var masterKeyPlain = CryptoJS.enc.Hex.parse(ab2hexstring(masterKey));
-	var key = CryptoJS.enc.Hex.parse(passwordKey.toString());
-	var ivData = CryptoJS.enc.Hex.parse(ab2hexstring(iv));
-	var masterKeyEncrypt = CryptoJS.AES.encrypt(masterKeyPlain, key, {
-		iv: ivData,
-		mode: CryptoJS.mode.CBC,
-		padding: CryptoJS.pad.NoPadding
-	});
-	//console.log( "masterKeyEncrypt: ", masterKeyEncrypt.ciphertext.toString() );
-
-	// PrivateKey Data
-	var privateKeyData = publicKey.slice(1, 65).toString('hex') + privateKey;
-	//console.log( "privateKeyData: ", privateKeyData );
-
-	// Encrypt PrivateKey Data
-	var privateKeyDataPlain = CryptoJS.enc.Hex.parse(privateKeyData);
-	var privateKeyDataEncrypted = CryptoJS.AES.encrypt(privateKeyDataPlain, masterKeyPlain, {
-		iv: ivData,
-		mode: CryptoJS.mode.CBC,
-		padding: CryptoJS.pad.NoPadding
-	});
-	//console.log( "privateKeyDataEncrypted: ", privateKeyDataEncrypted.ciphertext.toString() );
-
-	var db = new SQL.Database();
-
-	var sqlstr = "CREATE TABLE Account ( PublicKeyHash BINARY NOT NULL CONSTRAINT PK_Account PRIMARY KEY, PrivateKeyEncrypted VARBINARY NOT NULL );";
-	sqlstr += "CREATE TABLE Address ( ScriptHash BINARY NOT NULL CONSTRAINT PK_Address PRIMARY KEY );"
-	sqlstr += "CREATE TABLE Coin ( TxId BINARY  NOT NULL, [Index] INTEGER NOT NULL, AssetId BINARY NOT NULL, ScriptHash BINARY  NOT NULL, State INTEGER NOT NULL, Value INTEGER NOT NULL, CONSTRAINT PK_Coin PRIMARY KEY ( TxId, [Index] ), CONSTRAINT FK_Coin_Address_ScriptHash FOREIGN KEY ( ScriptHash ) REFERENCES Address (ScriptHash) ON DELETE CASCADE );"
-	sqlstr += "CREATE TABLE Contract ( ScriptHash BINARY NOT NULL CONSTRAINT PK_Contract PRIMARY KEY, PublicKeyHash BINARY NOT NULL, RawData VARBINARY NOT NULL, CONSTRAINT FK_Contract_Account_PublicKeyHash FOREIGN KEY ( PublicKeyHash ) REFERENCES Account (PublicKeyHash) ON DELETE CASCADE, CONSTRAINT FK_Contract_Address_ScriptHash FOREIGN KEY ( ScriptHash ) REFERENCES Address (ScriptHash) ON DELETE CASCADE );"
-	sqlstr += "CREATE TABLE [Key] ( Name VARCHAR NOT NULL CONSTRAINT PK_Key PRIMARY KEY, Value VARBINARY NOT NULL );"
-	sqlstr += "CREATE TABLE [Transaction] ( Hash BINARY NOT NULL CONSTRAINT PK_Transaction PRIMARY KEY, Height INTEGER, RawData VARBINARY NOT NULL, Time TEXT NOT NULL, Type INTEGER NOT NULL );"
-	db.run(sqlstr);
-
-	// Account table
-	var stmtAccount = db.prepare("INSERT INTO Account(PublicKeyHash,PrivateKeyEncrypted) VALUES (?,?)");
-	stmtAccount.run([hexstring2ab(publicKeyHash.toString()), hexstring2ab(privateKeyDataEncrypted.ciphertext.toString())]);
-	stmtAccount.free();
-
-	// Address table
-	var stmtAddress = db.prepare("INSERT INTO Address(ScriptHash) VALUES (?)");
-	stmtAddress.run([hexstring2ab(scriptHash.toString())]);
-	stmtAddress.free();
-
-	// Contract table
-	var stmtContract = db.prepare("INSERT INTO Contract(ScriptHash,PublicKeyHash,RawData) VALUES (?,?,?)");
-	stmtContract.run([hexstring2ab(scriptHash.toString()), hexstring2ab(publicKeyHash.toString()), hexstring2ab(publicKeyHash.toString() + "010023" + scriptCode)]);
-	stmtContract.free();
-
-	// Key table
-	var stmtKey = db.prepare("INSERT INTO Key(Name,Value) VALUES (?,?)");
-	stmtKey.run(['PasswordHash', hexstring2ab(passwordHash.toString())]);
-	stmtKey.free();
-
-	stmtKey = db.prepare("INSERT INTO Key(Name,Value) VALUES (?,?)");
-	stmtKey.run(['IV', iv]);
-	stmtKey.free();
-
-	stmtKey = db.prepare("INSERT INTO Key(Name,Value) VALUES (?,?)");
-	stmtKey.run(['MasterKey', hexstring2ab(masterKeyEncrypt.ciphertext.toString())]);
-	stmtKey.free();
-
-	stmtKey = db.prepare("INSERT INTO Key(Name,Value) VALUES (?,?)");
-	stmtKey.run(['Version', hexstring2ab("01000000060000000000000000000000")]);
-	stmtKey.free();
-
-	stmtKey = db.prepare("INSERT INTO Key(Name,Value) VALUES (?,?)");
-	stmtKey.run(['Height', hexstring2ab("00000000")]);
-	stmtKey.free();
-
-	var binaryArray = db.export();
-
-	return binaryArray;
-};
-
 //base58Check
 function base58CheckEncode(EncodeDataString) {
     // base58 encode
@@ -246,6 +141,11 @@ function base58CheckEncode(EncodeDataString) {
     var result = base58.encode(hexstring2ab(EncodeData));
     
     return result;
+}
+
+function base58decode(data){
+	var DecryptedData = base58.decode(data);
+    return DecryptedData.toString('hex');
 }
 
 function getSha256(SourceStringScript) {
@@ -302,7 +202,7 @@ function String2UTF8(content){
 }
 
 //生成json链接
-function generateWalletFileBlob1(scryptInst, args) {
+function generateWalletFileBlob(scryptInst, args) {
 	var password = args.password;
 	var privateKey = args.privateKey;
 	console.log( "password: ", password );
@@ -429,8 +329,8 @@ function DecryptWalletByPassword(scryptInst, args) {
 	var scriptHash = getHash(scriptCode);				//生成脚本哈希
 	console.log( "scriptHash: ", scriptHash.toString() );
 
-	//var publicKeyHash = getHash(publicKeyEncoded.toString('hex'));	//生成公钥哈希
-	//console.log( "publicKeyHash: ", publicKeyHash.toString() );
+	var publicKeyHash = getHash(publicKeyEncoded.toString('hex'));	//生成公钥哈希
+	console.log( "publicKeyHash: ", publicKeyHash.toString() );
 
 	var address = ToAddress(scriptHash.toString());				//生成地址
 	console.log('address:'+ address);
@@ -443,113 +343,6 @@ function DecryptWalletByPassword(scryptInst, args) {
     } else {
     	return false;
     }
-}
-
-//exports.encryptWalletPassword(1);
-//exports.DecryptWalletByPassword('1qaz@wsx');
-//核查密码
-function decryptWallet(wallet, password) {
-	var accounts = [];
-	var passwordhash1 = CryptoJS.SHA256(password);
-	var passwordhash2 = CryptoJS.SHA256(passwordhash1);
-	var passwordhash3 = CryptoJS.SHA256(passwordhash2);
-	console.log(passwordhash3.toString());
-	console.log("walletpasswordHash: ");
-	var c = ab2hexstring(wallet.passwordHash);
-	console.log(c);
-	if (passwordhash3.toString() != c) {
-		//PASSWORD WRONG
-		return -1;
-	}
-
-	console.log("password verify success.");
-
-	// Decrypt MasterKey
-	var data = CryptoJS.enc.Hex.parse(ab2hexstring(wallet.masterKey));
-	var dataBase64 = CryptoJS.enc.Base64.stringify(data);
-	var key = CryptoJS.enc.Hex.parse(passwordhash2.toString());
-	var iv = CryptoJS.enc.Hex.parse(ab2hexstring(wallet.iv));
-	//console.log( "MasterKey:", ab2hexstring(wallet.masterKey) );
-	//console.log(data);
-	//console.log( "Password:", passwordhash2.toString() );
-	//console.log(key);
-	//console.log( "IV:",ab2hexstring(wallet.iv) );
-	//console.log(iv);
-
-	var plainMasterKey = CryptoJS.AES.decrypt(dataBase64, key, {
-		iv: iv,
-		mode: CryptoJS.mode.CBC,
-		padding: CryptoJS.pad.NoPadding
-	});
-
-	//console.log( "plainMasterKey:", plainMasterKey.toString());
-
-	for (k = 0; k < wallet.privateKeyEncrypted.length; k++) {
-
-		// Decrypt PrivateKey
-		var privateKeyEncrypted = CryptoJS.enc.Hex.parse(ab2hexstring(wallet.privateKeyEncrypted[k]));
-		var privateKeyBase64 = CryptoJS.enc.Base64.stringify(privateKeyEncrypted);
-		var plainprivateKey = CryptoJS.AES.decrypt(privateKeyBase64, plainMasterKey, {
-			iv: iv,
-			mode: CryptoJS.mode.CBC,
-			padding: CryptoJS.pad.NoPadding
-		});
-
-		//console.log( "plainprivateKey:", plainprivateKey.toString() );
-
-		var privateKeyHexString = plainprivateKey.toString().slice(128, 192);
-		//console.log( "privateKeyHexString:", privateKeyHexString);
-
-		// Verify PublicKeyHash
-		var ecparams = ecurve.getCurveByName('secp256r1');
-		var curvePt = ecparams.G.multiply(BigInteger.fromBuffer(hexstring2ab(privateKeyHexString)));
-
-		// Get PublicKey
-		//var x = curvePt.affineX.toBuffer(32);
-		//var y = curvePt.affineY.toBuffer(32);
-		//var publicKey = new Uint8Array(1+x.length+y.length);
-		//publicKey.set([0x04]);
-		//publicKey.set(x,1);
-		//publicKey.set(y,1+x.length);
-		//console.log(publicKey.toString('hex'));
-
-		// Get PublicKeyEncoded
-		var publicKeyEncoded = curvePt.getEncoded(true);
-		//console.log( "publicKeyEncoded:", publicKeyEncoded.toString('hex') );
-
-		// Get PublicKeyHash
-		var publicKeyEncodedHexString = CryptoJS.enc.Hex.parse(publicKeyEncoded.toString('hex'));
-		var publicKeyEncodedSha256 = CryptoJS.SHA256(publicKeyEncodedHexString);
-		var publicKeyHash = CryptoJS.RIPEMD160(publicKeyEncodedSha256);
-
-		// Get ProgramHash
-		var ProgramHexString = CryptoJS.enc.Hex.parse("21" + publicKeyEncoded.toString('hex') + "ac");
-		var ProgramSha256 = CryptoJS.SHA256(ProgramHexString);
-		var ProgramHash = CryptoJS.RIPEMD160(ProgramSha256);
-		//console.log( "ProgramHexString:", ProgramHexString.toString() );
-		//console.log( "ProgramHash:", ProgramHash.toString() );
-
-		// Get Address
-		var address = Wallet.ToAddress(hexstring2ab(ProgramHash.toString()));
-		console.log("address:", address);
-
-		//console.log( "k=", k );
-		//console.log( "publicKeyHash:", publicKeyHash.toString() );
-		//console.log( ab2hexstring(wallet.publicKeyHash[k]) );
-		if (publicKeyHash.toString() != ab2hexstring(wallet.publicKeyHash[k])) {
-			return -2;
-		}
-
-		accounts[k] = {
-			privatekey: privateKeyHexString,
-			publickeyEncoded: publicKeyEncoded.toString('hex'),
-			publickeyHash: publicKeyHash.toString(),
-			programHash: ProgramHash.toString(),
-			address: address,
-		};
-	}
-
-	return accounts
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer)

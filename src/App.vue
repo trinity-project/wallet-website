@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <head-nav/>
-    <index :InstantPrivateKey="InstantPrivateKey"/>
+    <index/>
   </div>
 </template>
 
@@ -13,15 +13,12 @@ export default {
   name: 'App',
   data () {
     return {
-      InstantPrivateKey:""
+
     }
   },
   mounted:function(){
     this.$nextTick(function(){
-      var _this = this;
-      setTimeout(function (){
-           _this.CreatePrivateKey();
-       }, 2000);
+
     })
   },
   components: {
@@ -29,9 +26,7 @@ export default {
     index
   },
   methods:{
-    CreatePrivateKey:function(){
-      this.InstantPrivateKey = ab2hexstring(generatePrivateKey());
-    }
+
   }
 }
 </script>

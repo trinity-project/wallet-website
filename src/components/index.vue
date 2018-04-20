@@ -47,10 +47,10 @@
                 </tr>
               </tbody>
             </table>
-            <div class="col-md-8 col-lg-7 col-xl-12">
+            <div v-if="Amount !== 0" class="col-md-8 col-lg-7 col-xl-12">
               <input type="text" class="form-control" placeholder="Description">
             </div>
-            <div v-if="Amount !== 0" class="text-right col-md-8 col-lg-5 col-xl-12">Amount: {{ Amount | FormatPrice }}&nbsp;&nbsp;&nbsp;<button @click="CreatePaymentLink()" data-toggle="modal" data-target="#PaymentLinkForm" type="button" class="btn btn-primary">Payment</button></div>
+            <div v-if="Amount !== 0" class="text-right col-md-8 col-lg-5 col-xl-12" style="height: 44px;padding: 5px 0;">Amount: {{ Amount | FormatPrice }}&nbsp;&nbsp;&nbsp;<button @click="CreatePaymentLink()" data-toggle="modal" data-target="#PaymentLinkForm" type="button" class="btn btn-primary">Payment</button></div>
           </div>
         </div>
         <div class="col-md-1 col-lg-2 col-xl-3"></div>
@@ -73,11 +73,11 @@
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-body clearfloat">
-                <button type="button" class="close closeLoginIn" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close closePaymentLink" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h3>Requested Payment</h3>
                 <h4>
                   <span style="color:red;">Amount: {{ Amount | FormatPrice }}</span><br>
-                  Lightning Invoice:<br>
+                  Payment Code:<br>
                 </h4>
                 <div class="input-group">
                   <input v-model="PaymentLink" id="Paymentlink" readonly="readonly" class="form-control request-amount" placeholder="PaymentLink" type="text">
@@ -85,7 +85,17 @@
                     <button @click="copyfun" data-clipboard-target="#Paymentlink" class="btn btn-default btncopy" type="button"><span class="glyphicon glyphicon-file" aria-hidden="true"></span>Copy</button>
                   </span>
                 </div>
-                <img :src="PaymentQRCode"/>
+                <h4>
+                  TNAP(Trinity Network Access Point):<br>
+                </h4>
+                <div class="input-group">
+                  <input v-model="Peer" id="Peer" readonly="readonly" class="form-control request-amount" placeholder="PaymentLink" type="text">
+                  <span class="input-group-btn">
+                    <button @click="copyfun1" data-clipboard-target="#Peer" class="btn btn-default btncopy1" type="button"><span class="glyphicon glyphicon-file" aria-hidden="true"></span>Copy</button>
+                  </span>
+                </div>
+                <div class="alert alert-info clearfloat" role="alert"><img :src="PaymentQRCode"/><span>Payment Code</span><br>&nbsp;</div>
+                <div class="alert alert-info clearfloat" role="alert"><img :src="PeerQRCode"/><span>TNAP</span><br>(Trinity Network Access Point)</div>
               </div>
             </div>
           </div>
@@ -129,6 +139,7 @@ export default {
       ],
       activeDetail:{},
       Amount:0,
+      Description:"",
       WalletInfo:{
         "PrivateKey": "",
         "PublicKey": "",
@@ -139,11 +150,13 @@ export default {
       InstantKey:"",
       PaymentLink:"",
       PaymentQRCode:"",
+      Peer:"",
+      PeerQRCode:"",
+      PaymentList:{},
       Websock: null,
       LoginFlag:false
     }
   },
-  props:["InstantPrivateKey"],
   filters:{
     FormatNo:function(val){
       return val+1;
@@ -169,6 +182,12 @@ export default {
     PaymentLink:{
       handler:function(PaymentLink){
         this.PaymentQRCode = "http://qr.liantu.com/api.php?text=" + PaymentLink;
+      },
+      deep:true
+    },
+    Peer:{
+      handler:function(Peer){
+        this.PeerQRCode = "http://qr.liantu.com/api.php?text=" + Peer;
       },
       deep:true
     }
@@ -260,6 +279,18 @@ export default {
           console.error('Trigger:', e.trigger);
       });
     },
+    copyfun1:function(){
+      var clipboard = new ClipboardJS('.btncopy1');
+      //成功回调
+      clipboard.on('success', function(e) {
+          e.clearSelection();
+      });
+      //失败回调
+      clipboard.on('error', function(e) {
+          console.error('Action:', e.action);
+          console.error('Trigger:', e.trigger);
+      });
+    },
     threadPoxiForTxid(){  // 实际调用的方法
      //若是ws开启状态
      if (this.WebsockForTxid.readyState === this.WebsockForTxid.OPEN) {
@@ -289,25 +320,52 @@ export default {
      this.Websock.onmessage = this.WebsocketOnmessage;
      this.Websock.onclose = this.WebsocketClose;
 
-     var _this = this;
-     setTimeout(function (){
-          _this.WebsocketSend();
-      }, 3000);
+     // var _this = this;
+     // setTimeout(function (){
+     //      _this.WebsocketSend();
+     //  }, 3000);
     },
     WebsocketOnmessage(e){ //数据接收
      const redata = JSON.parse(e.data);
      const type = redata.MessageType;
      console.log(redata);
      if(type == "PaymentLinkAck"){
-       let f = base58decode("abc");
-       console.log("f:" + f);
+       this.PaymentLink = redata.MessageBody.PaymentLink;
+       const LinkData = redata.MessageBody.PaymentLink.substring(2);
+       let f = base58decode(LinkData).toString();
+       console.log(f);
+       let g = f.split("&");
+       this.Peer = g[0];
+       var data = {
+         "Hr":g[1],
+         "Description":g[4]
+       }
+       this.PaymentList = {};
+       this.PaymentList = data;
      }
+     if(type == "PaymentAck"){
+       if(redata.MessageBody.State == "Success"){
+          if(this.PaymentList.Hr == redata.MessageBody.Hr){
+             $(".closePaymentLink").click();
+             swal({
+               title: "Success",
+               // text: "Receipt "+ this.PaymentList.Description +" success.",
+               type: "success",
+               confirmButtonText:"Close",
+               allowOutsideClick:"ture"
+             });
+           }
+         }
+       }
     },
     WebsocketSend:function(){//数据发送模板
      console.log("发送信息：" + "1");
-     this.Websock.send("testmsg");
+     this.Websock.send("1");
     },
     CreatePaymentLink:function(){//数据发送模板
+      if(this.Description == ""){
+        this.Description = this.Amount + "TNC";
+      }
       var Message = {
          "MessageType":"PaymentLink",
          "Sender": this.InstantKey + "@" + this.IpPort,
@@ -315,12 +373,13 @@ export default {
           "Parameter": {
            "Amount": this.Amount,
            "Assets": "TNC",
-           "Description": "Description"
+           "Description": this.Description
            }
          }
        }
        console.log(JSON.stringify(Message));
        this.Websock.send(JSON.stringify(Message));
+       this.Description = "";
     },
     WebsocketClose(e){  //关闭
      console.log("连接关闭:" + e.code);
@@ -423,7 +482,18 @@ tbody tr td a,tbody tr td span{
   cursor: pointer;
 }
 .alert-info{
-  font-size: 15px;
+  margin: 10px 1%;
+  font-size: 14px;
+  width: 48%;
+  text-align: center;
+  float: left;
+}
+.alert-info span{
+  font-size: 16px;
+  font-weight: 600;
+}
+.alert-info img{
+  width: 100%;
 }
 .form-control,.input-group .btn{
   height: 44px;

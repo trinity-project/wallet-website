@@ -145,7 +145,7 @@ function base58CheckEncode(EncodeDataString) {
 
 function base58decode(data){
 	var DecryptedData = base58.decode(data);
-    return DecryptedData.toString('hex');
+    return DecryptedData;
 }
 
 function getSha256(SourceStringScript) {

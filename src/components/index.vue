@@ -110,7 +110,7 @@ export default {
   name: 'index',
   data () {
     return {
-      IpPort:"47.98.228.81:8766",
+      IpPort:"118.89.44.106:8766",
       CommodityItem:[
         {
           "name": "Cucumber",
@@ -193,13 +193,14 @@ export default {
     }
   },
   mounted() {
-    this.$nextTick(function(){
-        var _this = this;
-        setTimeout(function (){
-             _this.CreateKey();
-             _this.initWebSocket();
-         }, 1000);
-  	})
+     this.$nextTick(function(){
+          var _this = this;
+         setTimeout(function (){
+             console.log('render complete');
+              _this.CreateKey();
+              _this.initWebSocket();
+          }, 3000);
+  	 })
   },
   methods:{
     CommodityDetails:function(item){
@@ -421,6 +422,7 @@ p .btn{
   font-size: 16px;
   margin-top: 10px;
 }
+
 li a{
   padding: 8px 16px;
   color: #0062cc;
@@ -507,5 +509,23 @@ tbody tr td a,tbody tr td span{
 }
 .clearfloat{
   zoom:1
+}
+@media (max-width: 768px){
+  h2{
+    float: left;
+    width: 100%;
+    margin-top: 0;
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  }
+  .modal-body p{
+    float: left;
+    width: 100%;
+    color: #67919c;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+  .modal-dialog {
+    margin: 40px auto 0;
+  }
 }
 </style>

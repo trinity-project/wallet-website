@@ -50,9 +50,14 @@ span{
   margin-right: 10px;
 }
 .container-fluid{
-  width: 50%;
+  width: 100%;
   float: left;
   height: 56px;
   padding: 8px 16px;
+}
+@media (max-width: 768px){
+  .navbar {
+      margin:0;
+  }
 }
 </style>
